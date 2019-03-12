@@ -42,4 +42,5 @@ def AuthenticateUser(aArrImg):
     Log(lUserIDs[ind],start, end, status) # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     
     #testing purposes
-    print("=============User Id :"+ lUserIDs[ind]+"=============")
+    #print("=============User Id :"+ lUserIDs[ind]+"=============")
+    return lUserIDs[ind]
