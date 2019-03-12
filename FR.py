@@ -22,13 +22,24 @@ def AuthenticateUser(aArrImg):
                 index = lUserIDs.index(id)
                 lCount[index] += 1
 
-  
+    lTemp = 0
+    ind = -1
+    cnt = -1
+
+    for c in lCount:
+        cnt += 1
+        if c > lTemp:
+            lTemp = c
+            ind = cnt
 
     end = time.time()
+    #Determine the status of the id. -1 indicates the user could not be found
     if lUserIDs[ind] == -1:
         status = False
     else:
         status = True
+
     Log(lUserIDs[ind],start, end, status) # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
-    # TODO call log
-    print('======')
+    
+    #testing purposes
+    print("=============User Id :"+ lUserIDs[ind]+"=============")
