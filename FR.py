@@ -1,6 +1,7 @@
 import time as time
 import random as Rand
 import json as json
+import statistics
 
 #  TODO Richard
 def AuthenticateUser(aArrImg):
@@ -12,35 +13,37 @@ def AuthenticateUser(aArrImg):
         userID, percent = AuthenticateImage(img) #This function is implemented elsewhere
         lUserIDs.append(userID)
         lPercentages.append(percent)
-    lCount = []
+    #lCount = []
 
-    for id in lUserIDs.copy():
-        print(id)
-        lCount.append(0)
-        for id2 in lUserIDs.copy():
-            if id == id2:
-                index = lUserIDs.index(id)
-                lCount[index] += 1
+    lUserIDToSend = statistics.median(lUserIDs)
+    # for id in lUserIDs.copy():
+    #     print(id)
+    #     lCount.append(0)
+    #     for id2 in lUserIDs.copy():
+    #         if id == id2:
+    #             index = lUserIDs.index(id)
+    #             lCount[index] += 1
 
-    lTemp = 0
-    ind = -1
-    cnt = -1
+    # lTemp = 0
+    # ind = -1
+    # cnt = -1
 
-    for c in lCount:
-        cnt += 1
-        if c > lTemp:
-            lTemp = c
-            ind = cnt
+    # for c in lCount:
+    #     cnt += 1
+    #     if c > lTemp:
+    #         lTemp = c
+    #         ind = cnt
 
-    end = time.time()
+    
     #Determine the status of the id. -1 indicates the user could not be found
-    if lUserIDs[ind] == -1:
+    if lUserIDToSend == -1:
         status = False
     else:
         status = True
 
+    end = time.time()
     Log(lUserIDs[ind],start, end, status) # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     
     #testing purposes
     #print("=============User Id :"+ lUserIDs[ind]+"=============")
-    return lUserIDs[ind]
+    return lUserIDToSend
