@@ -1,4 +1,4 @@
-def application(environ, start_response):
+def app(environ, start_response):
     status = '200 OK'
     output = 'Hello World!\n'
     response_headers = [('Content-type', 'text/plain'),
