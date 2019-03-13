@@ -4,7 +4,6 @@ import json as json
 import statistics as stat
 
 
-#  TODO Richard
 def AuthenticateUser(aArrImg):
     Update()  # Call Update function to get new/updated list of the database from CIS
     start = time.time()
@@ -33,8 +32,6 @@ def AuthenticateUser(aArrImg):
     return lUserIDToSend
 
 
-
-# TODO Kyle
 def AuthenticateImage(aImg):
     # print(aImg);
     lChance = Rand.randint(1, 100)  # TODO need to make this the actual facial recognition function library
