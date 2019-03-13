@@ -5,14 +5,16 @@ import statistics as stat
 
 #  TODO Richard
 def AuthenticateUser(aArrImg):
-    Update() #Call Update function to get new/updated list of the database from CIS
     start = time.time()
+
+    Update() #Call Update function to get new/updated list of the database from CIS
+    
     lUserIDs = []
-    lPercentages = []
+    #moving percent functionality elsewhere. Structure of other functions changed.
+
     for img in aArrImg:
-        userID, percent = AuthenticateImage(img) #This function is implemented elsewhere
+        userID = AuthenticateImage(img) #This function is implemented elsewhere
         lUserIDs.append(userID)
-        lPercentages.append(percent)
 
     #Get the user ID that appears the most in the array
     lUserIDToSend = stat.median(lUserIDs)  
@@ -27,5 +29,5 @@ def AuthenticateUser(aArrImg):
     Log(lUserIDToSend,start, end, status) # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     
     #testing purposes
-    #print("=============User Id :"+ lUserIDs[ind]+"=============")
+    #print("=============User Id :"+ lUserIDToSend+"=============")
     return lUserIDToSend
