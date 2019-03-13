@@ -20,3 +20,12 @@ def Log(aUserID, aStart, aEnd, aStatus):
 
 #  TODO Deane
 def Update():
+    # call CIS json
+    userID = 8
+    image = 'GKRSBGJKSZBGKJZXFVJKB'
+    lJson = {
+        'ID': userID,
+        'Image': image
+    }
+    with open('ClientInfo.json', 'w') as f:
+        json.dump(lJson, f)
