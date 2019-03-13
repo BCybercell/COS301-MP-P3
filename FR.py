@@ -13,27 +13,9 @@ def AuthenticateUser(aArrImg):
         userID, percent = AuthenticateImage(img) #This function is implemented elsewhere
         lUserIDs.append(userID)
         lPercentages.append(percent)
-    #lCount = []
 
-    lUserIDToSend = stat.median(lUserIDs)
-    # for id in lUserIDs.copy():
-    #     print(id)
-    #     lCount.append(0)
-    #     for id2 in lUserIDs.copy():
-    #         if id == id2:
-    #             index = lUserIDs.index(id)
-    #             lCount[index] += 1
-
-    # lTemp = 0
-    # ind = -1
-    # cnt = -1
-
-    # for c in lCount:
-    #     cnt += 1
-    #     if c > lTemp:
-    #         lTemp = c
-    #         ind = cnt
-
+    #Get the user ID that appears the most in the array
+    lUserIDToSend = stat.median(lUserIDs)  
     
     #Determine the status of the id. -1 indicates the user could not be found
     if lUserIDToSend == -1:
@@ -42,7 +24,7 @@ def AuthenticateUser(aArrImg):
         status = True
 
     end = time.time()
-    Log(lUserIDs[ind],start, end, status) # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    Log(lUserIDToSend,start, end, status) # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     
     #testing purposes
     #print("=============User Id :"+ lUserIDs[ind]+"=============")
