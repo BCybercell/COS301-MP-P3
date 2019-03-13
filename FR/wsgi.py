@@ -12,7 +12,5 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FR.settings')
-from .test import app
-application = get_wsgi_application()
-application = app(application)
 
+application = get_wsgi_application()
