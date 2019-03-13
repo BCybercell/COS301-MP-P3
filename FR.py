@@ -1,7 +1,7 @@
 import time as time
 import random as Rand
 import json as json
-import statistics
+import statistics as stat
 
 #  TODO Richard
 def AuthenticateUser(aArrImg):
@@ -15,7 +15,7 @@ def AuthenticateUser(aArrImg):
         lPercentages.append(percent)
     #lCount = []
 
-    lUserIDToSend = statistics.median(lUserIDs)
+    lUserIDToSend = stat.median(lUserIDs)
     # for id in lUserIDs.copy():
     #     print(id)
     #     lCount.append(0)
