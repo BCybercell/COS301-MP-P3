@@ -8,7 +8,7 @@ def index(request):
 
 
 def AuthUser(request):
-    lImg = request.POST['Image']
+    lImg = request.GET['Image']
     lUserID = AuthenticateUser(lImg)
     if lUserID > 0:
         return JsonResponse({'UserID': lUserID})
@@ -17,4 +17,4 @@ def AuthUser(request):
 
 
 def Logs(request):
-    return getLog(request.POST['start'], request.POST['end'])
+    return getLog(request.GET['start'], request.GET['end'])
