@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path
 import sys
 sys.path.append('../')
-from FR.main import index
+import FR.main as main
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("/", index, name="index"),
-    path("", index, name="index"),
+    path("/", main.index, name="index"),
+    path("", main.index, name="index"),
+    path("/AuthUser", main.AuthUser, name="index"),
+    path("/Logs", main.Logs, name="index")
 ]

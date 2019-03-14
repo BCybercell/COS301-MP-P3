@@ -60,23 +60,33 @@ def Log(aUserID, aStart, aEnd, aStatus):
     })
 
     with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
-        json.dump(lLog,f)
+        json.dump(lLog, f)
 
 def getLog(aStart,aEnd):
     with open('log.json') as f:
         lReturnLog = json.load(f)
+    log = {}
+    lCount = 0
     for p in lReturnLog['logs']:
         dt = parse_date(p['Date'])
         if dt >= aStart and dt <= aEnd:
 
             # TODO Return in a format that Reporting sub-system needs
-            print('UserID: ' + p['ID'])
-            print('Start Time: ' + str(p['Start']))
-            print('End Time: ' + str(p['End']))
-            print('Date: ' + p['Date'])
-            print('Status: ' + str(p['Status']))
-            print('')
+            log[lCount] = {}
 
+            log[lCount]['UserID'] = p['ID']
+            # print('UserID: ' + p['ID'])
+            log[lCount]['Start Time'] = p['Start']
+            # print('Start Time: ' + str(p['Start']))
+            # print('End Time: ' + str(p['End']))
+            log[lCount]['End Time'] = p['End']
+            # print('Date: ' + p['Date'])
+            log[lCount]['Date'] = p['Date']
+            # print('Status: ' + str(p['Status']))
+            log[lCount]['Status'] = p['Status']
+            # print('')
+            lCount += 1
+    return log
 
 #Log(str(12345),13,14,True)
 #lDate1 = dt.datetime(2019, 03, 12, 18, 00, 00)
