@@ -62,7 +62,8 @@ def Log(aUserID, aStart, aEnd, aStatus):
     with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
         json.dump(lLog, f)
 
-def getLog(aStart,aEnd):
+
+def getLog(aStart, aEnd):
     with open('log.json') as f:
         lReturnLog = json.load(f)
     log = {}

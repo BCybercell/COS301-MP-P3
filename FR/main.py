@@ -17,4 +17,4 @@ def AuthUser(request):
 
 
 def Logs(request):
-    return getLog(request.GET['start'], request.GET['end'])
+    return JsonResponse(getLog(request.GET['start'], request.GET['end']))
