@@ -13,7 +13,7 @@ def AuthUser(request):
     if lUserID > 0:
         return JsonResponse({'UserID': lUserID})
     else:
-    return JsonResponse({'error': lImg})
+        return JsonResponse({'error': lImg})
 
 
 def Logs(request):
