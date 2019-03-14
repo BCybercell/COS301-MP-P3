@@ -49,9 +49,12 @@ def Log(aUserID, aStart, aEnd, aStatus):
 
     lDate = dt.datetime.now().isoformat()
 
-    lLog = {}
-    lLog['logs'] = []
-    lLog['logs'].append({
+    with open('log.json', mode='r', encoding='utf-8') as feedsjson:
+        feeds = json.load(feedsjson)
+
+    # lLog = {}
+    # lLog['logs'] = []
+    feeds['logs'].append({
         "ID": aUserID,
         "Start": aStart,
         "End": aEnd,
@@ -59,8 +62,13 @@ def Log(aUserID, aStart, aEnd, aStatus):
         "Status": aStatus
     })
 
-    with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
-        json.dump(lLog, f)
+    # with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
+    #     json.dump(lLog, f)
+
+    with open('log.json', mode='w', encoding='utf-8') as feedsjson:
+        # feeds = json.load(feedsjson)
+        # feeds.append(lLog)
+        json.dump(feeds, feedsjson)
 
 
 def getLog(aStart, aEnd):
