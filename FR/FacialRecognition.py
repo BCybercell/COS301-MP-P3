@@ -4,6 +4,8 @@ import json as json
 import statistics as stat
 import datetime as dt
 from dateutil.parser import parse as parse_date
+from dateutil import parser
+
 
 
 def AuthenticateUser(aArrImg):
@@ -86,6 +88,9 @@ def getLog(aStart, aEnd):
     lReturnLog = {"logs": [{"ID": 1, "Start": "2019-03-12 18:00:00", "End": "2019-03-12 18:39:00", "Date": "2019-03-14T18:35:50.811452", "Status": True}]}
     # TODO remove dummy log
     lCount = 0
+
+    aEnd = parser.parse(aEnd)
+    aStart = parser.parse(aStart)
     for p in lReturnLog['logs']:
         dt = parse_date(p['Date'])
         if dt >= aStart and dt <= aEnd:
