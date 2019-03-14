@@ -1,7 +1,22 @@
-## Facial Recognition- Ocean
+## Phase 3 of COS 301 mini-project. 
 
-Phase 3 of COS 301 mini-project. This project mainly focusses on designing next-gen ATM's for FNB.
-Our job is to implement the facial recognition subsytem. 
+# Facial Recognition- Ocean(Group 12)  
+This project mainly focuses on designing next-gen ATM's for FNB as part of a assignment for COS 301.
+We are tasked with implementing the **Facial Recognition** subsystem which involves receiving an image from the **Authentication** subsystem and matching that image to a user id on our database. We then send back the user id or an exception to **Authentication** subsystem. We also have to maintain or database with data from the **Client Information System**.
+
+We plan on implementing these features in **Python** and hosting our services via an API.
+
+### Team Members
+- *Deane Roos*  
+  - *Kyle Olivier*  
+    - *Richard McFadden*  
+      - *Tegan Carton-Barber*  
+    
+
+### Project Management
+[Slack](https://cos301-phase3-group12.slack.com/)  
+[Trello](https://trello.com/b/tbFG3ZUq/phase-3)
+
 
 ### Resources
 
