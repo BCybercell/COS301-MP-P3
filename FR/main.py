@@ -8,12 +8,12 @@ def index(request):
 
 
 def AuthUser(request):
-    lImg = request.GET['Image']
-    lUserID = AuthenticateUser(lImg)
-    if lUserID > 0:
-        return JsonResponse({'UserID': lUserID})
-    else:
-        return JsonResponse({'error': 'No user ID found'})
+    # lImg = request.GET['Image']
+    # lUserID = AuthenticateUser(lImg)
+    # if lUserID > 0:
+    #     return JsonResponse({'UserID': lUserID})
+    # else:
+    return JsonResponse({'error': 'No user ID found'})
 
 
 def Logs(request):
