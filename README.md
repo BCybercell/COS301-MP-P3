@@ -1,37 +1,27 @@
-## Welcome to GitHub Pages
+## Phase 3 of COS 301 mini-project. 
 
-You can use the [editor on GitHub](https://github.com/BCybercell/COS301-MP-P3/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+# Facial Recognition- Ocean(Group 12)  
+This project mainly focuses on designing next-gen ATM's for FNB as part of a assignment for COS 301.
+We are tasked with implementing the **Facial Recognition** subsystem which involves receiving an image from the **Authentication** subsystem and matching that image to a user id on our database. We then send back the user id or an exception to **Authentication** subsystem. We also have to maintain or database with data from the **Client Information System**.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+We plan on implementing these features in **Python** and hosting our services via an API.
 
-### Markdown
+### Team Members
+- *Deane Roos*  
+  - *Kyle Olivier*  
+    - *Richard McFadden*  
+      - *Tegan Carton-Barber*  
+    
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Project Management
+[Slack](https://cos301-phase3-group12.slack.com/)  
+[Trello](https://trello.com/b/tbFG3ZUq/phase-3)
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+### Resources
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/BCybercell/COS301-MP-P3/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[IOT Facial Recognition](https://us.norton.com/internetsecurity-iot-how-facial-recognition-software-works.html)  
+[How Face ID Works... Probably - Computerphile](https://youtu.be/mwTaISbA87A)  
+[Detecting Faces (Viola Jones Algorithm) - Computerphile](https://www.youtube.com/watch?v=uEJ71VlUmMQ&t=48s)  
+[A Simple Introduction to Facial Recognition (with Python codes)](https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-recognition-with-python-codes/)  
+[Implementing Face Detection using Python and OpenCV](https://medium.com/analytics-vidhya/how-to-build-a-face-detection-model-in-python-8dc9cecadfe9)  
