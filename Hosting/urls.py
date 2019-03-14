@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("/", main.index, name="index"),
     path("", main.index, name="index"),
-    path("/AuthUser", main.AuthUser, name="index"),
-    path("/Logs", main.Logs, name="index")
+    path("AuthUser/", main.AuthUser, name="AuthUser"),
+    path("/Logs", main.Logs, name="Logs")
 ]
