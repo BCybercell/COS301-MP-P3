@@ -8,9 +8,9 @@ We plan on implementing these features in **Python** and hosting our services vi
 
 ### Team Members
 - *Deane Roos*  
-  - *Kyle Olivier*  
-    - *Richard McFadden*  
-      - *Tegan Carton-Barber*  
+- *Kyle Olivier*  
+- *Richard McFadden*  
+- *Tegan Carton-Barber*  
     
 
 ### Project Management
