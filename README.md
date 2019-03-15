@@ -17,7 +17,12 @@ We plan on implementing these features in **Python** and hosting our services vi
 [Slack](https://cos301-phase3-group12.slack.com/)  
 [Trello](https://trello.com/b/tbFG3ZUq/phase-3)
 
-
+## Git Structure Example
+Compact view for demo purposes.  
+ ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "GitFlow")
+## Unit Testing Examples
+ ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Unit test 1")  
+ ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Unit test 2")
 ### Resources
 
 [IOT Facial Recognition](https://us.norton.com/internetsecurity-iot-how-facial-recognition-software-works.html)  
