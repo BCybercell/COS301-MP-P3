@@ -19,10 +19,10 @@ We plan on implementing these features in **Python** and hosting our services vi
 
 ## Git Structure Example
 Compact view for demo purposes.  
- ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "GitFlow")
+ ![alt text](https://github.com/BCybercell/COS301-MP-P3/blob/master/horizontal.png "GitFlow")
 ## Unit Testing Examples
- ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Unit test 1")  
- ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Unit test 2")
+ ![alt text](https://github.com/BCybercell/COS301-MP-P3/blob/master/image1.png "Unit test 1")  
+ ![alt text](https://github.com/BCybercell/COS301-MP-P3/blob/master/image2.png "Unit test 2")
 ### Resources
 
 [IOT Facial Recognition](https://us.norton.com/internetsecurity-iot-how-facial-recognition-software-works.html)  
