@@ -53,7 +53,7 @@ def AuthenticateImage(aImg):
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
-    lDate = dt.datetime.now().isoformat() #TODO epoch format????
+    lDate = dt.datetime.now().isoformat()
 
     lLog = {
         "ID": aUserID,
@@ -64,41 +64,41 @@ def Log(aUserID, aStart, aEnd, aStatus):
     }
 
     with open('log.json', 'r') as f:
-        data = json.load(f)
-        data["logs"].append(lLog)
+        lData = json.load(f)
+        lData["logs"].append(lLog)
 
     with open('log.json','w') as f:
-        json.dump(data, f,indent=2)
+        json.dump(lData, f,indent=2)
 
     return True
 
 
 def getLog(aStart, aEnd):
-    if not aStart or not aEnd:
-        return {'error': 'Missing parameter start or end'}
-    # with open('log.json') as f:
-    #     lReturnLog = json.load(f) TODO fix
-    log = {}
-    lReturnLog = {"logs": [{"ID": 1, "Start": "2019-03-12 18:00:00", "End": "2019-03-12 18:39:00", "Date": "2019-03-14T18:35:50.811452", "Status": True}]}
-    # TODO remove dummy log
-    lCount = 0
+    if not aStart:
+        return {'error': 'Missing start parameter'}
+    if not aEnd:
+        return {'error': 'Missing end parameter'}
+
+    with open('log.json', 'r') as f:
+        lReturnLog = json.load(f)
 
     aEnd = parser.parse(aEnd)
     aStart = parser.parse(aStart)
-    for p in lReturnLog['logs']:
-        dt = parse_date(p['Date'])
-        if dt >= aStart and dt <= aEnd:
+    lLogArray = {"logs": []}
+    lIndex = 0;
 
-            # TODO Return in a format that Reporting sub-system needs
-            log[lCount] = {}
+    for log in lReturnLog['logs']:
+        lTime = ((parse_date(log['Date'])).time()).replace(microsecond=0)
 
-            log[lCount]['UserID'] = p['ID']
-            log[lCount]['Start Time'] = p['Start']
-            log[lCount]['End Time'] = p['End']
-            log[lCount]['Date'] = p['Date']
-            log[lCount]['Status'] = p['Status']
-            lCount += 1
-    return log
+        if lTime >= aStart.time() and lTime <= aEnd.time():
+            lLogArray["logs"].append(lReturnLog['logs'][lIndex])
+
+        lIndex = lIndex + 1
+
+    if len(lLogArray['logs']) == 0:
+        return {'error': 'No matching logs found'}
+
+    return lLogArray
 
 
 #  TODO Deane
