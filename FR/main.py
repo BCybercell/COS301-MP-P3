@@ -18,3 +18,4 @@ def AuthUser(request):
 
 def Logs(request):
     return JsonResponse(getLog(request.GET['start'], request.GET['end']))
+

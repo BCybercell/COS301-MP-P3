@@ -1,7 +1,7 @@
 import time as time
 import random as Rand
 import json as json
-import statistics as stat
+#import statistics as stat
 import datetime as dt
 from dateutil.parser import parse as parse_date
 from dateutil import parser
@@ -53,28 +53,22 @@ def AuthenticateImage(aImg):
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
-    lDate = dt.datetime.now().isoformat()
+    lDate = dt.datetime.now().isoformat() #TODO epoch format????
 
-    # with open('log.json', mode='r', encoding='utf-8') as feedsjson:  TODO fix read
-    #     feeds = json.load(feedsjson)
-
-    lLog = {}
-    lLog['logs'] = []
-    lLog['logs'].append({
+    lLog = {
         "ID": aUserID,
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,
         "Status": aStatus
-    })
+    }
 
-    # with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
-    #     json.dump(lLog, f)
+    with open('log.json', 'r') as f:
+        data = json.load(f)
+        data["logs"].append(lLog)
 
-    with open('log.json', mode='w', encoding='utf-8') as feedsjson:
-        # feeds = json.load(feedsjson)
-        # feeds.append(lLog)
-        json.dump(lLog, feedsjson)  # TODO make feed
+    with open('log.json','w') as f:
+        json.dump(data, f,indent=2)
 
     return True
 
@@ -99,23 +93,12 @@ def getLog(aStart, aEnd):
             log[lCount] = {}
 
             log[lCount]['UserID'] = p['ID']
-            # print('UserID: ' + p['ID'])
             log[lCount]['Start Time'] = p['Start']
-            # print('Start Time: ' + str(p['Start']))
-            # print('End Time: ' + str(p['End']))
             log[lCount]['End Time'] = p['End']
-            # print('Date: ' + p['Date'])
             log[lCount]['Date'] = p['Date']
-            # print('Status: ' + str(p['Status']))
             log[lCount]['Status'] = p['Status']
-            # print('')
             lCount += 1
     return log
-
-#Log(str(12345),13,14,True)
-#lDate1 = dt.datetime(2019, 03, 12, 18, 00, 00)
-#lDate2 = dt.datetime(2019, 03, 12, 18, 39, 00)
-#getLog(lDate1,lDate2)
 
 
 #  TODO Deane
