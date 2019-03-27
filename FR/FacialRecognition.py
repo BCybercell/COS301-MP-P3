@@ -37,20 +37,38 @@ def AuthenticateImage(aImg):
     #Read images from database and compare till match or no images left
     allData = collection.find() #Contains every element in the database
     imageFromDb = []
+    results = []
     imagetoTest = face_recognition.load_image_file(aImg) #Image they send us encoded
     image_encoding = face_recognition.face_encodings(imagetoTest,num_jitters=100)[0]
 
-    for cursor in allData: #cursor here acts as a iterator for each image
-        for img in cursor.image:
-            imageFromDb.append(face_recognition.load_image_file(img))
-        for i in imageFromDb:
-            #!Compare the face we just encoded with the one sent through
-            result_encoding = face_recognition.face_encodings(i)[0]
-            result = (face_recognition.compare_faces([result_encoding], image_encoding, tolerance=0.5))
-            #*If it was true and matched then return the userId
-            if result == True:
-                return cursor.userID
-    
+#! Adds all the images and IDs to a tuple, imageFromDb
+    print("Getting IMAGES from database:")
+    for key in allData:
+        for img in key.get("photos"):
+            imageFromDb.append(tuple((key.get("userID"),face_recognition.load_image_file(img))))
+            print("IMG:"+ str(img))
+
+    # for cursor in allData: #cursor here acts as a iterator for each image
+    #     for img in cursor.image:
+    #         imageFromDb.append(face_recognition.load_image_file(img))
+    #     for i in imageFromDb:
+    #         #!Compare the face we just encoded with the one sent through
+    #         result_encoding = face_recognition.face_encodings(i)[0]
+    #         result = (face_recognition.compare_faces([result_encoding], image_encoding, tolerance=0.5))
+    #         #*If it was true and matched then return the userId
+    #         if result == True:
+    #             return cursor.userID
+
+    #!This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
+    counter = 0
+    for i,j in imageFromDb:
+        test = face_recognition.face_encodings(j,num_jitters=10)[0]
+        results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+        for e in results[counter]:
+            if e == True:
+                print("The image matched and returned userID:"+ str(i))
+                return i
+        counter = counter +1
     return -1
         
 
