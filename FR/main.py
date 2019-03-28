@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, getLog
-
+import json as json
 
 @csrf_exempt
 def index(request):
@@ -42,7 +42,8 @@ def Logs(request):
     if request.method == 'GET':
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
-        return JsonResponse(getLog(request.body['start'], request.body['end']), safe=False)
+        body = json.loads(request.body)
+        return JsonResponse(getLog(body['start'], body['end']), safe=False)
 
 
 @csrf_exempt
