@@ -15,6 +15,7 @@ db = client["FR-DB"]
 collection = db.activeUsers
 #! details = collection.find ({"Work": "id_"})
 
+
 def AuthenticateUser(aArrImg):
     Update()  #Call Update function to get new/updated list of the database from CIS
     start = time.time()    
@@ -25,7 +26,7 @@ def AuthenticateUser(aArrImg):
     else: status = True
 
     end = time.time()
-    Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    Log(lUserId, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return lUserId
 
@@ -34,19 +35,19 @@ def AuthenticateImage(aImg):
     if not aImg:
         return -1
 
-    #Read images from database and compare till match or no images left
-    allData = collection.find() #Contains every element in the database
+    # Read images from database and compare till match or no images left
+    allData = collection.find()  # Contains every element in the database
     imageFromDb = []
     results = []
-    imagetoTest = face_recognition.load_image_file(aImg) #Image they send us encoded
-    image_encoding = face_recognition.face_encodings(imagetoTest,num_jitters=100)[0]
+    imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
+    image_encoding = face_recognition.face_encodings(imagetoTest, num_jitters=100)[0]
 
 #! Adds all the images and IDs to a tuple, imageFromDb
     print("Getting IMAGES from database:")
     for key in allData:
         for img in key.get("photos"):
-            imageFromDb.append(tuple((key.get("userID"),face_recognition.load_image_file(img))))
-            print("IMG:"+ str(img))
+            imageFromDb.append(tuple((key.get("userID"), face_recognition.load_image_file(img))))
+            print("IMG:" + str(img))
 
     # for cursor in allData: #cursor here acts as a iterator for each image
     #     for img in cursor.image:
@@ -61,14 +62,14 @@ def AuthenticateImage(aImg):
 
     #!This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
     counter = 0
-    for i,j in imageFromDb:
-        test = face_recognition.face_encodings(j,num_jitters=10)[0]
+    for i, j in imageFromDb:
+        test = face_recognition.face_encodings(j, num_jitters=10)[0]
         results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
         for e in results[counter]:
-            if e == True:
-                print("The image matched and returned userID:"+ str(i))
+            if e:
+                print("The image matched and returned userID:" + str(i))
                 return i
-        counter = counter +1
+        counter = counter + 1
     return -1
         
 
@@ -78,7 +79,7 @@ def Log(aUserID, aStart, aEnd, aStatus):
     #TODO change time format to epoc
     lDate = dt.datetime.now().isoformat()#?Does this still need to change?
     dataToLog = {
-       "ID": aUserID,
+        "ID": aUserID,
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,

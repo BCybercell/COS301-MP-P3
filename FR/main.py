@@ -16,8 +16,9 @@ def index(request):
                         "class='btn btn-secondary'></form></body></html>")
     # return render()
 
+
 def AuthUser(request):
-    if request.method =='GET':
+    if request.method == 'GET':
         lImg = request.GET['Image']
         lUserID = AuthenticateUser(lImg)
         if lUserID > 0:
@@ -34,5 +35,7 @@ def AuthUser(request):
 
 
 def Logs(request):
-    return JsonResponse(getLog(request.GET['start'], request.GET['end']))
-
+    if request.method == 'GET':
+        return JsonResponse(getLog(request.GET['start'], request.GET['end']))
+    if request.method == 'POST':
+        return JsonResponse(getLog(request.body['start'], request.body['end']))
