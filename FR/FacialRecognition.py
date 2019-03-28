@@ -34,7 +34,6 @@ def AuthenticateUser(aArrImg):
 def AuthenticateImage(aImg):
     if not aImg:
         return -1
-    aImg = aImg.decode("utf-8")
     # Read images from database and compare till match or no images left
     allData = collection.find()  # Contains every element in the database
     imageFromDb = []
