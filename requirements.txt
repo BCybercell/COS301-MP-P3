@@ -4,4 +4,5 @@ django-heroku
 python-dateutil
 face_recognition
 pymongo
+llfuse
 gridfs-fuse
