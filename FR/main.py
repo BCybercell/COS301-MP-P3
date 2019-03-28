@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, getLog
 
 
@@ -41,6 +42,7 @@ def Logs(request):
         return JsonResponse(getLog(request.body['start'], request.body['end']), safe=False)
 
 
+@csrf_exempt
 def test(request):
     if request.method == 'POST':
         return HttpResponse('yata')
