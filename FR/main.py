@@ -29,7 +29,7 @@ def AuthUser(request):
         else:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
-        lImg = request.body['Image']
+        lImg = request.FILES['Image']
         lUserID = AuthenticateUser(lImg)
         if lUserID > 0:
             return JsonResponse({'UserID': lUserID})
@@ -43,9 +43,3 @@ def Logs(request):
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
         return JsonResponse(getLog(request.POST['start'], request.POST['end']), safe=False)
-
-
-@csrf_exempt
-def test(request):
-    if request.method == 'POST':
-        return HttpResponse('yata')
