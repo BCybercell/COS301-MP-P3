@@ -41,6 +41,6 @@ def Logs(request):
         return JsonResponse(getLog(request.body['start'], request.body['end']), safe=False)
 
 
-def Test(request):
+def test(request):
     if request.method == 'POST':
         return HttpResponse('yata')
