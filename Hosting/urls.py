@@ -24,4 +24,5 @@ urlpatterns = [
     path("", main.index, name="index"),
     path("AuthUser/", main.AuthUser, name="AuthUser"),
     path("Logs/", main.Logs, name="Logs")
+    path("Test/", main.test, name = "test")
 ]

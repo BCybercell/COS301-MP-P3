@@ -39,3 +39,8 @@ def Logs(request):
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
         return JsonResponse(getLog(request.body['start'], request.body['end']), safe=False)
+
+
+def Test(request):
+    if request.method == 'POST':
+        return HttpResponse('yata')
