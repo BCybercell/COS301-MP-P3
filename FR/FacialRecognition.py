@@ -110,12 +110,12 @@ def getLog(aStart, aEnd):
         })
     #TODO might need to change this. Depends on what they need
 
-        lIndex = lIndex + 1
+    # lIndex = lIndex + 1
+    #
+    # if len(lLogArray['logs']) == 0:
+    #     return {'error': 'No matching logs found'}
 
-    if len(lLogArray['logs']) == 0:
-        return {'error': 'No matching logs found'}
-
-    return lLogArray
+    return log
 
 
 #  TODO Deane
