@@ -73,30 +73,23 @@ def AuthenticateImage(aImg):
         
 
 def Log(aUserID, aStart, aEnd, aStatus):
+    #Work on the collection log 
+    logCollection =db.log
+    lDate = dt.datetime.now().isoformat()#?Does this still need to change?
 
-    lDate = dt.datetime.now().isoformat()
-
-    # with open('log.json', mode='r', encoding='utf-8') as feedsjson:  TODO fix read
-    #     feeds = json.load(feedsjson)
-
-    lLog = {}
-    lLog['logs'] = []
-    lLog['logs'].append({
-        "ID": aUserID,
+    dataToLog = {
+       "ID": aUserID,
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,
         "Status": aStatus
-    })
-
-    # with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
-    #     json.dump(lLog, f)
-
-    with open('log.json', mode='w', encoding='utf-8') as feedsjson:
-        # feeds = json.load(feedsjson)
-        # feeds.append(lLog)
-        json.dump(lLog, feedsjson)  # TODO make feed
-
+    }
+    #Do the query and if it returns false loop till it returns true
+    y = logCollection.insert_one(dataToLog)
+    if not y:
+        while not y:
+             y = logCollection.insert_one(dataToLog)   
+    #when done then return true. Ensures it never breaks
     return True
 
 
