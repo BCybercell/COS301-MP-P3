@@ -75,6 +75,7 @@ def AuthenticateImage(aImg):
 def Log(aUserID, aStart, aEnd, aStatus):
     #Work on the collection log 
     logCollection =db.log
+    #TODO change time format to epoc
     lDate = dt.datetime.now().isoformat()#?Does this still need to change?
 
     dataToLog = {
@@ -96,34 +97,19 @@ def Log(aUserID, aStart, aEnd, aStatus):
 def getLog(aStart, aEnd):
     if not aStart or not aEnd:
         return {'error': 'Missing parameter start or end'}
-    # with open('log.json') as f:
-    #     lReturnLog = json.load(f) TODO fix
+    
     log = {}
-    lReturnLog = {"logs": [{"ID": 1, "Start": "2019-03-12 18:00:00", "End": "2019-03-12 18:39:00", "Date": "2019-03-14T18:35:50.811452", "Status": True}]}
-    # TODO remove dummy log
-    lCount = 0
+    logCol =db.log
 
-    aEnd = parser.parse(aEnd)
-    aStart = parser.parse(aStart)
-    for p in lReturnLog['logs']:
-        dt = parse_date(p['Date'])
-        if dt >= aStart and dt <= aEnd:
-
-            # TODO Return in a format that Reporting sub-system needs
-            log[lCount] = {}
-
-            log[lCount]['UserID'] = p['ID']
-            # print('UserID: ' + p['ID'])
-            log[lCount]['Start Time'] = p['Start']
-            # print('Start Time: ' + str(p['Start']))
-            # print('End Time: ' + str(p['End']))
-            log[lCount]['End Time'] = p['End']
-            # print('Date: ' + p['Date'])
-            log[lCount]['Date'] = p['Date']
-            # print('Status: ' + str(p['Status']))
-            log[lCount]['Status'] = p['Status']
-            # print('')
-            lCount += 1
+    #Get the data between the two dates from the db
+    log = logCol.find({
+        "Date":
+        {
+            "$gte": aStart,
+            "$lt": aEnd
+        }
+        })
+    #TODO might need to change this. Depends on what they need
     return log
 
 #Log(str(12345),13,14,True)
