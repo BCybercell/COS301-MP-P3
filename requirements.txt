@@ -4,4 +4,4 @@ django-heroku
 python-dateutil
 face_recognition
 pymongo
-grdfs
+gridfs

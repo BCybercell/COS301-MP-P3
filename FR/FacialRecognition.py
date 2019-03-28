@@ -6,7 +6,7 @@ import datetime as dt
 from dateutil.parser import parse as parse_date
 from dateutil import parser
 import pymongo
-from grdfs import GridFS
+from gridfs import GridFS
 import face_recognition
 
 
