@@ -6,3 +6,4 @@ dnspython
 python-dateutil
 face_recognition
 pymongo
+bson

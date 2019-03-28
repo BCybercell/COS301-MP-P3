@@ -97,11 +97,10 @@ def Log(aUserID, aStart, aEnd, aStatus):
 def getLog(aStart, aEnd):
     if not aStart:
         return {'error': 'Missing start parameter'}
-    
-    log = {}
+
     logCol =db.log
 
-    #Get the data between the two dates from the db
+    # Get the data between the two dates from the db
     log = logCol.find({
         # "Date":
         # {
@@ -121,8 +120,14 @@ def getLog(aStart, aEnd):
     #
     # if len(lLogArray['logs']) == 0:
     #     return {'error': 'No matching logs found'}
+    import json
+    from bson import json_util
 
-    return log
+    json_docs = []
+    for doc in log:
+        json_doc = json.dumps(doc, default=json_util.default)
+        json_docs.append(json_doc)
+    return json_docs
 
 
 #  TODO Deane
