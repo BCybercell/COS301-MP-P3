@@ -6,7 +6,7 @@ from .FacialRecognition import AuthenticateUser, getLog
 
 def index(request):
     # return HttpResponse({'foo': 'bar'})
-    return render_to_response('../index.html')
+    return render_to_response('index.html')
 
 def AuthUser(request):
     if request.method =='GET':
