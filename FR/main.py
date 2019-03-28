@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, getLog
 
 
+@csrf_exempt
 def index(request):
     return HttpResponse("<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='author' content='Tegan "
                         "Carton-Barber'><link rel='stylesheet' "
@@ -18,6 +19,7 @@ def index(request):
     # return render()
 
 
+@csrf_exempt
 def AuthUser(request):
     if request.method == 'GET':
         lImg = request.GET['Image']
@@ -35,6 +37,7 @@ def AuthUser(request):
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
 
 
+@csrf_exempt
 def Logs(request):
     if request.method == 'GET':
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
