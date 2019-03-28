@@ -1,7 +1,7 @@
+cmake
 django
 gunicorn
 django-heroku
 python-dateutil
-cmake
 face_recognition
 pymongo
