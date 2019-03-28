@@ -1,7 +1,7 @@
 import time as time
 import random as Rand
 import json as json
-import statistics as stat
+#import statistics as stat
 import datetime as dt
 from dateutil.parser import parse as parse_date
 from dateutil import parser
@@ -55,67 +55,50 @@ def Log(aUserID, aStart, aEnd, aStatus):
 
     lDate = dt.datetime.now().isoformat()
 
-    # with open('log.json', mode='r', encoding='utf-8') as feedsjson:  TODO fix read
-    #     feeds = json.load(feedsjson)
-
-    lLog = {}
-    lLog['logs'] = []
-    lLog['logs'].append({
+    lLog = {
         "ID": aUserID,
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,
         "Status": aStatus
-    })
+    }
 
-    # with open('log.json', 'a') as f: # TODO Fix json format when appened to the file
-    #     json.dump(lLog, f)
+    with open('log.json', 'r') as f:
+        lData = json.load(f)
+        lData["logs"].append(lLog)
 
-    with open('log.json', mode='w', encoding='utf-8') as feedsjson:
-        # feeds = json.load(feedsjson)
-        # feeds.append(lLog)
-        json.dump(lLog, feedsjson)  # TODO make feed
+    with open('log.json','w') as f:
+        json.dump(lData, f,indent=2)
 
     return True
 
 
 def getLog(aStart, aEnd):
-    if not aStart or not aEnd:
-        return {'error': 'Missing parameter start or end'}
-    # with open('log.json') as f:
-    #     lReturnLog = json.load(f) TODO fix
-    log = {}
-    lReturnLog = {"logs": [{"ID": 1, "Start": "2019-03-12 18:00:00", "End": "2019-03-12 18:39:00", "Date": "2019-03-14T18:35:50.811452", "Status": True}]}
-    # TODO remove dummy log
-    lCount = 0
+    if not aStart:
+        return {'error': 'Missing start parameter'}
+    if not aEnd:
+        return {'error': 'Missing end parameter'}
+
+    with open('log.json', 'r') as f:
+        lReturnLog = json.load(f)
 
     aEnd = parser.parse(aEnd)
     aStart = parser.parse(aStart)
-    for p in lReturnLog['logs']:
-        dt = parse_date(p['Date'])
-        if dt >= aStart and dt <= aEnd:
+    lLogArray = {"logs": []}
+    lIndex = 0;
 
-            # TODO Return in a format that Reporting sub-system needs
-            log[lCount] = {}
+    for log in lReturnLog['logs']:
+        lTime = ((parse_date(log['Date'])).time()).replace(microsecond=0)
 
-            log[lCount]['UserID'] = p['ID']
-            # print('UserID: ' + p['ID'])
-            log[lCount]['Start Time'] = p['Start']
-            # print('Start Time: ' + str(p['Start']))
-            # print('End Time: ' + str(p['End']))
-            log[lCount]['End Time'] = p['End']
-            # print('Date: ' + p['Date'])
-            log[lCount]['Date'] = p['Date']
-            # print('Status: ' + str(p['Status']))
-            log[lCount]['Status'] = p['Status']
-            # print('')
-            lCount += 1
-    return log
+        if lTime >= aStart.time() and lTime <= aEnd.time():
+            lLogArray["logs"].append(lReturnLog['logs'][lIndex])
 
-#Log(str(12345),13,14,True)
-#lDate1 = dt.datetime(2019, 03, 12, 18, 00, 00)
-#lDate2 = dt.datetime(2019, 03, 12, 18, 39, 00)
-#getLog(lDate1,lDate2)
+        lIndex = lIndex + 1
+
+    if len(lLogArray['logs']) == 0:
+        return {'error': 'No matching logs found'}
+
+    return lLogArray
 
 
 #  TODO Deane
