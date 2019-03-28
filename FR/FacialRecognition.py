@@ -74,10 +74,11 @@ def AuthenticateImage(aImg):
         
 
 def Log(aUserID, aStart, aEnd, aStatus):
-    #Work on the collection log 
-    logCollection =db.log
-    #TODO change time format to epoc
-    lDate = dt.datetime.now().isoformat()#?Does this still need to change?
+    #Work on the collection log
+    logTest = db['logTest']  # TODO fix
+    # logCollection =db.log
+    # TODO change time format to epoc
+    lDate = dt.datetime.now().isoformat()  # ?Does this still need to change?
     dataToLog = {
         "ID": aUserID,
         "Start": str(aStart),
@@ -85,12 +86,12 @@ def Log(aUserID, aStart, aEnd, aStatus):
         "Date": lDate,
         "Status": aStatus
     }
-    #Do the query and if it returns false loop till it returns true
-    y = logCollection.insert_one(dataToLog)
+    # Do the query and if it returns false loop till it returns true
+    y = logTest.insert_one(dataToLog)
     if not y:
         while not y:
-             y = logCollection.insert_one(dataToLog)   
-    #when done then return true. Ensures it never breaks
+            y = logTest.insert_one(dataToLog)
+    # when done then return true. Ensures it never breaks
     return True
 
 
@@ -98,7 +99,7 @@ def getLog(aStart, aEnd):
     if not aStart:
         return {'error': 'Missing start parameter'}
 
-    logCol =db.log
+    logCol = db.logTest
 
     # Get the data between the two dates from the db
     log = logCol.find({
