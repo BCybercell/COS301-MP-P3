@@ -23,6 +23,6 @@ urlpatterns = [
     path("/", main.index, name="index"),
     path("", main.index, name="index"),
     path("AuthUser/", main.AuthUser, name="AuthUser"),
-    path("Logs/", main.Logs, name="Logs")
-    path("Test/", main.test, name = "test")
+    path("Logs/", main.Logs, name="Logs"),
+    path("Test/", main.test, name="test")
 ]
