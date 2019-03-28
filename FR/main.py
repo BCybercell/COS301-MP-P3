@@ -36,6 +36,6 @@ def AuthUser(request):
 
 def Logs(request):
     if request.method == 'GET':
-        return JsonResponse(getLog(request.GET['start'], request.GET['end']))
+        return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
-        return JsonResponse(getLog(request.body['start'], request.body['end']))
+        return JsonResponse(getLog(request.body['start'], request.body['end']), safe=False)

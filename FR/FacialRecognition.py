@@ -17,15 +17,15 @@ collection = db.activeUsers
 
 
 def AuthenticateUser(aArrImg):
-    Update()  #Call Update function to get new/updated list of the database from CIS
-    start = time.time()    
-    lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
+    Update()  # Call Update function to get new/updated list of the database from CIS
+    start = int(time.time())
+    lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
 
     if lUserId == -1:
         status = False
     else: status = True
 
-    end = time.time()
+    end = int(time.time())
     Log(lUserId, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return lUserId
@@ -103,12 +103,18 @@ def getLog(aStart, aEnd):
 
     #Get the data between the two dates from the db
     log = logCol.find({
-        "Date":
-        {
-            "$gte": aStart,
-            "$lt": aEnd
-        }
-        })
+        # "Date":
+        # {
+        #     "$gte": aStart,
+        #     "$lt": aEnd
+        # }
+        # })
+        "Start":
+            {
+                "$gte": aStart,
+                "$lt": aEnd
+            }
+         })
     #TODO might need to change this. Depends on what they need
 
     # lIndex = lIndex + 1
