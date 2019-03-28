@@ -5,8 +5,16 @@ from .FacialRecognition import AuthenticateUser, getLog
 
 
 def index(request):
-    # return HttpResponse({'foo': 'bar'})
-    return render_to_response('index.html')
+    return HttpResponse("<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='author' content='Tegan "
+                        "Carton-Barber'><link rel='stylesheet' "
+                        "href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' "
+                        "integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' "
+                        "crossorigin='anonymous'><title>Facial Recognition</title></head><body><form action='#' "
+                        "method='post' enctype='multipart/form-data' style='padding:4rem;'><div "
+                        "class='form-group'><input type='file' name='fileToUpload' id='fileToUpload' "
+                        "class='form-control'></div><input type='submit' value='Upload Image' name='submit' "
+                        "class='btn btn-secondary'></form></body></html>")
+    # return render()
 
 def AuthUser(request):
     if request.method =='GET':
