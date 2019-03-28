@@ -42,7 +42,7 @@ def Logs(request):
     if request.method == 'GET':
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
-        body = json.loads(request.body)
+        body = json.loads(request.POST)
         return JsonResponse(getLog(body['start'], body['end']), safe=False)
 
 
