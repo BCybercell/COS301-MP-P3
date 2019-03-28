@@ -2,6 +2,7 @@ import unittest
 from .FacialRecognition import AuthenticateUser, AuthenticateImage, Update, Log, getLog
 import datetime as dt
 
+
 class TestAuthenticateUser(unittest.TestCase):
     def test_AuthenticateUser(self):
         self.fail()
