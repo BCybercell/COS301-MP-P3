@@ -20,7 +20,7 @@ collection = db.testing  # change back to activeUsers
 
 
 def AuthenticateUser(aArrImg):
-    Update()  # Call Update function to get new/updated list of the database from CIS
+    # Update()  # Call Update function to get new/updated list of the database from CIS
     start = int(time.time())
     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
 
