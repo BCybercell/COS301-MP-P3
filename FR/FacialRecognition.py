@@ -8,6 +8,9 @@ from dateutil import parser
 import pymongo
 # from gridfs import GridFS   #  if you want this to work please let me know - Deane
 import face_recognition
+import json
+from bson import json_util
+import base64
 
 
 client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
@@ -41,22 +44,22 @@ def AuthenticateImage(aImg):
     imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
     image_encoding = face_recognition.face_encodings(imagetoTest, num_jitters=100)[0]
 
-    #Have a counter for the file naming
+    # Have a counter for the file naming
     counter = 0
 #! Adds all the images and IDs to a tuple, imageFromDb
     print("Getting IMAGES from database:")
     for key in allData:
         for img in key.get("photos"):
-            #Decode the base64 string
+            # Decode the base64 string
             dec_img =base64.decodestring(img)
-            #create a name for the file. example userIDCounter.jpg thus 01.jpg
+            # create a name for the file. example userIDCounter.jpg thus 01.jpg
             st = str(key.get("userID"))+str(counter)+".jpg"
             counter = counter +1
-            #save the binary as an image to use
+            # save the binary as an image to use
             with open(st, 'wb') as f:
-            f.write(dec_img)
-            #now append and let the magic happen
-            imageFromDb.append(tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
+                f.write(dec_img)
+            # now append and let the magic happen
+            imageFromDb.append(tuple((key.get("userID"), face_recognition.load_image_file("./"+st))))
             print("IMG:" + str(img))
 
     #!This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
@@ -120,8 +123,7 @@ def getLog(aStart, aEnd):
     #
     # if len(lLogArray['logs']) == 0:
     #     return {'error': 'No matching logs found'}
-    import json
-    from bson import json_util
+
 
     json_docs = []
     for doc in log:
