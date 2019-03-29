@@ -30,7 +30,10 @@ def AuthUser(request):
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
         lImg = request.FILES['Image']
-        lUserID = AuthenticateUser(lImg)
+        try:
+            lUserID = AuthenticateUser(lImg)
+        except:
+            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
         if lUserID > 0:
             return JsonResponse({'UserID': lUserID})
         else:
