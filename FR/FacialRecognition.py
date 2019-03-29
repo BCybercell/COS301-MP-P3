@@ -46,15 +46,15 @@ def AuthenticateImage(aImg):
 
     # Have a counter for the file naming
     counter = 0
-#! Adds all the images and IDs to a tuple, imageFromDb
+    # ! Adds all the images and IDs to a tuple, imageFromDb
     print("Getting IMAGES from database:")
     for key in allData:
         for img in key.get("photos"):
             # Decode the base64 string
-            dec_img =base64.decodestring(img)
+            dec_img = base64.decodebytes(img)
             # create a name for the file. example userIDCounter.jpg thus 01.jpg
             st = str(key.get("userID"))+str(counter)+".jpg"
-            counter = counter +1
+            counter = counter + 1
             # save the binary as an image to use
             with open(st, 'wb') as f:
                 f.write(dec_img)
@@ -90,9 +90,9 @@ def Log(aUserID, aStart, aEnd, aStatus):
     }
     # Do the query and if it returns false loop till it returns true
     y = logTest.insert_one(dataToLog)
-    if not y:
-        while not y:
-            y = logTest.insert_one(dataToLog)
+    # if not y:
+    #     while not y:
+    #         y = logTest.insert_one(dataToLog) # removed for testing
     # when done then return true. Ensures it never breaks
     return True
 
