@@ -41,23 +41,23 @@ def AuthenticateImage(aImg):
     imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
     image_encoding = face_recognition.face_encodings(imagetoTest, num_jitters=100)[0]
 
+    #Have a counter for the file naming
+    counter = 0
 #! Adds all the images and IDs to a tuple, imageFromDb
     print("Getting IMAGES from database:")
     for key in allData:
         for img in key.get("photos"):
-            imageFromDb.append(tuple((key.get("userID"), face_recognition.load_image_file(img))))
+            #Decode the base64 string
+            dec_img =base64.decodestring(img)
+            #create a name for the file. example userIDCounter.jpg thus 01.jpg
+            st = str(key.get("userID"))+str(counter)+".jpg"
+            counter = counter +1
+            #save the binary as an image to use
+            with open(st, 'wb') as f:
+            f.write(dec_img)
+            #now append and let the magic happen
+            imageFromDb.append(tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
             print("IMG:" + str(img))
-
-    # for cursor in allData: #cursor here acts as a iterator for each image
-    #     for img in cursor.image:
-    #         imageFromDb.append(face_recognition.load_image_file(img))
-    #     for i in imageFromDb:
-    #         #!Compare the face we just encoded with the one sent through
-    #         result_encoding = face_recognition.face_encodings(i)[0]
-    #         result = (face_recognition.compare_faces([result_encoding], image_encoding, tolerance=0.5))
-    #         #*If it was true and matched then return the userId
-    #         if result == True:
-    #             return cursor.userID
 
     #!This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
     counter = 0
