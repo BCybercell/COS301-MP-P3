@@ -21,7 +21,7 @@
 					<div class="card">
 						<div class="card-header" style="font-family:Open Sans, sans-serif; font-size: 18px; font-weight: bold;">Add photos to your account</div>
 						<div class="card-body">
-							<form action="#" method="post">
+							<form action="upload.php" method="post" enctype="multipart/form-data">
 								<fieldset>
 									<div class="row">
 										<div class="col-4">
@@ -30,7 +30,7 @@
 										</div>
 										<div class="col-8">
 											<label for="loginPass">Select your images:</label>
-											<input type="file" id="picToUpload" class="form-control" name="picToUpload[]" multiple='multiple'>
+											<input type="file" id="picToUpload" class="form-control" name="picToUpload" multiple='multiple'>
 										</div>
 									</div>
 									<div class="row mt-5">
