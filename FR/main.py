@@ -31,8 +31,9 @@ def AuthUser(request):
     if request.method == 'POST':
         if request.POST['Image']:
             return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
-        lImg = request.FILES['Image']
+
         try:
+            lImg = request.FILES['Image']
             lUserID = AuthenticateUser(lImg)
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
