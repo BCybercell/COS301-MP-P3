@@ -29,14 +29,24 @@ def AuthUser(request):
         else:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
-        if request.POST['Image']:
-            return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
+
 
         try:
-            if not request.FILES['Image']:
+            if 'Image' in request.POST:
+                lImg = request.POST['Image']
+                # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
+            elif 'Image' in request.FILES:
+                # if 'file' in request.FILES:
+                lImg = request.FILES['Image']
+            elif 'file' in request.FILES:
+                # if 'file' in request.FILES:
                 lImg = request.FILES['file']
             else:
-                lImg = request.FILES['Image']
+                return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+                # else:
+                #
+            # else:
+            #     lImg = request.FILES['Image']
             lUserID = AuthenticateUser(lImg)
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
