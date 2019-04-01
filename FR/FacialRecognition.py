@@ -158,10 +158,18 @@ def deactivateClient(aClientID):
 
 def reactivateClient(aClientID):
 
+    if aClientID < 0:
+        return False
+
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": True}}
 
-    testClient.update_one(query, newValue)
+    updatedClient = testClient.update_one(query, newValue)
+
+    if updatedClient:
+        return True
+
+    return False
 
 
 
