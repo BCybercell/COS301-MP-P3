@@ -2,23 +2,33 @@ import face_recognition
 import pymongo 
 import base64
 
-myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
-db = myclient["testDB"]
-collection = db.work
+myclient = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
+db = myclient["heroku_6lqvmjth"]
+collection = db.rTest
 
 allData = collection.find()
 results = []
 known_image = []
 #known_id = []
+counter =0
 #! This is the image we want to compare (imgToTest)
-unknown_image = face_recognition.load_image_file("13.jpg")
+unknown_image = face_recognition.load_image_file("test2.jpg")
 unknown_encoding = face_recognition.face_encodings(unknown_image,num_jitters=10)[0]
 print("Getting IMAGES from database:")
 for key in allData:
     for img in key.get("photos"):
-        dec_img =base64.decodestring(img)
-        known_image.append(tuple((key.get("userID"),face_recognition.load_image_file(dec_img))))
-        print("IMG:"+ str(dec_img))
+        #Decode the base64 string
+            dec_img =base64.decodestring(img)
+            #create a name for the file. example userIDCounter.jpg thus 01.jpg
+            st = str(key.get("userID"))+str(counter)+".jpg"
+            counter = counter +1
+            #save the binary as an image to use
+            with open(st, 'wb') as f:
+                f.write(dec_img)
+            #now append and let the magic happen
+            known_image.append(tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
+            print("IMG:"+ str(img))
+            counter = counter +1
     #known_id.append(key.get("userID"))    
 
 def checking():
