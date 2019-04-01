@@ -12,7 +12,7 @@ from bson import json_util
 import base64
 
 
-client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:<password>@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
+client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
 db = client["FR-DB"]
 collection = db.testing
 #! details = collection.find ({"Work": "id_"})
