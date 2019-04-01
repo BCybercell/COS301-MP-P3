@@ -124,13 +124,21 @@ def getLog(aStart, aEnd):
 
 def addClient(aClientID):
 
+    if aClientID < 0:
+        return False
+
     newClient = {
         "userID" : str(aClientID),
         "status" : True,
         "photos" : []
     }
 
-    testClient.insert_one(newClient)
+    client = testClient.insert_one(newClient)
+
+    if client:
+        return True
+
+    return False
 
 def deactivateClient(aClientID):
 
