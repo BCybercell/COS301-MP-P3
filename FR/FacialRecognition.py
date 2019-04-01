@@ -14,7 +14,7 @@ import base64
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
-collection = db.rTest
+collection = db.testing
 #! details = collection.find ({"Work": "id_"})
 
 
@@ -22,7 +22,6 @@ def AddImages(userID, aArrImg):
     start = int(time.time())
 
     allData = collection.find()
-    strr=""
     status = False
 
     for key in allData:
