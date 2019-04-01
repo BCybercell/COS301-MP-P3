@@ -76,7 +76,7 @@ collection = db.testing  # change back to activeUsers
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
-    lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
+    lDate = dt.datetime.now().isoformat()
 
     lLog = {
         "ID": aUserID,
