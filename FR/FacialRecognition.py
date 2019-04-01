@@ -73,15 +73,12 @@ collection = db.testing  # change back to activeUsers
 #                 return i
 #         counter = counter + 1
 #     return -1
-        
 
 def Log(aUserID, aStart, aEnd, aStatus):
-    #Work on the collection log
-    logTest = db['logTest']  #TODO update collection when ready
-    #logCollection =db.['log']
 
     lDate = dt.datetime.now().isoformat()
-    lData = {
+
+    lLog = {
         "ID": aUserID,
         "Start": str(aStart),
         "End": str(aEnd),
@@ -89,48 +86,71 @@ def Log(aUserID, aStart, aEnd, aStatus):
         "Status": aStatus
     }
 
-    #TODO Make this asynchronous
-    # Do the query and if it returns false loop until it returns true - ensures that the log is always written to DB
-    log = logTest.insert_one(lData)
-    if not log:
-        while not log:
-            log = logTest.insert_one(lData)
+    with open('log.json', 'r') as f:
+        lData = json.load(f)
+        lData["logs"].append(lLog)
+
+    with open('log.json','w') as f:
+        json.dump(lData, f,indent=2)
+
     return True
 
-
-def getLog(aStart, aEnd):
-    if not aStart:
-        return {'error': 'Missing start parameter'}
-
-    logCol = db.logTest
-
-    # Get the data between the two dates from the db
-    log = logCol.find({
-        # "Date":
-        # {
-        #     "$gte": aStart,
-        #     "$lt": aEnd
-        # }
-        # })
-        "Start":
-            {
-                "$gte": aStart,
-                "$lt": aEnd
-            }
-         })
-    #TODO might need to change this. Depends on what they need
-
-    # lIndex = lIndex + 1
-    #
-    # if len(lLogArray['logs']) == 0:
-    #     return {'error': 'No matching logs found'}
-
-
-    json_docs = []
-    for doc in log:
-        json_doc = json.dumps(doc, default=json_util.default)
-        json_docs.append(json_doc)
-    return json_docs
+#
+# def Log(aUserID, aStart, aEnd, aStatus):
+#     #Work on the collection log
+#     logTest = db['logTest']  #TODO update collection when ready
+#     #logCollection =db.['log']
+#
+#     lDate = dt.datetime.now().isoformat()
+#     lData = {
+#         "ID": aUserID,
+#         "Start": str(aStart),
+#         "End": str(aEnd),
+#         "Date": lDate,
+#         "Status": aStatus
+#     }
+#
+#     #TODO Make this asynchronous
+#     # Do the query and if it returns false loop until it returns true - ensures that the log is always written to DB
+#     log = logTest.insert_one(lData)
+#     if not log:
+#         while not log:
+#             log = logTest.insert_one(lData)
+#     return True
+#
+#
+# def getLog(aStart, aEnd):
+#     if not aStart:
+#         return {'error': 'Missing start parameter'}
+#     if not aEnd:
+#         return {'error': 'Missing end parameter'}
+#
+#     logTest = db['logTest']
+#
+#     #Get the data between the two dates from the db
+#     # lquery = {"$and:" [{ "Start": {"$gte":aStart}}, {"End": {"$lte": aEnd}}]}
+#     lquery = { "Date": {"$gte":aStart, "$lt":aEnd}}
+#     print(lquery)
+#     log = logTest.find(lquery)
+#
+#     for l in log:
+#         print(l)
+#
+#     #TODO might need to change this. Depends on what they need
+#
+#     # lIndex = lIndex + 1
+#
+#     if not log:
+#         return {'error': 'No matching logs found'}
+#
+#     if log:
+#         return "Working"
+#
+#     json_docs = []
+#     for doc in log:
+#         json_doc = json.dumps(doc, default=json_util.default)
+#         json_docs.append(json_doc)
+#     return json_docs
 
 
 # #  TODO Deane
