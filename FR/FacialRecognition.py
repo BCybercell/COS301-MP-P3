@@ -139,6 +139,13 @@ def deactivateClient(aClientID):
 
     testClient.update_one(query, newValue)
 
+def reactivateClient(aClientID):
+
+    query = {"userID" : str(aClientID)}
+    newValue = {"$set": { "status": True}}
+
+    testClient.update_one(query, newValue)
+
 
 
 #BACKUP LOG CODE FOR DB IN CASE LOG FILE FAILS
