@@ -3,11 +3,10 @@ import random as Rand
 import json as json
 import statistics as stat
 import datetime as dt
-from dateutil.parser import parse as parse_date
-from dateutil import parser
 import pymongo
-from grdfs import GridFS
+from gridfs import GridFS
 import face_recognition
+import os 
 
 
 client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
@@ -54,7 +53,7 @@ def AuthenticateImage(aImg):
             counter = counter +1
             #save the binary as an image to use
             with open(st, 'wb') as f:
-            f.write(dec_img)
+                f.write(dec_img)
             #now append and let the magic happen
             imageFromDb.append(tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
             print("IMG:"+ str(img))
