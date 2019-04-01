@@ -22,13 +22,13 @@ exampleActiveUser = {
     }
 x = mycol.insert_one(exampleActiveUser)
 # print("Active user example: " + str(exampleActiveUser))
-# exampleActiveUserTwo = {
-#     "userID" : "1", #ID should be stored as a string
-#     "status" : True,
-#     "photos" : [
-#       "./8.jpg", "./10.jpg","./12.jpg" 
-#     ]
-# }
-# x = mycol.insert_one(exampleActiveUserTwo)
+exampleActiveUserTwo = {
+    "userID" : "1", #ID should be stored as a string
+    "status" : True,
+    "photos" : [
+      "./8.jpg", "./10.jpg","./12.jpg" 
+    ]
+}
+x = mycol.insert_one(exampleActiveUserTwo)
 
 # print("Active user example: " + str(exampleActiveUserTwo))

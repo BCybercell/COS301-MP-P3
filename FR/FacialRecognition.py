@@ -9,9 +9,9 @@ import face_recognition
 import os 
 
 
-client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
-db = client["FR-DB"]
-collection = db.activeUsers
+client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
+db = client["heroku_6lqvmjth"]
+collection = db.rTest
 #! details = collection.find ({"Work": "id_"})
 
 def AuthenticateUser(aArrImg):
@@ -47,7 +47,7 @@ def AuthenticateImage(aImg):
     for key in allData:
         for img in key.get("photos"):
             #Decode the base64 string
-            dec_img =base64.decodestring(img)
+            dec_img = base64.decodestring(img)
             #create a name for the file. example userIDCounter.jpg thus 01.jpg
             st = str(key.get("userID"))+str(counter)+".jpg"
             counter = counter +1
