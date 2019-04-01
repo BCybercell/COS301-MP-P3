@@ -79,7 +79,7 @@ def Log(aUserID, aStart, aEnd, aStatus):
     lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
 
     lLog = {
-        "ID": aUserID,
+        "ID": str(aUserID),
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,
