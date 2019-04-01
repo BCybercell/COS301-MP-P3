@@ -13,7 +13,7 @@ import base64
 
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
-db = client["heroku_6lqvmjth"]
+db = client["FR-DB"]
 collection = db.testing
 #! details = collection.find ({"Work": "id_"})
 
