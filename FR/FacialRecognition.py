@@ -15,7 +15,7 @@ import base64
 client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
 db = client["FR-DB"]
 collection = db["tetsing"]  #TODO Change collection when ready
-testClient = db["testingClient"] #TODO Change collection when ready
+testClient = db["Clients"]
 #! details = collection.find ({"Work": "id_"})
 
 
