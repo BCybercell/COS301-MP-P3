@@ -3,19 +3,18 @@ import random as Rand
 import json as json
 #import statistics as stat
 import datetime as dt
-from dateutil.parser import parse as parse_date
-from dateutil import parser
 import pymongo
 # from gridfs import GridFS   #  if you want this to work please let me know - Deane
 import face_recognition
 import json
+import os 
 from bson import json_util
 import base64
 
 
-client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
-db = client["FR-DB"]
-collection = db.testing  # change back to activeUsers
+client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
+db = client["heroku_6lqvmjth"]
+collection = db.rTest
 #! details = collection.find ({"Work": "id_"})
 
 
@@ -51,7 +50,7 @@ def AuthenticateImage(aImg):
     for key in allData:
         for img in key.get("photos"):
             # Decode the base64 string
-            dec_img = base64.decodebytes(img)
+            dec_img = base64.decodestring(img)
             # create a name for the file. example userIDCounter.jpg thus 01.jpg
             st = str(key.get("userID"))+str(counter)+".jpg"
             counter = counter + 1
