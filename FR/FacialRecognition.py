@@ -5,7 +5,7 @@ import json as json
 import datetime as dt
 import pymongo
 # from gridfs import GridFS   #  if you want this to work please let me know - Deane
-import face_recognition
+#import face_recognition
 import json
 import os 
 from bson import json_util
@@ -84,74 +84,122 @@ def AuthenticateImage(aImg):
             imageFromDb.append(tuple((key.get("userID"), face_recognition.load_image_file("./"+st))))
             print("IMG:" + str(img))
 
-    #!This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
+    #This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
     counter = 0
     for i, j in imageFromDb:
         test = face_recognition.face_encodings(j, num_jitters=10)[0]
-        results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+        results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))
         for e in results[counter]:
             if e:
                 print("The image matched and returned userID:" + str(i))
                 return i
         counter = counter + 1
     return -1
-        
 
 def Log(aUserID, aStart, aEnd, aStatus):
-    #Work on the collection log
-    logTest = db['logTest']  # TODO fix
-    # logCollection =db.log
-    # TODO change time format to epoc
-    lDate = dt.datetime.now().isoformat()  # ?Does this still need to change?
-    dataToLog = {
+
+    lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
+
+    lLog = {
         "ID": aUserID,
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,
         "Status": aStatus
     }
-    # Do the query and if it returns false loop till it returns true
-    y = logTest.insert_one(dataToLog)
-    # if not y:
-    #     while not y:
-    #         y = logTest.insert_one(dataToLog) # removed for testing
-    # when done then return true. Ensures it never breaks
-    return True
 
+    with open('log.json', 'r') as f:
+        lData = json.load(f)
+        lData["logs"].append(lLog)
+
+    with open('log.json','w') as f:
+        json.dump(lData, f,indent=2)
+
+    return True
 
 def getLog(aStart, aEnd):
     if not aStart:
         return {'error': 'Missing start parameter'}
+    if not aEnd:
+        return {'error': 'Missing end parameter'}
 
-    logCol = db.logTest
+    with open('log.json', 'r') as f:
+        lReturnLog = json.load(f)
 
-    # Get the data between the two dates from the db
-    log = logCol.find({
-        # "Date":
-        # {
-        #     "$gte": aStart,
-        #     "$lt": aEnd
-        # }
-        # })
-        "Start":
-            {
-                "$gte": aStart,
-                "$lt": aEnd
-            }
-         })
-    #TODO might need to change this. Depends on what they need
-
-    # lIndex = lIndex + 1
-    #
-    # if len(lLogArray['logs']) == 0:
-    #     return {'error': 'No matching logs found'}
+    aEnd = parser.parse(aEnd)
+    aStart = parser.parse(aStart)
+    lLogArray = {"logs": []}
+    lIndex = 0;
 
 
-    json_docs = []
-    for doc in log:
-        json_doc = json.dumps(doc, default=json_util.default)
-        json_docs.append(json_doc)
-    return json_docs
+    for log in lReturnLog['logs']:
+        lTime = ((parse_date(log['Date'])).time()).replace(microsecond=0)
+        if lTime >= aStart.time() and lTime <= aEnd.time():
+            lLogArray["logs"].append(lReturnLog['logs'][lIndex])
+
+        lIndex = lIndex + 1
+
+    if len(lLogArray['logs']) == 0:
+        return {'error': 'No matching logs found'}
+
+    return lLogArray
+
+#BACKUP LOG CODE FOR DB IN CASE LOG FILE FAILS
+# def Log(aUserID, aStart, aEnd, aStatus):
+#     #Work on the collection log
+#     logTest = db['logTest']  #TODO update collection when ready
+#     #logCollection =db.['log']
+#
+#     lDate = dt.datetime.now().isoformat()
+#     lData = {
+#         "ID": aUserID,
+#         "Start": str(aStart),
+#         "End": str(aEnd),
+#         "Date": lDate,
+#         "Status": aStatus
+#     }
+#
+#     #TODO Make this asynchronous
+#     # Do the query and if it returns false loop until it returns true - ensures that the log is always written to DB
+#     log = logTest.insert_one(lData)
+#     if not log:
+#         while not log:
+#             log = logTest.insert_one(lData)
+#     return True
+#
+#
+# def getLog(aStart, aEnd):
+#     if not aStart:
+#         return {'error': 'Missing start parameter'}
+#     if not aEnd:
+#         return {'error': 'Missing end parameter'}
+#
+#     logTest = db['logTest']
+#
+#     #Get the data between the two dates from the db
+#     # lquery = {"$and:" [{ "Start": {"$gte":aStart}}, {"End": {"$lte": aEnd}}]}
+#     lquery = { "Date": {"$gte":aStart, "$lt":aEnd}}
+#     print(lquery)
+#     log = logTest.find(lquery)
+#
+#     for l in log:
+#         print(l)
+#
+#     #TODO might need to change this. Depends on what they need
+#
+#     # lIndex = lIndex + 1
+#
+#     if not log:
+#         return {'error': 'No matching logs found'}
+#
+#     if log:
+#         return "Working"
+#
+#     json_docs = []
+#     for doc in log:
+#         json_doc = json.dumps(doc, default=json_util.default)
+#         json_docs.append(json_doc)
+#     return json_docs
 
 
 #  TODO Deane
