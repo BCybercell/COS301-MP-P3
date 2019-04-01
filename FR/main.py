@@ -12,7 +12,7 @@ def index(request):
     "    <title>Facial Recognition</title>    <div style='background-color:black'><img src='https://upload.wikimedia.org/wikipedia/en/thumb/8/80/First_National_Bank_Logo.svg/1200px-First_National_Bank_Logo.svg.png' alt='Connection too slow' style='width:200px;height:100px;'></div>"
     "  </head>  <body>  <div class='container'>		<br/><br/>		<section id='forms'>			<div class='row'>				<div class='col-12'>					<div class='card'>"
     "						<div class='card-header' style='font-family:Open Sans, sans-serif; font-size: 18px; font-weight: bold;'>Add photos to your account</div>						<div class='card-body'>"
-    "							<form action='/upImage' method='post' enctype='multipart/form-data'>								<fieldset>									<div class='row'>"
+    "							<form action='/upImage/' method='post' enctype='multipart/form-data'>								<fieldset>									<div class='row'>"
     "										<div class='col-4'>											<label for='userID'>User ID:</label>											<input type='text' id='userID' class='form-control' placeholder='123456789' name='userID'>"
     "										</div>										<div class='col-8'>											<label for='loginPass'>Select your images:</label>"
     "											<input type='file' id='picToUpload' class='form-control' name='picToUpload' multiple='multiple'>										</div>"
