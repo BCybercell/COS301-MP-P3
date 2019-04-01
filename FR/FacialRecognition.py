@@ -14,7 +14,8 @@ import base64
 
 client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
 db = client["FR-DB"]
-collection = db.testing  # change back to activeUsers
+collection = db["tetsing"]  #TODO Change collection when ready
+testClient = db["testingClient"] #TODO Change collection when ready
 #! details = collection.find ({"Work": "id_"})
 
 
@@ -123,8 +124,6 @@ def getLog(aStart, aEnd):
 
 def addClient(aClientID):
 
-    testClient = db["testingClient"]
-
     newClient = {
         "userID" : str(aClientID),
         "status" : True,
@@ -132,6 +131,13 @@ def addClient(aClientID):
     }
 
     testClient.insert_one(newClient)
+
+def deactivateClient(aClientID):
+
+    query = {"userID" : str(aClientID)}
+    newValue = {"$set": { "status": False}}
+
+    testClient.update_one(query, newValue)
 
 
 
