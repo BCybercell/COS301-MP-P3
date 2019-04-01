@@ -10,6 +10,8 @@ import json
 import os 
 from bson import json_util
 import base64
+from dateutil.parser import parse as parse_date
+from dateutil import parser
 
 
 client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
