@@ -1,5 +1,5 @@
 import unittest
-from FacialRecognition import Log, getLog, addClient
+from FacialRecognition import Log, getLog, addClient, deactivateClient
 import datetime as dt
 import sys
 
@@ -63,6 +63,29 @@ class TestAddClient(unittest.TestCase):
     def test_valid_high_AddClient(self):
         userID = 500000000000000000000000
         self.assertTrue(addClient(userID), "Should be True")
+
+#Testing Deactivate Client Function
+class TestDeactivateClient(unittest.TestCase):
+    def test_valid_DeactivateClient(self):
+        self.fail()
+
+    def test_valid_DeactivateClient(self):
+        userID = 0
+        self.assertTrue(deactivateClient(userID), "Should be True")
+
+    def test_invalid_DeactivateClient(self):
+        self.fail()
+
+    def test_invalid_DeactivateClient(self):
+        userID = -1
+        self.assertFalse(deactivateClient(userID), "Should be False")
+
+    def test_valid_high_DeactivateClient(self):
+        self.fail()
+
+    def test_valid_high_DeactivateClient(self):
+        userID = 500000000000000000000000
+        self.assertTrue(deactivateClient(userID), "Should be True")
 
 if __name__ == '__main__':
     unittest.main()
