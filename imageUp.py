@@ -20,26 +20,26 @@ collection = db.testing  # change back to activeUsers
 
 
 def AddImages(userID, aArrImg):
-	start = int(time.time())
-	
-	allData = collection.find() 
-	strr=""
-	status = false
-	
-	for key in allData:
-		if key.get("userID") == userID:
-			#add images to db
-			for img in aArrImg:
-				encoded_string = base64.b64encode(img)
-				strr = encoded_string
-				myquery = { "userID": str(userID) }
-				newvalues = { "$push": { "photos": [strr] } }
-				x = collection.update_one(myquery, newvalues)
-			status = true
+    start = int(time.time())
+
+    allData = collection.find()
+    strr=""
+    status = false
+
+    for key in allData:
+        if key.get("userID") == userID:
+            #add images to db
+            for img in aArrImg:
+                encoded_string = base64.b64encode(img)
+                strr = encoded_string
+                myquery = { "userID": str(userID) }
+                newvalues = { "$push": { "photos": [strr] } }
+                x = collection.update_one(myquery, newvalues)
+            status = true
 
 
     end = int(time.time())
-    Log(lUserId, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return status
         
