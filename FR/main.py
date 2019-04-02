@@ -74,8 +74,23 @@ def AuthUser(request):
                 return JsonResponse({'error': 'An error has occurred not in tested'})  # TODO fix
 
             lUserID = AuthenticateUser(lImg)
+        except IOError:
+            return JsonResponse({'error': 'An error has occurred IOError'})
+
+        except ValueError:
+            return JsonResponse({'error': 'An error has occurred ValueError'})
+
+        except ImportError:
+            return JsonResponse({'error': 'An error has occurred ImportError'})
+
+        except EOFError:
+            return JsonResponse({'error': 'An error has occurred EOFError'})
+
+        except KeyboardInterrupt:
+            return JsonResponse({'error': 'An error has occurred KeyboardInterrupt'})
+
         except:
-            return JsonResponse({'error': 'An error has occurred exception'})  # TODO fix
+            return JsonResponse({'error': 'An error has occurred still unknown'})  # TODO fix
         if lUserID > 0:
             return JsonResponse({'UserID': lUserID})
         else:
