@@ -81,6 +81,6 @@ def deactivateClient(request):
 @csrf_exempt
 def reactivateClient(request):
     if request.method == 'GET':
-        return JsonResponse(deactivateClient(request.GET['userID']), safe=False)
+        return JsonResponse(reactivateClient(request.GET['userID']), safe=False)
     if request.method == 'POST':
-        return JsonResponse(deactivateClient(request.POST['userID']), safe=False)
+        return JsonResponse(reactivateClient(request.POST['userID']), safe=False)
