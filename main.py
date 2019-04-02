@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, getLog
 from .imageUp import UpImage
 from bson import BSON #added
+from pprint import pprint
 
 
 @csrf_exempt
@@ -30,16 +31,16 @@ def UpImage(request):
     if request.method == 'POST':
         try:
             if 'picToUpload' in request.POST:
-                lImg = request.POST['picToUpload'].decode()
+                lImg = request.POST['picToUpload'] #.decode()
                 # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
             elif 'picToUpload' in request.FILES:
                 # if 'file' in request.FILES:
-                lImg = request.FILES['picToUpload'].decode()
+                lImg = request.FILES['picToUpload'] #.decode()
             #elif 'file' in request.FILES:
                 # if 'file' in request.FILES:
              #   lImg = request.FILES['file']
             else:
-                return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+                return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
             lUser = request.POST['userID']
             #lUserID = AddImages(lUser, lImg) #TODO uncomment this
         except:
@@ -48,7 +49,9 @@ def UpImage(request):
         #     return JsonResponse({'UserID': lUserID})
         # else:
         #     return JsonResponse({'error': 'User does not exist'})  # TODO fix
-        return JsonResponse({'UserID': lUserID, 'Pics':lImg}) # TODO remove this code
+        #return JsonResponse({'UserID': lUserID, 'Pics':lImg}) # TODO remove this code
+        return JsonResponse(request.json()['headers'])
+        #return JsonResponse(request.POST['picToUpload'].json()['headers'])
     else: return JsonResponse({'error': 'Use POST'})
 
 
