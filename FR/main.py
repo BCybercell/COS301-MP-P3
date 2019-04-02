@@ -94,10 +94,8 @@ def AuthUser(request):
         #
         # except:
         #     return JsonResponse({'error': 'An error has occurred still unknown'})  # TODO fix
-        if lUserID > 0:
-            return JsonResponse({'UserID': lUserID})
-        else:
-            return JsonResponse({'error': 'An error has occurred userID invalid'})  # TODO fix
+        return JsonResponse({'UserID': lUserID})
+            # return JsonResponse({'error': 'An error has occurred userID invalid'})  # TODO fix
 
 
 @csrf_exempt

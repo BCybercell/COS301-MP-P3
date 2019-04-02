@@ -107,7 +107,7 @@ def AuthenticateImage(aImg):
         return returnObj
 
     res = design()
-    return int(res)
+    return str(res)
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
