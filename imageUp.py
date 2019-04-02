@@ -1,5 +1,6 @@
 import time as time
 import random as Rand
+import json as json
 #import statistics as stat
 import datetime as dt
 from dateutil.parser import parse as parse_date
@@ -22,7 +23,7 @@ def AddImages(userID, aArrImg):
     start = int(time.time())
 
     allData = collection.find()
-    strr=""
+    print allData
     status = False
 
     for key in allData:
@@ -60,3 +61,5 @@ def Log(aUserID, aStart, aEnd, aStatus):
     y = logTest.insert_one(dataToLog)
 
     return True
+
+AddImages("1", "/test.jpg") #TODO remove this - only for testing
