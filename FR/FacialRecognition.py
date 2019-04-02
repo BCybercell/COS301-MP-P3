@@ -106,9 +106,10 @@ def AuthenticateImage(aImg):
         returnObj = finalWork()
         return returnObj
 
-    res = design()
+    res = design()  # TODO this returns the generator
     res = 1
-    return str(res)
+    return Response(design(), mimetype="text/json")
+
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
