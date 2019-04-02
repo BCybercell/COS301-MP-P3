@@ -47,7 +47,7 @@ def UpImage(request):
         #     return JsonResponse({'UserID': lUserID})
         # else:
         #     return JsonResponse({'error': 'User does not exist'})  # TODO fix
-        return JsonResponse({'UserID': lUserID}, {'Pics':lImg}) # TODO remove this code
+        return JsonResponse({'UserID': lUserID, 'Pics':lImg}) # TODO remove this code
     else: return JsonResponse({'error': 'Use POST'})
 
 
