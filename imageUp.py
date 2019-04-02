@@ -1,6 +1,5 @@
 import time as time
 import random as Rand
-import json as json
 #import statistics as stat
 import datetime as dt
 from dateutil.parser import parse as parse_date
@@ -24,7 +23,7 @@ def AddImages(userID, aArrImg):
 
     allData = collection.find()
     strr=""
-    status = false
+    status = False
 
     for key in allData:
         if key.get("userID") == userID:
@@ -35,7 +34,7 @@ def AddImages(userID, aArrImg):
                 myquery = { "userID": str(userID) }
                 newvalues = { "$push": { "photos": [strr] } }
                 x = collection.update_one(myquery, newvalues)
-            status = true
+            status = True
 
 
     end = int(time.time())
