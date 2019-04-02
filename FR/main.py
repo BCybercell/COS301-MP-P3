@@ -28,11 +28,11 @@ def UpImage(request):
     if request.method == 'POST':
         try:
             if 'picToUpload' in request.POST:
-                lImg = request.POST['picToUpload']
+                lImg = request.POST['picToUpload'].decode()
                 # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
             elif 'picToUpload' in request.FILES:
                 # if 'file' in request.FILES:
-                lImg = request.FILES['picToUpload']
+                lImg = request.FILES['picToUpload'].decode()
             #elif 'file' in request.FILES:
                 # if 'file' in request.FILES:
              #   lImg = request.FILES['file']
@@ -46,8 +46,10 @@ def UpImage(request):
         #     return JsonResponse({'UserID': lUserID})
         # else:
         #     return JsonResponse({'error': 'User does not exist'})  # TODO fix
-        return JsonResponse({'UserID': lUserID}, {'Pics':lImg}) # TODO remove this code
+        return JsonResponse({'UserID': lUserID, 'Pics':lImg}) # TODO remove this code
     else: return JsonResponse({'error': 'Use POST'})
+
+
 
 @csrf_exempt
 def AuthUser(request):
