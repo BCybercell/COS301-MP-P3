@@ -67,18 +67,15 @@ def AuthUser(request):
                 # if 'file' in request.FILES:
                 lImg = request.FILES['file']
             else:
-                return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-                # else:
-                #
-            # else:
-            #     lImg = request.FILES['Image']
+                return JsonResponse({'error': 'An error has occurred not in tested'})  # TODO fix
+
             lUserID = AuthenticateUser(lImg)
         except:
-            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+            return JsonResponse({'error': 'An error has occurred exception'})  # TODO fix
         if lUserID > 0:
             return JsonResponse({'UserID': lUserID})
         else:
-            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+            return JsonResponse({'error': 'An error has occurred userID invalid'})  # TODO fix
 
 
 @csrf_exempt

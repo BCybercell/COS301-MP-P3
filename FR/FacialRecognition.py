@@ -23,7 +23,7 @@ app = Flask(__name__)
 def favicon(): 
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@app.route("/AuthenticateUser",methods=['GET'])
+@app.route("/AuthenticateUser",methods=['POST'])
 def AuthenticateUser(aArrImg):
     # Update()  #Call Update function to get new/updated list of the database from CIS
 
@@ -73,13 +73,13 @@ def AuthenticateImage(aImg):
     counter = 0
     def finalWork():
         counter = 0
-        for i,j in imageFromDb:
+        for i, j in imageFromDb:
             test = face_recognition.face_encodings(j)[0]
             results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
             for e in results[counter]:
-                if e == True:
+                if e:
                     print("The image matched and returned userID:"+ str(i))
-                    obj = {"userID":i}
+                    obj = i
                     return obj
             counter = counter +1
         return -1
