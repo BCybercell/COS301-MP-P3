@@ -80,7 +80,7 @@ def AuthenticateImage(aImg):
                 if e:
                     print("The image matched and returned userID:" + str(i))
                     obj = i
-                    return 1
+                    return obj
             counter = counter +1
         return -1
     def decodeImage(img,counter,key):
@@ -104,7 +104,7 @@ def AuthenticateImage(aImg):
                 yield decodeImage(img,counter,key)
                 counter = counter +1
         returnObj = finalWork()
-        return returnObj
+        return 1
 
     res = design()
     return str(res)
