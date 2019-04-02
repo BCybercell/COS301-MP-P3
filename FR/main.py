@@ -60,40 +60,40 @@ def AuthUser(request):
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
 
-        try:
-            if 'Image' in request.POST:
-                lImg = request.POST['Image']
-                # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
-            elif 'Image' in request.FILES:
-                # if 'file' in request.FILES:
-                lImg = request.FILES['Image']
-            elif 'file' in request.FILES:
-                # if 'file' in request.FILES:
-                lImg = request.FILES['file']
-            else:
-                return JsonResponse({'error': 'An error has occurred not in tested'})  # TODO fix
+        # try:
+        if 'Image' in request.POST:
+            lImg = request.POST['Image']
+            # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
+        elif 'Image' in request.FILES:
+            # if 'file' in request.FILES:
+            lImg = request.FILES['Image']
+        elif 'file' in request.FILES:
+            # if 'file' in request.FILES:
+            lImg = request.FILES['file']
+        else:
+            return JsonResponse({'error': 'An error has occurred not in tested'})  # TODO fix
 
-            lUserID = AuthenticateUser(lImg)
-        except IOError:
-            return JsonResponse({'error': 'An error has occurred IOError'})
-
-        except ValueError:
-            return JsonResponse({'error': 'An error has occurred ValueError'})
-
-        except ImportError:
-            return JsonResponse({'error': 'An error has occurred ImportError'})
-
-        except EOFError:
-            return JsonResponse({'error': 'An error has occurred EOFError'})
-
-        except KeyboardInterrupt:
-            return JsonResponse({'error': 'An error has occurred KeyboardInterrupt'})
-
-        except NameError:
-            return JsonResponse({'error': 'An error has occurred NameError'})
-
-        except:
-            return JsonResponse({'error': 'An error has occurred still unknown'})  # TODO fix
+        lUserID = AuthenticateUser(lImg)
+        # except IOError:
+        #     return JsonResponse({'error': 'An error has occurred IOError'})
+        #
+        # except ValueError:
+        #     return JsonResponse({'error': 'An error has occurred ValueError'})
+        #
+        # except ImportError:
+        #     return JsonResponse({'error': 'An error has occurred ImportError'})
+        #
+        # except EOFError:
+        #     return JsonResponse({'error': 'An error has occurred EOFError'})
+        #
+        # except KeyboardInterrupt:
+        #     return JsonResponse({'error': 'An error has occurred KeyboardInterrupt'})
+        #
+        # except NameError:
+        #     return JsonResponse({'error': 'An error has occurred NameError'})
+        #
+        # except:
+        #     return JsonResponse({'error': 'An error has occurred still unknown'})  # TODO fix
         if lUserID > 0:
             return JsonResponse({'UserID': lUserID})
         else:
