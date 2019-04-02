@@ -49,7 +49,7 @@ def UpImage(request):
 def AuthUser(request):
     if request.method == 'GET':
         lImg = request.GET['Image']
-        lUserID = AuthenticateUser(lImg)
+        lUserID = AuthenticateUser(request)
         if lUserID > 0:
             return JsonResponse({'UserID': lUserID})
         else:
