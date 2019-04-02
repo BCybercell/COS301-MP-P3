@@ -10,15 +10,24 @@ import json
 import os 
 from bson import json_util
 import base64
+import base64
+from flask import Flask,Response,send_from_directory,request
 from dateutil.parser import parse as parse_date
 from dateutil import parser
 
 
 client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
 db = client["FR-DB"]
-collection = db.testing
-#! details = collection.find ({"Work": "id_"})
+collection = db.richardTest
 
+app = Flask(__name__)
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@app.route("/AuthenticateUser",methods=['GET'])
+def AuthenticateUser():
+   # Update()  #Call Update function to get new/updated list of the database from CIS
+    aArrImg = request.args.get("image")
 
 def AddImages(userID, aArrImg):
     start = int(time.time())
@@ -43,7 +52,6 @@ def AddImages(userID, aArrImg):
 
     return status
 
-def AuthenticateUser(aArrImg):
     # Update()  # Call Update function to get new/updated list of the database from CIS
     start = int(time.time())
     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
@@ -53,7 +61,7 @@ def AuthenticateUser(aArrImg):
     else: status = True
 
     end = int(time.time())
-    Log(lUserId, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    #Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return lUserId
 
@@ -66,37 +74,45 @@ def AuthenticateImage(aImg):
     imageFromDb = []
     results = []
     imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
-    image_encoding = face_recognition.face_encodings(imagetoTest, num_jitters=100)[0]
+    image_encoding = face_recognition.face_encodings(imagetoTest)[0]
 
     # Have a counter for the file naming
     counter = 0
-    # ! Adds all the images and IDs to a tuple, imageFromDb
-    print("Getting IMAGES from database:")
-    for key in allData:
-        for img in key.get("photos"):
-            # Decode the base64 string
-            dec_img = base64.decodestring(img)
+    def finalWork():
+        counter = 0
+        for i,j in imageFromDb:
+            test = face_recognition.face_encodings(j)[0]
+            results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+            for e in results[counter]:
+                if e == True:
+                    print("The image matched and returned userID:"+ str(i))
+                    obj = {"userID":i}
+                    return obj
+            counter = counter +1
+        return -1
+    def decodeImage(img,counter,key):
+        #Decode the base64 string
+            dec_img = base64.decodebytes(img)
             # create a name for the file. example userIDCounter.jpg thus 01.jpg
             st = str(key.get("userID"))+str(counter)+".jpg"
-            counter = counter + 1
             # save the binary as an image to use
             with open(st, 'wb') as f:
                 f.write(dec_img)
             # now append and let the magic happen
             imageFromDb.append(tuple((key.get("userID"), face_recognition.load_image_file("./"+st))))
-            print("IMG:" + str(img))
+            return ("IMG:"+ str(img))
+            
+    def design():
+        print("Getting IMAGES from database:")
+        counter =0
+        for key in allData:
+            for img in key.get("photos"):
+                yield "<p>Getting IMAGEs from Database"
+                yield decodeImage(img,counter,key)
+                counter = counter +1
+        finalWork()
+    return Response(design()  ) 
 
-    #This loops through the tuple list imageFromDB and compares it . Once a true is hit it retrieves the id from the tuple and returns it
-    counter = 0
-    for i, j in imageFromDb:
-        test = face_recognition.face_encodings(j, num_jitters=10)[0]
-        results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))
-        for e in results[counter]:
-            if e:
-                print("The image matched and returned userID:" + str(i))
-                return i
-        counter = counter + 1
-    return -1
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
@@ -118,6 +134,7 @@ def Log(aUserID, aStart, aEnd, aStatus):
         json.dump(lData, f,indent=2)
 
     return True
+
 
 def getLog(aStart, aEnd):
     if not aStart:
@@ -217,3 +234,6 @@ def Update():
         json.dump(lJson, f)
 
     return True
+
+if __name__ == "FacialRecognition":
+    app.run(debug=True)
