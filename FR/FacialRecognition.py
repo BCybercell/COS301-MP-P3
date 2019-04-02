@@ -24,7 +24,7 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route("/AuthenticateUser",methods=['GET'])
-def AuthenticateUser():
+def AuthenticateUser(request):
     # Update()  #Call Update function to get new/updated list of the database from CIS
     aArrImg = request.args.get("image")
     start = time.time()
