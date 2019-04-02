@@ -78,9 +78,9 @@ def AuthenticateImage(aImg):
             results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
             for e in results[counter]:
                 if e:
-                    print("The image matched and returned userID:"+ str(i))
+                    print("The image matched and returned userID:" + str(i))
                     obj = i
-                    return obj
+                    yield i
             counter = counter +1
         return -1
     def decodeImage(img,counter,key):
