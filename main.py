@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, getLog
 from .imageUp import UpImage
+from bson import BSON #added
 
 
 @csrf_exempt
@@ -29,11 +30,11 @@ def UpImage(request):
     if request.method == 'POST':
         try:
             if 'picToUpload' in request.POST:
-                lImg = request.POST['picToUpload']
+                lImg = request.POST['picToUpload'].decode()
                 # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
             elif 'picToUpload' in request.FILES:
                 # if 'file' in request.FILES:
-                lImg = request.FILES['picToUpload']
+                lImg = request.FILES['picToUpload'].decode()
             #elif 'file' in request.FILES:
                 # if 'file' in request.FILES:
              #   lImg = request.FILES['file']
