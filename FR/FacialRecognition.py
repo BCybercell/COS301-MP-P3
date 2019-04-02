@@ -104,9 +104,10 @@ def AuthenticateImage(aImg):
                 yield decodeImage(img,counter,key)
                 counter = counter +1
         returnObj = finalWork()
-        return 1
+        return returnObj
 
     res = design()
+    res = 1
     return str(res)
 
 def Log(aUserID, aStart, aEnd, aStatus):
