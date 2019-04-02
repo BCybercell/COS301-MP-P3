@@ -8,3 +8,4 @@ face_recognition
 pymongo
 bson
 pybase64
+flask

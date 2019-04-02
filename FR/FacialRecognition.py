@@ -5,32 +5,41 @@ import json as json
 import datetime as dt
 import pymongo
 # from gridfs import GridFS   #  if you want this to work please let me know - Deane
-#import face_recognition
-import json
+import face_recognition
 import os 
 from bson import json_util
-import base64
 import base64
 from flask import Flask,Response,send_from_directory,request
 from dateutil.parser import parse as parse_date
 from dateutil import parser
 
 
-client = pymongo.MongoClient("mongodb+srv://fr_dbAdmin:ZGEkMGEeTYg6fmyH@fr-db-c5rwj.gcp.mongodb.net/test?retryWrites=true")
-db = client["FR-DB"]
+client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
+db = client["heroku_6lqvmjth"]
 collection = db.richardTest
 
 app = Flask(__name__)
 @app.route('/favicon.ico') 
 def favicon(): 
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 @app.route("/AuthenticateUser",methods=['GET'])
 def AuthenticateUser():
-   # Update()  #Call Update function to get new/updated list of the database from CIS
+    # Update()  #Call Update function to get new/updated list of the database from CIS
     aArrImg = request.args.get("image")
+    start = time.time()
+    lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
+
+    if lUserId == -1:
+        status = False
+    else:
+        status = True
+
+    end = int(time.time())
+# Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    return lUserId
 
 def AddImages(userID, aArrImg):
-    start = int(time.time())
 
     allData = collection.find()
     status = False
@@ -45,25 +54,9 @@ def AddImages(userID, aArrImg):
                 newvalues = { "$push": { "photos": [strr] } }
                 x = collection.update_one(myquery, newvalues)
             status = True
-
-
-    end = int(time.time())
-    Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return status
-
-    # Update()  # Call Update function to get new/updated list of the database from CIS
-    start = int(time.time())
-    lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
-
-    if lUserId == -1:
-        status = False
-    else: status = True
-
-    end = int(time.time())
-    #Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
-
-    return lUserId
 
 
 def AuthenticateImage(aImg):
@@ -110,9 +103,10 @@ def AuthenticateImage(aImg):
                 yield "<p>Getting IMAGEs from Database"
                 yield decodeImage(img,counter,key)
                 counter = counter +1
-        finalWork()
-    return Response(design()  ) 
+        returnObj = finalWork()
+        return returnObj
 
+    return Response(design())
 
 def Log(aUserID, aStart, aEnd, aStatus):
 
