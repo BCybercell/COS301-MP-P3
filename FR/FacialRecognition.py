@@ -26,7 +26,7 @@ def favicon():
 @app.route("/AuthenticateUser",methods=['GET'])
 def AuthenticateUser(request):
     # Update()  #Call Update function to get new/updated list of the database from CIS
-    aArrImg = request.args.get("image")
+    aArrImg = request.GET['Image']
     start = time.time()
     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
 
