@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from FacialRecognition import getLog
+from FacialRecognition import getLog, addClient, deactivateClient, reactivateClient
 
 
 
