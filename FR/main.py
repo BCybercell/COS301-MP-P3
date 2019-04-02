@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, getLog, AddImages
 
+
 @csrf_exempt
 def index(request):
     return HttpResponse("<!DOCTYPE html><html>  <head>    <meta charset='utf-8'>    <meta name='author' content='Kyle Olivier 15001319'>    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
@@ -32,18 +33,21 @@ def UpImage(request):
             elif 'picToUpload' in request.FILES:
                 # if 'file' in request.FILES:
                 lImg = request.FILES['picToUpload']
+            #elif 'file' in request.FILES:
+                # if 'file' in request.FILES:
+             #   lImg = request.FILES['file']
             else:
                 return JsonResponse({'error': 'An error has occurred'})  # TODO fix
             lUser = request.POST['userID']
-            lUserID = AddImages(lUser, lImg)
+            lUserID = AddImages(lUser, lImg) #TODO uncomment this
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-        if lUserID:
-            return JsonResponse({'UserID': lUserID})
-        else:
-            return JsonResponse({'error': 'User does not exist'})  # TODO fix
-    else:
-        return JsonResponse({'error': 'Use POST'})
+        # if lUserID == true:
+        #     return JsonResponse({'UserID': lUserID})
+        # else:
+        #     return JsonResponse({'error': 'User does not exist'})  # TODO fix
+        return JsonResponse({'UserID': lUserID}, {'Pics':lImg}) # TODO remove this code
+    else: return JsonResponse({'error': 'Use POST'})
 
 @csrf_exempt
 def AuthUser(request):
