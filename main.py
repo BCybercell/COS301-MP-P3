@@ -40,13 +40,14 @@ def UpImage(request):
             else:
                 return JsonResponse({'error': 'An error has occurred'})  # TODO fix
             lUser = request.POST['userID']
-            lUserID = AddImages(lUser, lImg)
+            #lUserID = AddImages(lUser, lImg) #TODO uncomment this
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-        if lUserID == true:
-            return JsonResponse({'UserID': lUserID})
-        else:
-            return JsonResponse({'error': 'User does not exist'})  # TODO fix
+        # if lUserID == true:
+        #     return JsonResponse({'UserID': lUserID})
+        # else:
+        #     return JsonResponse({'error': 'User does not exist'})  # TODO fix
+        return JsonResponse({'UserID': lUserID}, {'Pics':lImg}) # TODO remove this code
     else: return JsonResponse({'error': 'Use POST'})
 
 
