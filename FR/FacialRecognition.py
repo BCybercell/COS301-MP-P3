@@ -125,7 +125,7 @@ def getLog(aStart, aEnd):
 def addClient(aClientID):
 
     if aClientID < 0:
-        return False
+        return {"Message": "Invalid user ID"}
 
     newClient = {
         "userID" : str(aClientID),
@@ -136,14 +136,14 @@ def addClient(aClientID):
     client = testClient.insert_one(newClient)
 
     if client:
-        return True
+        return {"Message": "Successfully Added Client"}
 
-    return False
+    return {"Message": "Unsuccessful Addition"}
 
 def deactivateClient(aClientID):
 
     if aClientID < 0:
-        return False
+        return {"Message": "Invalid user ID"}
 
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": False}}
@@ -151,15 +151,15 @@ def deactivateClient(aClientID):
     updatedClient = testClient.update_one(query, newValue)
 
     if updatedClient:
-        return True
+        return {"Message": "Successfully Deactivated Client"}
 
-    return False
+    return {"Message": "Unsuccessful Deactivation"}
 
 
 def reactivateClient(aClientID):
 
     if aClientID < 0:
-        return False
+        return {"Message": "Invalid user ID"}
 
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": True}}
@@ -167,9 +167,9 @@ def reactivateClient(aClientID):
     updatedClient = testClient.update_one(query, newValue)
 
     if updatedClient:
-        return True
+        return {"Message": "Successfully Reactivated Client"}
 
-    return False
+    return {"Message": "Unsuccessful Reactivation"}
 
 
 
