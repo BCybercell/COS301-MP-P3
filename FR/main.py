@@ -89,6 +89,9 @@ def AuthUser(request):
         except KeyboardInterrupt:
             return JsonResponse({'error': 'An error has occurred KeyboardInterrupt'})
 
+        except NameError:
+            return JsonResponse({'error': 'An error has occurred NameError'})
+
         except:
             return JsonResponse({'error': 'An error has occurred still unknown'})  # TODO fix
         if lUserID > 0:
