@@ -2,7 +2,10 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from .FacialRecognition import AuthenticateUser, getLog, AddImages
+from .FacialRecognition import AuthenticateUser, getLog
+from .imageUp import UpImage
+from bson import BSON #added
+from pprint import pprint
 
 
 @csrf_exempt
@@ -28,27 +31,28 @@ def UpImage(request):
     if request.method == 'POST':
         try:
             if 'picToUpload' in request.POST:
-                lImg = request.POST['picToUpload'].decode()
+                lImg = request.POST['picToUpload'] #.decode()
                 # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
             elif 'picToUpload' in request.FILES:
                 # if 'file' in request.FILES:
-                lImg = request.FILES['picToUpload'].decode()
+                lImg = request.FILES['picToUpload'] #.decode()
             #elif 'file' in request.FILES:
                 # if 'file' in request.FILES:
              #   lImg = request.FILES['file']
             else:
-                return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+                return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
             lUser = request.POST['userID']
-            lUserID = AddImages(lUser, lImg) #TODO uncomment this
+            #lUserID = AddImages(lUser, lImg) #TODO uncomment this
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
         # if lUserID == true:
         #     return JsonResponse({'UserID': lUserID})
         # else:
         #     return JsonResponse({'error': 'User does not exist'})  # TODO fix
-        return JsonResponse({'UserID': lUserID, 'Pics':lImg}) # TODO remove this code
+        #return JsonResponse({'UserID': lUserID, 'Pics':lImg}) # TODO remove this code
+        return JsonResponse(request.json()['headers'])
+        #return JsonResponse(request.POST['picToUpload'].json()['headers'])
     else: return JsonResponse({'error': 'Use POST'})
-
 
 
 @csrf_exempt
@@ -62,42 +66,30 @@ def AuthUser(request):
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
 
-        # try:
-        if 'Image' in request.POST:
-            lImg = request.POST['Image']
-            # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
-        elif 'Image' in request.FILES:
-            # if 'file' in request.FILES:
-            lImg = request.FILES['Image']
-        elif 'file' in request.FILES:
-            # if 'file' in request.FILES:
-            lImg = request.FILES['file']
-        else:
-            return JsonResponse({'error': 'An error has occurred not in tested'})  # TODO fix
 
-        lUserID = AuthenticateUser(lImg)
-        # except IOError:
-        #     return JsonResponse({'error': 'An error has occurred IOError'})
-        #
-        # except ValueError:
-        #     return JsonResponse({'error': 'An error has occurred ValueError'})
-        #
-        # except ImportError:
-        #     return JsonResponse({'error': 'An error has occurred ImportError'})
-        #
-        # except EOFError:
-        #     return JsonResponse({'error': 'An error has occurred EOFError'})
-        #
-        # except KeyboardInterrupt:
-        #     return JsonResponse({'error': 'An error has occurred KeyboardInterrupt'})
-        #
-        # except NameError:
-        #     return JsonResponse({'error': 'An error has occurred NameError'})
-        #
-        # except:
-        #     return JsonResponse({'error': 'An error has occurred still unknown'})  # TODO fix
-        return JsonResponse({'UserID': lUserID})
-            # return JsonResponse({'error': 'An error has occurred userID invalid'})  # TODO fix
+        try:
+            if 'Image' in request.POST:
+                lImg = request.POST['Image']
+                # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
+            elif 'Image' in request.FILES:
+                # if 'file' in request.FILES:
+                lImg = request.FILES['Image']
+            elif 'file' in request.FILES:
+                # if 'file' in request.FILES:
+                lImg = request.FILES['file']
+            else:
+                return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+                # else:
+                #
+            # else:
+            #     lImg = request.FILES['Image']
+            lUserID = AuthenticateUser(lImg)
+        except:
+            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+        if lUserID > 0:
+            return JsonResponse({'UserID': lUserID})
+        else:
+            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
 
 
 @csrf_exempt
@@ -106,5 +98,3 @@ def Logs(request):
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
         return JsonResponse(getLog(request.POST['start'], request.POST['end']), safe=False)
-
-
