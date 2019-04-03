@@ -1,11 +1,11 @@
 import time as time
 import random as Rand
 import json as json
-#import statistics as stat
+import statistics as stat
 import datetime as dt
 import pymongo
-# from gridfs import GridFS   #  if you want this to work please let me know - Deane
 import face_recognition
+import json
 import os 
 from bson import json_util
 import base64
@@ -99,7 +99,7 @@ def Log(aUserID, aStart, aEnd, aStatus):
     lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
 
     lLog = {
-        "ID": aUserID,
+        "ID": str(aUserID),
         "Start": str(aStart),
         "End": str(aEnd),
         "Date": lDate,
@@ -142,6 +142,57 @@ def getLog(aStart, aEnd):
         return {'error': 'No matching logs found'}
 
     return lLogArray
+
+def addClient(aClientID):
+
+    if aClientID < 0:
+        return {"Message": "Invalid user ID"}
+
+    newClient = {
+        "userID" : str(aClientID),
+        "status" : True,
+        "photos" : []
+    }
+
+    client = testClient.insert_one(newClient)
+
+    if client:
+        return {"Message": "Successfully Added Client"}
+
+    return {"Message": "Unsuccessful Addition"}
+
+def deactivateClient(aClientID):
+
+    if aClientID < 0:
+        return {"Message": "Invalid user ID"}
+
+    query = {"userID" : str(aClientID)}
+    newValue = {"$set": { "status": False}}
+
+    updatedClient = testClient.update_one(query, newValue)
+
+    if updatedClient:
+        return {"Message": "Successfully Deactivated Client"}
+
+    return {"Message": "Unsuccessful Deactivation"}
+
+
+def reactivateClient(aClientID):
+
+    if aClientID < 0:
+        return {"Message": "Invalid user ID"}
+
+    query = {"userID" : str(aClientID)}
+    newValue = {"$set": { "status": True}}
+
+    updatedClient = testClient.update_one(query, newValue)
+
+    if updatedClient:
+        return {"Message": "Successfully Reactivated Client"}
+
+    return {"Message": "Unsuccessful Reactivation"}
+
+
 
 #BACKUP LOG CODE FOR DB IN CASE LOG FILE FAILS
 # def Log(aUserID, aStart, aEnd, aStatus):
