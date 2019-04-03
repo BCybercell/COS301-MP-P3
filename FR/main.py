@@ -76,7 +76,10 @@ def AuthUser(request):
             lUserID = AuthenticateUser(lImg)
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-        return JsonResponse({'UserID': lUserID})
+        if isinstance(lUserID, int):
+            return JsonResponse({'Exception': "Not Authenticated"})
+        else:
+            return lUserID
 
 
 @csrf_exempt
