@@ -52,7 +52,7 @@ def AddImages(userID, aArrImg):
                 encoded_string = base64.b64encode(img)
                 strr = encoded_string
                 myquery = { "userID": str(userID) }
-                newvalues = { "$push": { "photos": [strr] } }
+                newvalues = { "$push": { "photos": strr } }
                 x = collection.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
