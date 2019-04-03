@@ -26,10 +26,10 @@ def AuthenticateUser(aArrImg):
     start = int(time.time())
     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
 
-    if lUserId == -1:
-        status = False
-    else:
+    if 'userID' in lUserId:
         status = True
+    else:
+        status = False
 
     end = int(time.time())
     Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
@@ -91,7 +91,7 @@ def AuthenticateImage(aImg):
                     obj = {"userID":imageID}
                     return obj
             counter = counter +1
-    return -1
+    return {'Exception': "Not Authenticated"}
 
 
 def Log(aUserID, aStart, aEnd, aStatus):
