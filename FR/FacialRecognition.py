@@ -69,26 +69,7 @@ def AuthenticateImage(aImg):
     # Have a counter for the file naming
     counter = 0
     print("Getting IMAGES from database:")
-    
-    # for key in allData:
-    #     for img in key.get("photos"):
-    #         dec_img = base64.decodebytes(img)
-    #         #create a name for the file. example userIDCounter.jpg thus 01.jpg
-    #         st = str(key.get("userID"))+str(counter)+".jpg"
-    #         #save the binary as an image to use
-    #         with open(st, 'wb') as f:
-    #             f.write(dec_img)
-    #         #now append and let the magic happen
-    #         imageFromDb = (tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
-    #         for i,j in imageFromDb:
-    #             test = face_recognition.face_encodings(j)[0]
-    #             results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-    #             for e in results[counter]:
-    #                 if e == True:
-    #                     print("The image matched and returned userID:"+ str(i))
-    #                     obj = {"userID":i}
-    #                     return obj
-    #             counter = counter +1
+
     for key in allData:
         for img in key.get("photos"):
             dec_img = base64.decodebytes(img)
@@ -112,43 +93,7 @@ def AuthenticateImage(aImg):
             counter = counter +1
     return -1
 
-    # def finalWork():
-    #     counter = 0
-    #     for i,j in imageFromDb:
-    #         test = face_recognition.face_encodings(j)[0]
-    #         results.append(face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-    #         for e in results[counter]:
-    #             if e == True:
-    #                 print("The image matched and returned userID:"+ str(i))
-    #                 obj = {"userID":i}
-    #                 return obj
-    #         counter = counter +1
-    #     return -1
-    # def decodeImage(img,counter,key):
-    #     #Decode the base64 string
-    #         dec_img = base64.decodebytes(img)
-    #         #create a name for the file. example userIDCounter.jpg thus 01.jpg
-    #         st = str(key.get("userID"))+str(counter)+".jpg"
-    #         #save the binary as an image to use
-    #         with open(st, 'wb') as f:
-    #             f.write(dec_img)
-    #         #now append and let the magic happen
-    #         imageFromDb.append(tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
-    #         return ("IMG:"+ str(img))
-            
-    # def design():
-    #     print("Getting IMAGES from database:")
-    #     counter =0
-    #     for key in allData:
-    #         for img in key.get("photos"):
-    #             yield "<p>Getting IMAGEs from Database"
-    #             yield decodeImage(img,counter,key)
-    #             counter = counter +1
-    #     returnObj =  finalWork()
-    # return Response(design()) 
 
-
-# AuthenticateUser("./test1.jpg")
 def Log(aUserID, aStart, aEnd, aStatus):
 
     lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
@@ -256,19 +201,7 @@ def getLog(aStart, aEnd):
 #     return json_docs
 
 
-#  TODO Deane
-def Update():
-    # call CIS json
-    userID = 8
-    image = 'GKRSBGJKSZBGKJZXFVJKB'
-    lJson = {
-        'ID': userID,
-        'Image': image
-    }
-    with open('ClientInfo.json', 'w') as f:
-        json.dump(lJson, f)
 
-    return True
 
 if __name__ == "FacialRecognition":
     app.run(debug=True)

@@ -39,7 +39,6 @@ def UpImage(request):
         AddImages(lUser, lImg)
 
 
-        # return JsonResponse({'error': 'An error has occurred'})  # TODO fix
         return JsonResponse({'status':'Success'})
     else:
         return JsonResponse({'error': 'Use POST'})
@@ -55,31 +54,26 @@ def AuthUser(request):
         else:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
-
-
         try:
             if 'Image' in request.POST:
                 lImg = request.POST['Image']
-                # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
+
             elif 'Image' in request.FILES:
-                # if 'file' in request.FILES:
+
                 lImg = request.FILES['Image']
             elif 'file' in request.FILES:
-                # if 'file' in request.FILES:
+
                 lImg = request.FILES['file']
             else:
                 return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-                # else:
-                #
-            # else:
-            #     lImg = request.FILES['Image']
             lUserID = AuthenticateUser(lImg)
+            if isinstance(lUserID, int):
+                return JsonResponse({'Exception': "Not Authenticated"})
+            else:
+                return lUserID
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-        if isinstance(lUserID, int):
-            return JsonResponse({'Exception': "Not Authenticated"})
-        else:
-            return lUserID
+
 
 
 @csrf_exempt
