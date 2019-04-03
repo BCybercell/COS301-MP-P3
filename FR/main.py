@@ -70,7 +70,7 @@ def AuthUser(request):
             if isinstance(lUserID, int):
                 return JsonResponse({'Exception': "Not Authenticated"})
             else:
-                return lUserID
+                return JsonResponse(lUserID)
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
 
