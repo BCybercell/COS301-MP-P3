@@ -37,9 +37,10 @@ def UpImage(request):
                 return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
             lUser = request.POST['userID']
             AddImages(lUser, lImg)
+
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-
+        return JsonResponse({'status':'Success'})
     else:
         return JsonResponse({'error': 'Use POST'})
 
