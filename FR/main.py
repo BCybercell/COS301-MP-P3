@@ -67,7 +67,7 @@ def AuthUser(request):
             else:
                 return JsonResponse({'error': 'An error has occurred'})  # TODO fix
             lUserID = AuthenticateUser(lImg)
-            if isinstance(lUserID, int):
+            if not isinstance(lUserID, dict):
                 return JsonResponse({'Exception': "Not Authenticated"})
             else:
                 return JsonResponse(lUserID)
