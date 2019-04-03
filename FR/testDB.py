@@ -5,7 +5,7 @@ import gridfs
 myclient = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 
 mydb = myclient["heroku_6lqvmjth"]
-mycol = mydb["rTest"]
+mycol = mydb["testingRichard"]
 strr=[]
 for i in range(10):
   s = "./"+str(i+1)+".jpg"
