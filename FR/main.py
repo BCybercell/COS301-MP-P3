@@ -28,18 +28,18 @@ def index(request):
 @csrf_exempt
 def UpImage(request):
     if request.method == 'POST':
-        try:
-            if 'picToUpload' in request.POST:
-                lImg = request.POST['picToUpload']
-            elif 'picToUpload' in request.FILES:
-                lImg = request.FILES['picToUpload']
-            else:
-                return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
-            lUser = request.POST['userID']
-            AddImages(lUser, lImg)
 
-        except:
-            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+        if 'picToUpload' in request.POST:
+            lImg = request.POST['picToUpload']
+        elif 'picToUpload' in request.FILES:
+            lImg = request.FILES['picToUpload']
+        else:
+            return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
+        lUser = request.POST['userID']
+        AddImages(lUser, lImg)
+
+
+        # return JsonResponse({'error': 'An error has occurred'})  # TODO fix
         return JsonResponse({'status':'Success'})
     else:
         return JsonResponse({'error': 'Use POST'})
