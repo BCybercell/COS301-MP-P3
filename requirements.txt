@@ -7,8 +7,5 @@ python-dateutil
 face_recognition
 pymongo
 bson
-pymongo
 flask
-base64
 pybase64
-flask
