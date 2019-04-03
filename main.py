@@ -7,7 +7,7 @@ import statistics as stat
 def AuthenticateUser(aArrImg):
     start = time.time()
 
-    Update() #Call Update function to get new/updated list of the database from CIS
+    # Update() #Call Update function to get new/updated list of the database from CIS
     
     lUserIDs = []
     #moving percent functionality elsewhere. Structure of other functions changed.
