@@ -28,7 +28,6 @@ def index(request):
 @csrf_exempt
 def UpImage(request):
     if request.method == 'POST':
-#remove
         if 'picToUpload' in request.POST:
             lImg = request.POST['picToUpload']
         elif 'picToUpload' in request.FILES:
@@ -37,7 +36,6 @@ def UpImage(request):
             return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
         lUser = request.POST['userID']
         AddImages(lUser, lImg)
-#remove
 
 
         # return JsonResponse({'error': 'An error has occurred'})  # TODO fix
@@ -48,12 +46,10 @@ def UpImage(request):
 
 @csrf_exempt
 def AuthUser(request):
-    # remove
     if request.method == 'GET':
         lImg = request.GET['Image']
         lUserID = AuthenticateUser(lImg)
         if lUserID > 0:
-            # remove
             return JsonResponse({'UserID': lUserID})
         else:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
@@ -61,7 +57,6 @@ def AuthUser(request):
 
 
         try:
-            # remove
             if 'Image' in request.POST:
                 lImg = request.POST['Image']
                 # return JsonResponse({'error': 'Use a file and not a parameter'})  # TODO fix
@@ -76,10 +71,6 @@ def AuthUser(request):
                 return JsonResponse({'error': 'An error has occurred'})  # TODO fix
                 # else:
                 #
-            # remove
-            # remove
-            # remove
-            # remove
             # else:
             #     lImg = request.FILES['Image']
             lUserID = AuthenticateUser(lImg)
@@ -97,8 +88,3 @@ def Logs(request):
         return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
     if request.method == 'POST':
         return JsonResponse(getLog(request.POST['start'], request.POST['end']), safe=False)
-
-    # remove
-    # remove
-    # remove
-    # remove
