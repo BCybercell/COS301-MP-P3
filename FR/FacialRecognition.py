@@ -1,10 +1,10 @@
 import time as time
 import random as Rand
 import json as json
-#import statistics as stat
+import statistics as stat
 import datetime as dt
 import pymongo
-#import face_recognition
+import face_recognition
 import json
 import os 
 from bson import json_util
