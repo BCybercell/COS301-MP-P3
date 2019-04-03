@@ -23,7 +23,7 @@ collection = db.testingRichard
 #     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 # @app.route("/AuthenticateUser",methods=['Get'])
 def AuthenticateUser(aArrImg):
-    start = time.time()
+    start = int(time.time())
     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
 
     if lUserId == -1:
