@@ -43,12 +43,10 @@ def AddImages(userID, aArrImg):
 
     for key in allData:
         if key.get("userID") == userID:
-            #add images to db
-
             encoded_string = base64.b64encode(aArrImg)
             strr = encoded_string
-            myquery = { "userID": str(userID) }
-            newvalues = { "$push": { "photos": strr } }
+            myquery = {"userID": str(userID)}
+            newvalues = {"$push": {"photos": [strr]}}
             x = collection.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
