@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .FacialRecognition import AuthenticateUser, syncList, AddImages
 from bson import BSON #added
 from pprint import pprint
+import json
 
 @csrf_exempt
 def index(request):
@@ -88,15 +89,18 @@ def AuthUser(request):
 ##################################
 @csrf_exempt
 def Clients(request):
-    if request.method == 'GET':
-        dictionary = {
-            'Operation': request.GET['Operation'],
-            'ID': request.GET['ID']
-        }
-        return JsonResponse(syncList(dictionary), safe=False)
+    # if request.method == 'GET':
+    #     dictionary = {
+    #         'Operation': request.GET['Operation'],
+    #         'ID': request.GET['ID']
+    #     }
+    #     return JsonResponse(syncList(dictionary), safe=False)
     if request.method == 'POST':
+        received_json_data = json.loads(request.body)
         dictionary = {
-            'Operation': request.POST['Operation'],
-            'ID': request.POST['ID']
+            'Operation': received_json_data['Operation'],
+            'ID': received_json_data['ID']
         }
         return JsonResponse(syncList(dictionary), safe=False)
+    else:
+        return JsonResponse({'error': 'use post'})
