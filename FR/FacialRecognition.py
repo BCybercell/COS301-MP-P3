@@ -127,8 +127,8 @@ def sendLog(aLogJSON):
 ##################################
 def Log(aUserID, aStatus):
 
-    d = datetime.strptime("20.12.2016 09:38:42,76", "%d.%m.%Y %H:%M:%S,%f").strftime('%s')
-    d_in_ms = int(d)*1000
+    # d = datetime.strptime(int(round(time.time() * 1000)), "%d.%m.%Y %H:%M:%S,%f").strftime('%s')
+    d_in_ms = int(round(time.time() * 1000))
 
     lLog = [{
         "ID": str(aUserID),
@@ -144,6 +144,7 @@ def Log(aUserID, aStatus):
 
     return True
 
+Log("77777777",True)
 ##################################
 #           ADD CLIENT
 #    Adds a client to our DB
