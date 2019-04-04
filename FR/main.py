@@ -64,16 +64,16 @@ def AuthUser(request):
 
                 lImg = request.FILES['file']
             else:
-                return JsonResponse({'Status': False, 'Error': 'An error has occurred'})  # TODO fix
+                return JsonResponse({'status': False, 'Error': 'An error has occurred'})  # TODO fix
             lUserID = AuthenticateUser(lImg)
             if 'userID' in lUserID:
-                tempDict = {'Status': True}
+                tempDict = {'status': True}
             else:
-                tempDict = {'Status': False}
+                tempDict = {'status': False}
             tempDict.update(lUserID)
             return JsonResponse(tempDict)
         except:
-            return JsonResponse({'Status': False, 'Exception': "Not Authenticated"})  # TODO fix
+            return JsonResponse({'status': False, 'Exception': "Not Authenticated"})  # TODO fix
 
 
 
