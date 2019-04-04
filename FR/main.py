@@ -89,6 +89,6 @@ def AuthUser(request):
 @csrf_exempt
 def Clients(request):
     if request.method == 'GET':
-        return JsonResponse(syncList(request.GET['ID']), safe=False)
+        return JsonResponse(syncList(request.GET), safe=False)
     if request.method == 'POST':
-        return JsonResponse(syncList(request.POST['ID']), safe=False)
+        return JsonResponse(syncList(request.POST), safe=False)
