@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from .FacialRecognition import AuthenticateUser, getLog, AddImages
+from .FacialRecognition import AuthenticateUser, syncList, AddImages
 from bson import BSON #added
 from pprint import pprint
 
@@ -73,32 +73,12 @@ def AuthUser(request):
         except:
             return JsonResponse({'error': 'An error has occurred'})  # TODO fix
 
-
-
+##################################
+#        Endpoint for CIS
+##################################
 @csrf_exempt
-def Logs(request):
+def Clients(request):
     if request.method == 'GET':
-        return JsonResponse(getLog(request.GET['start'], request.GET['end']), safe=False)
+        return JsonResponse(syncList(request.GET['ID']), safe=False)
     if request.method == 'POST':
-        return JsonResponse(getLog(request.POST['start'], request.POST['end']), safe=False)
-
-@csrf_exempt
-def addClient(request):
-    if request.method == 'GET':
-        return JsonResponse(addClient(request.GET['userID']), safe=False)
-    if request.method == 'POST':
-        return JsonResponse(addClient(request.POST['userID']), safe=False)
-
-@csrf_exempt
-def deactivateClient(request):
-    if request.method == 'GET':
-        return JsonResponse(deactivateClient(request.GET['userID']), safe=False)
-    if request.method == 'POST':
-        return JsonResponse(deactivateClient(request.POST['userID']), safe=False)
-
-@csrf_exempt
-def reactivateClient(request):
-    if request.method == 'GET':
-        return JsonResponse(reactivateClient(request.GET['userID']), safe=False)
-    if request.method == 'POST':
-        return JsonResponse(reactivateClient(request.POST['userID']), safe=False)
+        return JsonResponse(syncList(request.POST['ID']), safe=False)
