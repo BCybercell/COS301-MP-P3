@@ -9,4 +9,6 @@ pymongo
 bson
 flask
 pybase64
+base64
 requests
+numpy

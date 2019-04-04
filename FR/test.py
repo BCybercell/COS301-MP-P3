@@ -1,10 +1,11 @@
 import face_recognition
 import pymongo 
 import base64
+import numpy as np
 
 myclient = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = myclient["heroku_6lqvmjth"]
-collection = db.testingRichard
+collection = db.secondRichard
 
 allData = collection.find()
 # results = []
@@ -46,7 +47,7 @@ allData = collection.find()
 allData = collection.find() #Contains every element in the database
 # imageFromDb = []
 results = []
-imagetoTest = face_recognition.load_image_file("./test4.jpg") #Image they send us encoded
+imagetoTest = face_recognition.load_image_file("./test5.jpg") #Image they send us encoded
 image_encoding = face_recognition.face_encodings(imagetoTest)[0]
 
 def checking():
@@ -56,21 +57,22 @@ def checking():
         imageCounter = 0 #!Added a counter for the sole purpose of only looking at two images. After that it will most likely not recognize if the first two failed
         for img in key.get("photos"):
             if imageCounter < 2:
-                dec_img = base64.decodebytes(img)
+                #dec_img = base64.decodebytes(img)
                 #create a name for the file. example userIDCounter.jpg thus 01.jpg
-                st = str(key.get("userID"))+str(counter)+".jpg"
-                #save the binary as an image to use
-                with open(st, 'wb') as f:
-                    f.write(dec_img)
+                # st = str(key.get("userID"))+str(counter)+".jpg"
+                # #save the binary as an image to use
+                # with open(st, 'wb') as f:
+                #     f.write(dec_img)
 
                 #now append and let the magic happen
                 imageID = key.get("userID")
-                imageFromDB = face_recognition.load_image_file("./"+st)
+                # imageFromDB = face_recognition.load_image_file("./"+st)
               
                 counter = counter +1
                 imageCounter = imageCounter + 1
 
-                test = face_recognition.face_encodings(imageFromDB)[0]
+                
+                test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
                 results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
                 for e in results:
                     if e == True:
