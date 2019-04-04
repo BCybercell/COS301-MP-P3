@@ -1,4 +1,5 @@
 import time as time
+from datetime import datetime
 import random as Rand
 import json as json
 # import statistics as stat
@@ -126,11 +127,12 @@ def sendLog(aLogJSON):
 ##################################
 def Log(aUserID, aStatus):
 
-    lTimestamp = int(time.time())
+    d = datetime.strptime("20.12.2016 09:38:42,76", "%d.%m.%Y %H:%M:%S,%f").strftime('%s')
+    d_in_ms = int(d)*1000
 
     lLog = [{
         "ID": str(aUserID),
-        "timestamp": lTimestamp,
+        "timestamp": d_in_ms,
         "Success": aStatus
     }]
 
@@ -194,8 +196,12 @@ def reactivateClient(aClientID):
 ##################################
 def syncList(aClientList):
 
+    counter = 0
     for client in aClientList:
+        if counter > 10:
+            return
         addClient(client)
+        counter = counter + 1
 
 ##################################
 #        CHECK OPERATION
