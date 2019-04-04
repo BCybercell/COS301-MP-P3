@@ -68,6 +68,7 @@ def AuthenticateImage(aImg):
                 for e in results:
                     if e == True:
                         print("The image matched and returned userID:")
+                        print(imageID)
                         obj = {"userID":imageID}
                         return obj
             else:
@@ -129,5 +130,3 @@ def Update():
 
     return True
 
-if __name__ == "FacialRecognition":
-    app.run(debug=True)
