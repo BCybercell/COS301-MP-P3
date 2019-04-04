@@ -30,17 +30,17 @@ def UpImage(request):
     if request.method == 'POST':
         if 'picToUpload' in request.POST:
             lImg = request.POST['picToUpload'][0]
-            lImg2 = request.FILES['picToUpload'][1]
+            #lImg2 = request.FILES['picToUpload'][1]    this attempt doesn't work
         elif 'picToUpload' in request.FILES:
             lImg = request.FILES['picToUpload'][0]
-            lImg2 = request.FILES['picToUpload'][1]
+            #lImg2 = request.FILES['picToUpload'][1]    this did not work
         else:
             return JsonResponse({'Error': 'No image was selected'})  # TODO fix
         lUser = request.POST['userID']
-        images =[]
-        images.append(lImg)
-        images.append(lImg2)
-        tmp = AddImages(lUser, images)
+        #images =[]
+        #images.append(lImg)
+        #images.append(lImg2)
+        tmp = AddImages(lUser, lImg)
 
         if tmp:
             # return JsonResponse({'error': 'An error has occurred'})  # TODO fix

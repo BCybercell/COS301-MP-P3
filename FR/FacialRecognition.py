@@ -47,15 +47,15 @@ def AddImages(userID, aArrImg):     #TODO Kyle
     #strr=[]
     for key in allData:
         if key.get("userID") == userID:
-            for img in aArrImg:
-                encoded_string = base64.b64encode(img.read())
+            #for img in aArrImg:
+            encoded_string = base64.b64encode(aArrImg.read())
             #strr.append(encoded_string)
             #myquery = {"userID": str(userID)}
             #newvalues = {"$push": {"photos": strr}}
             #x = collection.update_one(myquery, newvalues)
-                myquery = {"userID": str(userID)}
-                newvalues = {"$push": {"photos": encoded_string}}
-                x = collection.update_one(myquery, newvalues)
+            myquery = {"userID": str(userID)}
+            newvalues = {"$push": {"photos": encoded_string}}
+            x = collection.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
     Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
