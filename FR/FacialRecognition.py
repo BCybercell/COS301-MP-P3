@@ -26,7 +26,7 @@ def AuthenticateUser(aArrImg):
 
     end = int(time.time())
     #?Log commented out for the sake that I do not have the working code,
-    #Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    #Log(lUserId,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return lUserId
 
