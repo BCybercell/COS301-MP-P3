@@ -196,7 +196,6 @@ def reactivateClient(aClientID):
     return {"Message": "Unsuccessful Reactivation"}
 
 
-
 #BACKUP LOG CODE FOR DB IN CASE LOG FILE FAILS
 # def Log(aUserID, aStart, aEnd, aStatus):
 #     #Work on the collection log
