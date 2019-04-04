@@ -47,7 +47,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
     #strr=[]
     for key in allData:
         if key.get("userID") == userID:
-            #for img in aArrImg.read():
+            #for img in aArrImg:
             encoded_string = base64.b64encode(aArrImg.read())
             #strr.append(encoded_string)
             #myquery = {"userID": str(userID)}

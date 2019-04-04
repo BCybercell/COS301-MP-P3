@@ -29,12 +29,16 @@ def UpImage(request):
     if request.method == 'POST':
         if 'picToUpload' in request.POST:
             lImg = request.POST['picToUpload']
+            #lImg2 = request.FILES['picToUpload'][1]    this attempt doesn't work
         elif 'picToUpload' in request.FILES:
             lImg = request.FILES['picToUpload']
+            #lImg2 = request.FILES['picToUpload'][1]    this did not work
         else:
             return JsonResponse({'status':True, 'error': 'An error has occurred here'})  # TODO fix
         lUser = request.POST['userID']
-        return JsonResponse({'status':True})
+        #images =[]
+        #images.append(lImg)
+        #images.append(lImg2)
         tmp = AddImages(lUser, lImg)
         if tmp:
             return JsonResponse({'Status':'Success: image uploaded to userID: ' + lUser})
