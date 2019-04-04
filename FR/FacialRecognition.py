@@ -138,19 +138,21 @@ def Log(aUserID, aStatus):
 
     lTimestamp = int(time.time())
 
-    lLog = {
+    lLog = [{
         "ID": str(aUserID),
-        "Timestamp": lTimestamp,
+        "timestamp": lTimestamp,
         "Success": aStatus
-    }
+    }]
 
     json_log = json.dumps(lLog, separators=(',', ':'))
 
-    lDataToReporting = { "system":"FRS", "data":json_log}
+    lDataToReporting = {"system":"FRS", "data":json_log}
 
     sendLog(lDataToReporting)
 
     return True
+
+Log("400",True)
 
 ##################################
 #           ADD CLIENT
