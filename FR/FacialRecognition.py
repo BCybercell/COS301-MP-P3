@@ -152,16 +152,16 @@ Log("400",True)
 def addClient(aClientID):
 
     #Check if the user already exist
-    if testClient.count_documents({"userID": "3"}) == 1:
-        reactivateClient(aClientID)
-    elif not testClient.count_documents({"userID": "3"}) == 1:
-        newClient = {
-            "userID" : str(aClientID),
-            "status" : True,
-            "photos" : []
-        }
+    # if testClient.count_documents({"userID": "3"}) == 1:
+    #     reactivateClient(aClientID)
+    # elif not testClient.count_documents({"userID": "3"}) == 1:
+    newClient = {
+        "userID" : str(aClientID),
+        "status" : True,
+        "photos" : []
+    }
 
-        testClient.insert_one(newClient)
+    testClient.insert_one(newClient)
 
     return
 
