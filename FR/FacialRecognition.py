@@ -1,10 +1,10 @@
 import time as time
 import random as Rand
 import json as json
-import statistics as stat
+# import statistics as stat
 import datetime as dt
 import pymongo
-import face_recognition
+# import face_recognition
 import json
 import os 
 from bson import json_util
@@ -16,94 +16,97 @@ from dateutil import parser
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
 collection = db.testingRichard
+testClient = db.testingTegan
 
 # app = Flask(__name__)
 # @app.route('/favicon.ico') 
 # def favicon(): 
 #     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 # @app.route("/AuthenticateUser",methods=['Get'])
-def AuthenticateUser(aArrImg):
-    start = int(time.time())
-    lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
+# def AuthenticateUser(aArrImg):
+#     start = int(time.time())
+#     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
+#
+#     if lUserId == -1:
+#         status = False
+#     else:
+#         status = True
+#
+#     end = int(time.time())
+#     Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+#     return lUserId
+#
+# def AddImages(userID, aArrImg):
+#     start = int(time.time())
+#
+#     allData = collection.find()
+#     status = False
+#
+#     for key in allData:
+#         if key.get("userID") == userID:
+#             for img in aArrImg.read():
+#                 encoded_string = base64.b64encode(img)
+#                 strr = encoded_string
+#                 myquery = {"userID": str(userID)}
+#                 newvalues = {"$push": {"photos": strr}}
+#                 x = collection.update_one(myquery, newvalues)
+#             status = True
+#     end = int(time.time())
+#     Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+#
+#     return status
+#
+#
+# def AuthenticateImage(aImg):
+#     if not aImg:
+#         return -1
+#     # Read images from database and compare till match or no images left
+#     allData = collection.find()  # Contains every element in the database
+#     # imageFromDb = []
+#     results = []
+#     imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
+#     image_encoding = face_recognition.face_encodings(imagetoTest)[0]
+#
+#     # Have a counter for the file naming
+#     counter = 0
+#     print("Getting IMAGES from database:")
+#
+#     for key in allData:
+#         for img in key.get("photos"):
+#             dec_img = base64.decodebytes(img)
+#             # create a name for the file. example userIDCounter.jpg thus 01.jpg
+#             st = str(key.get("userID"))+str(counter)+".jpg"
+#             # save the binary as an image to use
+#             with open(st, 'wb') as f:
+#                 f.write(dec_img)
+#             # now append and let the magic happen
+#             # imageFromDb = (tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
+#             imageID = key.get("userID")
+#             imageFromDB = face_recognition.load_image_file("./"+st)
+#             # for i,j in imageFromDb:
+#             test = face_recognition.face_encodings(imageFromDB)[0]
+#             results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))
+#             for e in results:
+#                 if e == True:
+#                     #print("The image matched and returned userID:"+ str(imageFromDB[0]))
+#                     obj = {"userID":imageID}
+#                     return obj
+#             counter = counter +1
+#     return -1
 
-    if lUserId == -1:
-        status = False
-    else:
-        status = True
+##################################
+#             LOG
+#    Logs all authenication
+#           details
+##################################
+def Log(aUserID, aStatus):
 
-    end = int(time.time())
-    Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
-    return lUserId
-
-def AddImages(userID, aArrImg):
-    start = int(time.time())
-
-    allData = collection.find()
-    status = False
-
-    for key in allData:
-        if key.get("userID") == userID:
-            for img in aArrImg.read():
-                encoded_string = base64.b64encode(img)
-                strr = encoded_string
-                myquery = {"userID": str(userID)}
-                newvalues = {"$push": {"photos": strr}}
-                x = collection.update_one(myquery, newvalues)
-            status = True
-    end = int(time.time())
-    Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
-
-    return status
-
-
-def AuthenticateImage(aImg):
-    if not aImg:
-        return -1
-    # Read images from database and compare till match or no images left
-    allData = collection.find()  # Contains every element in the database
-    # imageFromDb = []
-    results = []
-    imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
-    image_encoding = face_recognition.face_encodings(imagetoTest)[0]
-
-    # Have a counter for the file naming
-    counter = 0
-    print("Getting IMAGES from database:")
-
-    for key in allData:
-        for img in key.get("photos"):
-            dec_img = base64.decodebytes(img)
-            # create a name for the file. example userIDCounter.jpg thus 01.jpg
-            st = str(key.get("userID"))+str(counter)+".jpg"
-            # save the binary as an image to use
-            with open(st, 'wb') as f:
-                f.write(dec_img)
-            # now append and let the magic happen
-            # imageFromDb = (tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
-            imageID = key.get("userID")
-            imageFromDB = face_recognition.load_image_file("./"+st)
-            # for i,j in imageFromDb:
-            test = face_recognition.face_encodings(imageFromDB)[0]
-            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-            for e in results:
-                if e == True:
-                    #print("The image matched and returned userID:"+ str(imageFromDB[0]))
-                    obj = {"userID":imageID}
-                    return obj
-            counter = counter +1
-    return -1
-
-
-def Log(aUserID, aStart, aEnd, aStatus):
-
-    lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
+    lTimestamp = int(time.time())
 
     lLog = {
         "ID": str(aUserID),
-        "Start": str(aStart),
-        "End": str(aEnd),
-        "Date": lDate,
-        "Status": aStatus
+        "Timestamp": lTimestamp,
+        "Success": aStatus
     }
 
     with open('log.json', 'r') as f:
@@ -115,82 +118,83 @@ def Log(aUserID, aStart, aEnd, aStatus):
 
     return True
 
+##################################
+#            GET LOG
+#    Returns log to Reporting
+##################################
+def sendLog(aLogJSON):
+    return
 
-def getLog(aStart, aEnd):
-    if not aStart:
-        return {'error': 'Missing start parameter'}
-    if not aEnd:
-        return {'error': 'Missing end parameter'}
-
-    with open('log.json', 'r') as f:
-        lReturnLog = json.load(f)
-
-    aEnd = parser.parse(aEnd)
-    aStart = parser.parse(aStart)
-    lLogArray = {"logs": []}
-    lIndex = 0;
-
-
-    for log in lReturnLog['logs']:
-        lTime = ((parse_date(log['Date'])).time()).replace(microsecond=0)
-        if lTime >= aStart.time() and lTime <= aEnd.time():
-            lLogArray["logs"].append(lReturnLog['logs'][lIndex])
-
-        lIndex = lIndex + 1
-
-    if len(lLogArray['logs']) == 0:
-        return {'error': 'No matching logs found'}
-
-    return lLogArray
-
+##################################
+#           ADD CLIENT
+#    Adds a client to our DB
+#    *This user has no images*
+##################################
 def addClient(aClientID):
 
-    if aClientID < 0:
-        return {"Message": "Invalid user ID"}
+    #Check if the user already exist
+    lFoundClient = testClient.find({ "userID": aClientID })
 
-    newClient = {
-        "userID" : str(aClientID),
-        "status" : True,
-        "photos" : []
-    }
+    if lFoundClient:
+        reactivateClient(aClientID)
+    elif not lFoundClient:
+        newClient = {
+            "userID" : str(aClientID),
+            "status" : True,
+            "photos" : []
+        }
 
-    client = testClient.insert_one(newClient)
+        testClient.insert_one(newClient)
 
-    if client:
-        return {"Message": "Successfully Added Client"}
+    return
 
-    return {"Message": "Unsuccessful Addition"}
-
+##################################
+#      DEACTIVATE CLIENT
+#    Deactivates client status
+#     *Doesn't delete client*
+##################################
 def deactivateClient(aClientID):
-
-    if aClientID < 0:
-        return {"Message": "Invalid user ID"}
 
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": False}}
 
-    updatedClient = testClient.update_one(query, newValue)
+    testClient.update_one(query, newValue)
 
-    if updatedClient:
-        return {"Message": "Successfully Deactivated Client"}
-
-    return {"Message": "Unsuccessful Deactivation"}
-
-
+##################################
+#      REACTIVATE CLIENT
+#    Reactivates client status
+##################################
 def reactivateClient(aClientID):
-
-    if aClientID < 0:
-        return {"Message": "Invalid user ID"}
 
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": True}}
 
-    updatedClient = testClient.update_one(query, newValue)
+    testClient.update_one(query, newValue)
 
-    if updatedClient:
-        return {"Message": "Successfully Reactivated Client"}
 
-    return {"Message": "Unsuccessful Reactivation"}
+##################################
+#        SYNCLIST CLIENT
+#    Gets initial clients from
+#            CIS
+##################################
+def syncList(aClientList):
+
+    for client in aClientList["ID"]:
+        addClient(client)
+
+##################################
+#        CHECK OPERATION
+#       Checks CIS requests
+##################################
+def checkClientOperation(aClientJSON):
+
+    if aClientJSON["Operation"] == "CREATE":
+        addClient(aClientJSON["ID"])
+    elif aClientJSON["Operation"] == "DELETE":
+        deactivateClient(aClientJSON["ID"])
+    elif aClientJSON["Operation"] == "subscribed":
+        syncList(aClientJSON)
+
 
 
 
