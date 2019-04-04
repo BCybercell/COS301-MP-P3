@@ -66,7 +66,10 @@ def AuthUser(request):
             else:
                 return JsonResponse({'Status': False, 'Error': 'An error has occurred'})  # TODO fix
             lUserID = AuthenticateUser(lImg)
-            tempDict = {'Status': True}
+            if 'userID' in lUserID:
+                tempDict = {'Status': True}
+            else:
+                tempDict = {'Status': False}
             tempDict.update(lUserID)
             return JsonResponse(tempDict)
         except:
