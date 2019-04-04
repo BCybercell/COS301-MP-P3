@@ -12,8 +12,8 @@ import string
 import os 
 from bson import json_util
 import base64
-from dateutil.parser import parse as parse_date
 import numpy as np
+from dateutil.parser import parse as parse_date
 from dateutil import parser
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
@@ -23,7 +23,7 @@ testClient = db.testingTegan
 testKyle = db.richardTest
 
 def AuthenticateUser(aArrImg):
-    start = int(time.time())
+    start = time.time()
     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
 
     if 'userID' in lUserId:
@@ -32,8 +32,7 @@ def AuthenticateUser(aArrImg):
         status = False
 
     end = int(time.time())
-    #?Log commented out for the sake that I do not have the working code,
-    #Log(lUserId,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     return lUserId
 
 def AddImages(userID, aArrImg):     #TODO Kyle
@@ -50,12 +49,13 @@ def AddImages(userID, aArrImg):     #TODO Kyle
         if key.get("userID") == userID:
             #for img in aArrImg:
             encoded_string = base64.b64encode(aArrImg.read())
-            #strr.append(encoded_string)
-            #myquery = {"userID": str(userID)}
-            #newvalues = {"$push": {"photos": strr}}
-            #x = collection.update_one(myquery, newvalues)
+            encoding = (np.array(face_recognition.face_encodings(face_recognition.load_image_file(aArrImg.read()))[0]).tolist()) ##remove if breaks
+                    #strr.append(encoded_string)
+                    #myquery = {"userID": str(userID)}
+                    #newvalues = {"$push": {"photos": strr}}
+                    #x = collection.update_one(myquery, newvalues)
             myquery = {"userID": str(userID)}
-            newvalues = {"$push": {"photos": encoded_string}}
+            newvalues = {"$push": {"photos": encoded_string, "endoding":encoding}}       #newvalues = {"$push": {"photos": encoded_string}}
             x = testKyle.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
