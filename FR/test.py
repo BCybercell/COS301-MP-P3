@@ -5,7 +5,7 @@ import numpy as np
 
 myclient = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = myclient["heroku_6lqvmjth"]
-collection = db.secondRichard
+collection = db.lastRichard
 
 allData = collection.find()
 # results = []
@@ -57,7 +57,7 @@ def checking():
         imageCounter = 0 #!Added a counter for the sole purpose of only looking at two images. After that it will most likely not recognize if the first two failed
         for img in key.get("photos"):
             if imageCounter < 2:
-                #dec_img = base64.decodebytes(img)
+                #   dec_img = base64.decodebytes(img)
                 #create a name for the file. example userIDCounter.jpg thus 01.jpg
                 # st = str(key.get("userID"))+str(counter)+".jpg"
                 # #save the binary as an image to use
