@@ -17,6 +17,7 @@ client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mla
 db = client["heroku_6lqvmjth"]
 collection = db.testingRichard
 testClient = db.testClient
+testKyle = db.richardTest
 
 # app = Flask(__name__)
 # @app.route('/favicon.ico') 
@@ -39,7 +40,7 @@ def AuthenticateUser(aArrImg):
 def AddImages(userID, aArrImg):
     start = int(time.time())
 
-    allData = collection.find()
+    allData = testKyle.find()
     status = False
     strr=[]
     for key in allData:
@@ -49,7 +50,7 @@ def AddImages(userID, aArrImg):
                 strr.append(encoded_string)
             myquery = {"userID": str(userID)}
             newvalues = {"$push": {"photos": strr}}
-            x = collection.update_one(myquery, newvalues)
+            x = testKyle.update_one(myquery, newvalues)
                 #myquery = {"userID": str(userID)}
                 #newvalues = {"$push": {"photos": str(strr)}}
                 #x = collection.update_one(myquery, newvalues)

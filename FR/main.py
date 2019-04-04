@@ -32,25 +32,23 @@ def UpImage(request):
         elif 'picToUpload' in request.FILES:
             lImg = request.FILES['picToUpload']
         else:
-            return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
+            return JsonResponse({'status':True, 'error': 'An error has occurred here'})  # TODO fix
         lUser = request.POST['userID']
         AddImages(lUser, lImg)
-
-
-        return JsonResponse({'status':'Success'})
+        return JsonResponse({'status':True})
     else:
-        return JsonResponse({'error': 'Use POST'})
+        return JsonResponse({'status':True,'error': 'Use POST'})
 
 
 @csrf_exempt
 def AuthUser(request):
-    if request.method == 'GET':
-        lImg = request.GET['Image']
-        lUserID = AuthenticateUser(lImg)
-        if lUserID > 0:
-            return JsonResponse({'UserID': lUserID})
-        else:
-            return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+    # if request.method == 'GET':
+    #     lImg = request.GET['Image']
+    #     lUserID = AuthenticateUser(lImg)
+    #     if lUserID > 0:
+    #         return JsonResponse({'UserID': lUserID})
+    #     else:
+    #         return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
         try:
             if 'Image' in request.POST:
@@ -74,7 +72,6 @@ def AuthUser(request):
             return JsonResponse(tempDict)
         except:
             return JsonResponse({'status': False, 'Exception': "Not Authenticated"})  # TODO fix
-
 
 
 @csrf_exempt
