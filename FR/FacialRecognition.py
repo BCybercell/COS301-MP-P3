@@ -8,7 +8,8 @@ from gridfs import GridFS
 import face_recognition
 import os 
 import base64
-
+import io
+from imageio import imread
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
@@ -50,16 +51,16 @@ def AuthenticateImage(aImg):
         for img in key.get("photos"):
             if imageCounter < 1:
                 dec_img = base64.decodebytes(img)
-                #create a name for the file. example userIDCounter.jpg thus 01.jpg
-                st = str(key.get("userID"))+str(counter)+".jpg"
-                #save the binary as an image to use
-                with open(st, 'wb') as f:
-                    f.write(dec_img)
+                # create a name for the file. example userIDCounter.jpg thus 01.jpg
+                # st = str(key.get("userID"))+str(counter)+".jpg"
+                # #save the binary as an image to use
+                # with open(st, 'wb') as f:
+                #     f.write(dec_img)
+                st = imread(io.BytesIO(dec_img))
 
-                #now append and let the magic happen
                 imageID = key.get("userID")
-                imageFromDB = face_recognition.load_image_file("./"+st)
-              
+                imageFromDB = face_recognition.load_image_file(st+".jpg")
+                print("here")
                 counter = counter +1
                 imageCounter = imageCounter + 1
 
@@ -97,7 +98,7 @@ def Log(aUserID, aStart, aEnd, aStatus):
     return True
 
 
-
+AuthenticateUser("./test5.jpg")
 def getLog(aStart, aEnd):
     if not aStart or not aEnd:
         return {'error': 'Missing parameter start or end'}
