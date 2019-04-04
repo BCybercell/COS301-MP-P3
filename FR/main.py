@@ -33,16 +33,18 @@ def UpImage(request):
         elif 'picToUpload' in request.FILES:
             lImg = request.FILES['picToUpload']
         else:
-            return JsonResponse({'error': 'An error has occurred here'})  # TODO fix
+            return JsonResponse({'Error': 'No image was selected'})  # TODO fix
         lUser = request.POST['userID']
-        return JsonResponse({'Image data':lImg.read()})
-        #AddImages(lUser, lImg)
 
+        tmp = AddImages(lUser, lImg)
 
-        # return JsonResponse({'error': 'An error has occurred'})  # TODO fix
-        #return JsonResponse({'status':'Success'})
+        if tmp:
+            # return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+            return JsonResponse({'Status':'Success: image uploaded to userID: ' + lUser})
+        else:
+            return JsonResponse({'Status': 'The userID entered does not exist. UserID: ' + lUser})
     else:
-        return JsonResponse({'error': 'Use POST'})
+        return JsonResponse({'Error': 'POST was not used'})
 
 
 @csrf_exempt

@@ -35,7 +35,11 @@ def AuthenticateUser(aArrImg):
     Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     return lUserId
 
-def AddImages(userID, aArrImg):
+def AddImages(userID, aArrImg):     #TODO Kyle
+    if not aArrImg:
+        return false
+    if not userID:
+        return false
     start = int(time.time())
 
     allData = collection.find()
