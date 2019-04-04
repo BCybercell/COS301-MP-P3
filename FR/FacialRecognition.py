@@ -204,9 +204,9 @@ def reactivateClient(aClientID):
 #    Gets initial clients from
 #            CIS
 ##################################
-def syncList(aClientList):
-
-    for client in aClientList:
+def syncList(aClientListJson):
+    lClientList = json.loads(aClientListJson)
+    for client in lClientList:
         addClient(client)
 
 ##################################
