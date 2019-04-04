@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from .FacialRecognition import AuthenticateUser, syncList, AddImages
+from .FacialRecognition import AuthenticateUser, syncList, AddImages, checkClientOperation
 from bson import BSON #added
 from pprint import pprint
 import json
@@ -101,6 +101,6 @@ def Clients(request):
             'Operation': received_json_data['Operation'],
             'ID': received_json_data['ID']
         }
-        return JsonResponse(syncList(dictionary), safe=False)
+        return JsonResponse(checkClientOperation(dictionary), safe=False)
     else:
         return JsonResponse({'error': 'use post'})
