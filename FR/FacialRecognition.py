@@ -6,6 +6,8 @@ import datetime as dt
 import pymongo
 import face_recognition
 import json
+import requests
+import string
 import os 
 from bson import json_util
 import base64
@@ -84,25 +86,49 @@ def AuthenticateImage(aImg):
                 #save the binary as an image to use
                 with open(st, 'wb') as f:
                     f.write(dec_img)
+                    # now append and let the magic happen
+                    imageID = key.get("userID")
+                    imageFromDB = face_recognition.load_image_file("./" + st)
 
-                #now append and let the magic happen
-                imageID = key.get("userID")
-                imageFromDB = face_recognition.load_image_file("./"+st)
-              
-                counter = counter +1
-                imageCounter = imageCounter + 1
+                    counter = counter + 1
+                    imageCounter = imageCounter + 1
 
-                test = face_recognition.face_encodings(imageFromDB)[0]
-                results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-                for e in results:
-                    if e == True:
-                        print("The image matched and returned userID:")
-                        print(imageID)
-                        obj = {"userID":imageID}
-                        return obj
-            else:
-                break
+                    test = face_recognition.face_encodings(imageFromDB)[0]
+                    results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))
+                    for e in results:
+                        if e == True:
+                            print("The image matched and returned userID:")
+                            print(imageID)
+                            obj = {"userID": imageID}
+                            return obj
+                        else:
+                            break
     return {'Exception': "Not Authenticated"}
+
+##################################
+#            SEND LOG
+#    Pushes log to Reporting
+##################################
+def sendLog(aLogJSON):
+
+    url = 'https://fnbreports-6455.nodechef.com/api'
+    headers = {'content-type': 'application/json'}
+
+    response = requests.post(url, data=json.dumps(aLogJSON), headers=headers)
+
+    if response:
+        return True
+    elif not response:
+         with open('log.json', 'r') as f:
+             lData = json.load(f)
+             lData["logs"].append(aLogJSON)
+         with open('log.json','w') as f:
+            json.dump(lData, f,indent=2)
+
+
+    return False
+
+
 ##################################
 #             LOG
 #    Logs all authenication
@@ -118,21 +144,13 @@ def Log(aUserID, aStatus):
         "Success": aStatus
     }
 
-    with open('log.json', 'r') as f:
-        lData = json.load(f)
-        lData["logs"].append(lLog)
+    json_log = json.dumps(lLog, separators=(',', ':'))
 
-    with open('log.json','w') as f:
-        json.dump(lData, f,indent=2)
+    lDataToReporting = { "system":"FRS", "data":json_log}
+
+    sendLog(lDataToReporting)
 
     return True
-
-##################################
-#            GET LOG
-#    Returns log to Reporting
-##################################
-def sendLog(aLogJSON):
-    return
 
 ##################################
 #           ADD CLIENT
@@ -142,11 +160,9 @@ def sendLog(aLogJSON):
 def addClient(aClientID):
 
     #Check if the user already exist
-    lFoundClient = testClient.find({ "userID": aClientID })
-
-    if lFoundClient:
+    if testClient.count_documents({"userID": "3"}) == 1:
         reactivateClient(aClientID)
-    elif not lFoundClient:
+    elif not testClient.count_documents({"userID": "3"}) == 1:
         newClient = {
             "userID" : str(aClientID),
             "status" : True,
@@ -188,7 +204,7 @@ def reactivateClient(aClientID):
 ##################################
 def syncList(aClientList):
 
-    for client in aClientList["ID"]:
+    for client in aClientList:
         addClient(client)
 
 ##################################
@@ -199,70 +215,13 @@ def checkClientOperation(aClientJSON):
 
     if aClientJSON["Operation"] == "CREATE":
         addClient(aClientJSON["ID"])
-    elif aClientJSON["Operation"] == "DELETE":
+
+    if aClientJSON["Operation"] == "DELETE":
+        print(aClientJSON["ID"])
         deactivateClient(aClientJSON["ID"])
-    elif aClientJSON["Operation"] == "subscribed":
-        syncList(aClientJSON)
 
-
-
-#BACKUP LOG CODE FOR DB IN CASE LOG FILE FAILS
-# def Log(aUserID, aStart, aEnd, aStatus):
-#     #Work on the collection log
-#     logTest = db['logTest']  #TODO update collection when ready
-#     #logCollection =db.['log']
-#
-#     lDate = dt.datetime.now().isoformat()
-#     lData = {
-#         "ID": aUserID,
-#         "Start": str(aStart),
-#         "End": str(aEnd),
-#         "Date": lDate,
-#         "Status": aStatus
-#     }
-#
-#     #TODO Make this asynchronous
-#     # Do the query and if it returns false loop until it returns true - ensures that the log is always written to DB
-#     log = logTest.insert_one(lData)
-#     if not log:
-#         while not log:
-#             log = logTest.insert_one(lData)
-#     return True
-#
-#
-# def getLog(aStart, aEnd):
-#     if not aStart:
-#         return {'error': 'Missing start parameter'}
-#     if not aEnd:
-#         return {'error': 'Missing end parameter'}
-#
-#     logTest = db['logTest']
-#
-#     #Get the data between the two dates from the db
-#     # lquery = {"$and:" [{ "Start": {"$gte":aStart}}, {"End": {"$lte": aEnd}}]}
-#     lquery = { "Date": {"$gte":aStart, "$lt":aEnd}}
-#     print(lquery)
-#     log = logTest.find(lquery)
-#
-#     for l in log:
-#         print(l)
-#
-#     #TODO might need to change this. Depends on what they need
-#
-#     # lIndex = lIndex + 1
-#
-#     if not log:
-#         return {'error': 'No matching logs found'}
-#
-#     if log:
-#         return "Working"
-#
-#     json_docs = []
-#     for doc in log:
-#         json_doc = json.dumps(doc, default=json_util.default)
-#         json_docs.append(json_doc)
-#     return json_docs
-
+    if aClientJSON["Operation"] == "subscribed":
+        syncList(aClientJSON["ID"])
 
 
 
