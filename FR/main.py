@@ -29,10 +29,10 @@ def index(request):
 def UpImage(request):
     if request.method == 'POST':
         if 'picToUpload' in request.POST:
-            lImg = request.POST['picToUpload'][0]
+            lImg = request.POST['picToUpload']
             #lImg2 = request.FILES['picToUpload'][1]    this attempt doesn't work
         elif 'picToUpload' in request.FILES:
-            lImg = request.FILES['picToUpload'][0]
+            lImg = request.FILES['picToUpload']
             #lImg2 = request.FILES['picToUpload'][1]    this did not work
         else:
             return JsonResponse({'Error': 'No image was selected'})  # TODO fix
