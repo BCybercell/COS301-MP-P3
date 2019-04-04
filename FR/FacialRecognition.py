@@ -142,8 +142,6 @@ def Log(aUserID, aStatus):
 
     return True
 
-Log("400",True)
-
 ##################################
 #           ADD CLIENT
 #    Adds a client to our DB
@@ -214,8 +212,6 @@ def checkClientOperation(aClientJSON):
 
     if aClientJSON["Operation"] == "subscribed":
         syncList(aClientJSON["ID"])
-
-
 
 if __name__ == "FacialRecognition":
     app.run(debug=True)
