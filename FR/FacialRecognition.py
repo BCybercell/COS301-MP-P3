@@ -15,7 +15,7 @@ from dateutil import parser
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
-collection = db.richardTest
+collection = db.testingRichard
 testClient = db.testClient
 testKyle = db.richardTest
 
@@ -35,9 +35,9 @@ def AuthenticateUser(aArrImg):
 
 def AddImages(userID, aArrImg):     #TODO Kyle
     if not aArrImg:
-        return false
+        return False
     if not userID:
-        return false
+        return False
     start = int(time.time())
 
     allData = testKyle.find()
