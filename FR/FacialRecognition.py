@@ -216,12 +216,10 @@ def reactivateClient(aClientID):
 ##################################
 def syncList(aClientListJson):
     # lClientList = json.loads(aClientListJson)
-    counter = 0
+
     for client in aClientListJson:
-        if counter > 10:
-            return
+
         addClient(client)
-        counter = counter + 1
 
 ##################################
 #        CHECK OPERATION
