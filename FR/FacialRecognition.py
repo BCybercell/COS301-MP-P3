@@ -171,7 +171,7 @@ Log("77777777",True)
 #    *This user has no images*
 ##################################
 def addClient(aClientID):
-
+    aClientID = json.loads(aClientID)
     #Check if the user already exist
     # if testClient.count_documents({"userID": "3"}) == 1:
     #     reactivateClient(aClientID)
@@ -192,7 +192,7 @@ def addClient(aClientID):
 #     *Doesn't delete client*
 ##################################
 def deactivateClient(aClientID):
-
+    aClientID = json.loads(aClientID)
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": False}}
 
@@ -203,7 +203,7 @@ def deactivateClient(aClientID):
 #    Reactivates client status
 ##################################
 def reactivateClient(aClientID):
-
+    aClientID = json.loads(aClientID)
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": True}}
 
@@ -218,7 +218,7 @@ def reactivateClient(aClientID):
 def syncList(aClientListJson):
     lClientList = json.loads(aClientListJson)
     counter = 0
-    for client in aClientList:
+    for client in lClientList:
         if counter > 10:
             return
         addClient(client)
