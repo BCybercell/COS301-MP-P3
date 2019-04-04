@@ -53,7 +53,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
             #x = collection.update_one(myquery, newvalues)
             myquery = {"userID": str(userID)}
             newvalues = {"$push": {"photos": encoded_string}}
-            x = collection.update_one(myquery, newvalues)
+            x = testKyle.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
     Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
