@@ -72,7 +72,7 @@ def checking():
                 if e == True:
                     #print("The image matched and returned userID:"+ str(imageFromDB[0]))
                     obj = {"userID":imageID}
-
+                    print(imageID)
                     return obj
             counter = counter +1
     return -1
