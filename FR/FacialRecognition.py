@@ -44,7 +44,7 @@ def AddImages(userID, aArrImg):
     for key in allData:
         if key.get("userID") == userID:
             #for img in aArrImg.read():
-            encoded_string = base64.b64encode(aArrImg)
+            encoded_string = base64.b64encode(aArrImg.read())
             #strr.append(encoded_string)
             #myquery = {"userID": str(userID)}
             #newvalues = {"$push": {"photos": strr}}
