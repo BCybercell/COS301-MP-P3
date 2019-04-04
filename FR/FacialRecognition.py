@@ -6,11 +6,13 @@ import datetime as dt
 import pymongo
 # import face_recognition
 import json
+import requests
 import os 
 from bson import json_util
 import base64
 from dateutil.parser import parse as parse_date
 from dateutil import parser
+
 
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
@@ -95,6 +97,23 @@ testClient = db.testingTegan
 #     return -1
 
 ##################################
+#            SEND LOG
+#    Pushes log to Reporting
+##################################
+def sendLog(aLogJSON):
+
+    url = 'https://fnbreports-6455.nodechef.com/api'
+    headers = {'content-type': 'application/json'}
+
+    response = requests.post(url, data=json.dumps(aLogJSON), headers=headers)
+
+    print(aLogJSON)
+    if response:
+        return True
+
+    return False
+
+##################################
 #             LOG
 #    Logs all authenication
 #           details
@@ -109,6 +128,12 @@ def Log(aUserID, aStatus):
         "Success": aStatus
     }
 
+    json_log = json.dumps(lLog, separators=(',', ':'))
+
+    lDataToReporting = { "system":"FRS", "data":json_log}
+
+
+
     with open('log.json', 'r') as f:
         lData = json.load(f)
         lData["logs"].append(lLog)
@@ -116,16 +141,9 @@ def Log(aUserID, aStatus):
     with open('log.json','w') as f:
         json.dump(lData, f,indent=2)
 
-    sendLog(lData)
+    sendLog(lDataToReporting)
 
     return True
-
-##################################
-#            SEND LOG
-#    Pushes log to Reporting
-##################################
-def sendLog(aLogJSON):
-    return
 
 ##################################
 #           ADD CLIENT
