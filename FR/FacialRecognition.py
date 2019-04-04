@@ -12,10 +12,11 @@ import base64
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
+collection = db.testingRichard
 
 def AuthenticateUser(aArrImg):
    # Update()  #Call Update function to get new/updated list of the database from CIS
-   
+
     start = int(time.time())    
     lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
 
