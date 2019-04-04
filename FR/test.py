@@ -46,37 +46,44 @@ allData = collection.find()
 allData = collection.find() #Contains every element in the database
 # imageFromDb = []
 results = []
-imagetoTest = face_recognition.load_image_file("./test1.jpg") #Image they send us encoded
+imagetoTest = face_recognition.load_image_file("./test4.jpg") #Image they send us encoded
 image_encoding = face_recognition.face_encodings(imagetoTest)[0]
 
 def checking():
     counter = 0
     print("Getting IMAGES from database:")
-
     for key in allData:
+        imageCounter = 0 #!Added a counter for the sole purpose of only looking at two images. After that it will most likely not recognize if the first two failed
         for img in key.get("photos"):
-            dec_img = base64.decodebytes(img)
-            #create a name for the file. example userIDCounter.jpg thus 01.jpg
-            st = str(key.get("userID"))+str(counter)+".jpg"
-            #save the binary as an image to use
-            with open(st, 'wb') as f:
-                f.write(dec_img)
-            #now append and let the magic happen
-            # imageFromDb = (tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
-            imageID = key.get("userID")
-            imageFromDB = face_recognition.load_image_file("./"+st)
-            # for i,j in imageFromDb:
-            test = face_recognition.face_encodings(imageFromDB)[0]
-            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-            for e in results:
-                if e == True:
-                    #print("The image matched and returned userID:"+ str(imageFromDB[0]))
-                    obj = {"userID":imageID}
+            if imageCounter < 2:
+                dec_img = base64.decodebytes(img)
+                #create a name for the file. example userIDCounter.jpg thus 01.jpg
+                st = str(key.get("userID"))+str(counter)+".jpg"
+                #save the binary as an image to use
+                with open(st, 'wb') as f:
+                    f.write(dec_img)
 
-                    return obj
-            counter = counter +1
+                #now append and let the magic happen
+                imageID = key.get("userID")
+                imageFromDB = face_recognition.load_image_file("./"+st)
+              
+                counter = counter +1
+                imageCounter = imageCounter + 1
+
+                test = face_recognition.face_encodings(imageFromDB)[0]
+                results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+                for e in results:
+                    if e == True:
+                        print("The image matched and returned userID:")
+                        obj = {"userID":imageID}
+                        print(imageID)
+                        return obj
+            else:
+                break
     return -1
-# checking()
+checking()
+
+
 # print("======= Testing Purposes =======")
 # for i in results:
 #     print(i)
