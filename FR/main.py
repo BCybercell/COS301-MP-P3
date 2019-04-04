@@ -36,6 +36,8 @@ def UpImage(request):
             #lImg2 = request.FILES['picToUpload'][1]    this did not work
         else:
             return JsonResponse({'Error': 'No image was selected'})  # TODO fix
+        if not lImg:
+            return JsonResponse({'Error': 'No image was selected'})
         lUser = request.POST['userID']
         #images =[]
         #images.append(lImg)

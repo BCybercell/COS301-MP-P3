@@ -9,6 +9,7 @@ import face_recognition
 import os 
 from bson import json_util
 import base64
+import numpy as np
 from dateutil.parser import parse as parse_date
 from dateutil import parser
 
@@ -37,9 +38,9 @@ def AuthenticateUser(aArrImg):
 
 def AddImages(userID, aArrImg):     #TODO Kyle
     if not aArrImg:
-        return false
+        return False
     if not userID:
-        return false
+        return False
     start = int(time.time())
 
     allData = collection.find()
@@ -49,12 +50,13 @@ def AddImages(userID, aArrImg):     #TODO Kyle
         if key.get("userID") == userID:
             #for img in aArrImg:
             encoded_string = base64.b64encode(aArrImg.read())
-            #strr.append(encoded_string)
-            #myquery = {"userID": str(userID)}
-            #newvalues = {"$push": {"photos": strr}}
-            #x = collection.update_one(myquery, newvalues)
+            encoding = (np.array(face_recognition.face_encodings(face_recognition.load_image_file(aArrImg.read()))[0]).tolist()) ##remove if breaks
+                    #strr.append(encoded_string)
+                    #myquery = {"userID": str(userID)}
+                    #newvalues = {"$push": {"photos": strr}}
+                    #x = collection.update_one(myquery, newvalues)
             myquery = {"userID": str(userID)}
-            newvalues = {"$push": {"photos": encoded_string}}
+            newvalues = {"$push": {"photos": encoded_string, "endoding":encoding}}       #newvalues = {"$push": {"photos": encoded_string}}
             x = collection.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
