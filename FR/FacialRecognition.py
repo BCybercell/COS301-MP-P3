@@ -20,81 +20,81 @@ db = client["heroku_6lqvmjth"]
 collection = db.testingRichard
 testClient = db.testingTegan
 
-app = Flask(__name__)
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
-@app.route("/AuthenticateUser",methods=['Get'])
-def AuthenticateUser(aArrImg):
-    start = int(time.time())
-    lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
-
-    if lUserId == -1:
-        status = False
-    else:
-        status = True
-
-    end = int(time.time())
-    Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
-    return lUserId
-
-def AddImages(userID, aArrImg):
-    start = int(time.time())
-
-    allData = collection.find()
-    status = False
-
-    for key in allData:
-        if key.get("userID") == userID:
-            for img in aArrImg.read():
-                encoded_string = base64.b64encode(img)
-                strr = encoded_string
-                myquery = {"userID": str(userID)}
-                newvalues = {"$push": {"photos": strr}}
-                x = collection.update_one(myquery, newvalues)
-            status = True
-    end = int(time.time())
-    Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
-
-    return status
-
-
-def AuthenticateImage(aImg):
-    if not aImg:
-        return -1
-    # Read images from database and compare till match or no images left
-    allData = collection.find()  # Contains every element in the database
-    # imageFromDb = []
-    results = []
-    imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
-    image_encoding = face_recognition.face_encodings(imagetoTest)[0]
-
-    # Have a counter for the file naming
-    counter = 0
-    print("Getting IMAGES from database:")
-
-    for key in allData:
-        for img in key.get("photos"):
-            dec_img = base64.decodebytes(img)
-            # create a name for the file. example userIDCounter.jpg thus 01.jpg
-            st = str(key.get("userID"))+str(counter)+".jpg"
-            # save the binary as an image to use
-            with open(st, 'wb') as f:
-                f.write(dec_img)
-            # now append and let the magic happen
-            # imageFromDb = (tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
-            imageID = key.get("userID")
-            imageFromDB = face_recognition.load_image_file("./"+st)
-            # for i,j in imageFromDb:
-            test = face_recognition.face_encodings(imageFromDB)[0]
-            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))
-            for e in results:
-                if e == True:
-                    #print("The image matched and returned userID:"+ str(imageFromDB[0]))
-                    obj = {"userID":imageID}
-                    return obj
-            counter = counter +1
-    return -1
+# app = Flask(__name__)
+# @app.route('/favicon.ico')
+# def favicon():
+#     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+# @app.route("/AuthenticateUser",methods=['Get'])
+# def AuthenticateUser(aArrImg):
+#     start = int(time.time())
+#     lUserId = AuthenticateImage(aArrImg)  # !Magic happens in the AuthenticateImage Function
+#
+#     if lUserId == -1:
+#         status = False
+#     else:
+#         status = True
+#
+#     end = int(time.time())
+#     Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+#     return lUserId
+#
+# def AddImages(userID, aArrImg):
+#     start = int(time.time())
+#
+#     allData = collection.find()
+#     status = False
+#
+#     for key in allData:
+#         if key.get("userID") == userID:
+#             for img in aArrImg.read():
+#                 encoded_string = base64.b64encode(img)
+#                 strr = encoded_string
+#                 myquery = {"userID": str(userID)}
+#                 newvalues = {"$push": {"photos": strr}}
+#                 x = collection.update_one(myquery, newvalues)
+#             status = True
+#     end = int(time.time())
+#     Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+#
+#     return status
+#
+#
+# def AuthenticateImage(aImg):
+#     if not aImg:
+#         return -1
+#     # Read images from database and compare till match or no images left
+#     allData = collection.find()  # Contains every element in the database
+#     # imageFromDb = []
+#     results = []
+#     imagetoTest = face_recognition.load_image_file(aImg)  # Image they send us encoded
+#     image_encoding = face_recognition.face_encodings(imagetoTest)[0]
+#
+#     # Have a counter for the file naming
+#     counter = 0
+#     print("Getting IMAGES from database:")
+#
+#     for key in allData:
+#         for img in key.get("photos"):
+#             dec_img = base64.decodebytes(img)
+#             # create a name for the file. example userIDCounter.jpg thus 01.jpg
+#             st = str(key.get("userID"))+str(counter)+".jpg"
+#             # save the binary as an image to use
+#             with open(st, 'wb') as f:
+#                 f.write(dec_img)
+#             # now append and let the magic happen
+#             # imageFromDb = (tuple((key.get("userID"),face_recognition.load_image_file("./"+st))))
+#             imageID = key.get("userID")
+#             imageFromDB = face_recognition.load_image_file("./"+st)
+#             # for i,j in imageFromDb:
+#             test = face_recognition.face_encodings(imageFromDB)[0]
+#             results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))
+#             for e in results:
+#                 if e == True:
+#                     #print("The image matched and returned userID:"+ str(imageFromDB[0]))
+#                     obj = {"userID":imageID}
+#                     return obj
+#             counter = counter +1
+#     return -1
 
 ##################################
 #            SEND LOG
@@ -128,19 +128,21 @@ def Log(aUserID, aStatus):
 
     lTimestamp = int(time.time())
 
-    lLog = {
+    lLog = [{
         "ID": str(aUserID),
-        "Timestamp": lTimestamp,
+        "timestamp": lTimestamp,
         "Success": aStatus
-    }
+    }]
 
     json_log = json.dumps(lLog, separators=(',', ':'))
 
-    lDataToReporting = { "system":"FRS", "data":json_log}
+    lDataToReporting = {"system":"FRS", "data":json_log}
 
     sendLog(lDataToReporting)
 
     return True
+
+Log("400",True)
 
 ##################################
 #           ADD CLIENT
