@@ -50,7 +50,7 @@ def AddImages(userID, aArrImg):
             #newvalues = {"$push": {"photos": strr}}
             #x = collection.update_one(myquery, newvalues)
             myquery = {"userID": str(userID)}
-            newvalues = {"$push": {"photos": str(encoded_string)}}
+            newvalues = {"$push": {"photos": encoded_string}}
             x = collection.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
