@@ -27,7 +27,6 @@ def index(request):
 @csrf_exempt
 def UpImage(request):
     if request.method == 'POST':
-
         if 'picToUpload' in request.POST:
             lImg = request.POST['picToUpload']
         elif 'picToUpload' in request.FILES:
@@ -59,6 +58,7 @@ def AuthUser(request):
 
             elif 'Image' in request.FILES:
 
+                # remove
                 lImg = request.FILES['Image']
             elif 'file' in request.FILES:
 
