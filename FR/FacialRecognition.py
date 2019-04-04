@@ -192,7 +192,7 @@ def addClient(aClientID):
 #     *Doesn't delete client*
 ##################################
 def deactivateClient(aClientID):
-    aClientID = json.loads(aClientID)
+    # aClientID = json.loads(aClientID)
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": False}}
 
@@ -203,7 +203,7 @@ def deactivateClient(aClientID):
 #    Reactivates client status
 ##################################
 def reactivateClient(aClientID):
-    aClientID = json.loads(aClientID)
+    # aClientID = json.loads(aClientID)
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": True}}
 
@@ -216,9 +216,9 @@ def reactivateClient(aClientID):
 #            CIS
 ##################################
 def syncList(aClientListJson):
-    lClientList = json.loads(aClientListJson)
+    # lClientList = json.loads(aClientListJson)
     counter = 0
-    for client in lClientList:
+    for client in aClientListJson:
         if counter > 10:
             return
         addClient(client)
