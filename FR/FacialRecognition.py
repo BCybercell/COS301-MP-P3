@@ -116,11 +116,13 @@ def Log(aUserID, aStatus):
     with open('log.json','w') as f:
         json.dump(lData, f,indent=2)
 
+    sendLog(lData)
+
     return True
 
 ##################################
-#            GET LOG
-#    Returns log to Reporting
+#            SEND LOG
+#    Pushes log to Reporting
 ##################################
 def sendLog(aLogJSON):
     return
