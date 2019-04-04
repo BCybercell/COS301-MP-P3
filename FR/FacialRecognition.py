@@ -164,7 +164,6 @@ def Log(aUserID, aStatus):
 
     return True
 
-Log("77777777",True)
 ##################################
 #           ADD CLIENT
 #    Adds a client to our DB
