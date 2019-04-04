@@ -19,7 +19,7 @@ from dateutil import parser
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
 collection = db.secondRichard
-testClient = db.["CIS_Client"]
+testClient = db["CIS_Client"]
 testKyle = db.richardTest
 
 def AuthenticateUser(aArrImg):
