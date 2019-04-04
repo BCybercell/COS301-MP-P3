@@ -1,12 +1,8 @@
 import unittest
 from FacialRecognition import AuthenticateUser, AuthenticateImage
 import datetime as dt
-import json as json
 
 class TestAuthenticateUser(unittest.TestCase):
-    # def test_AuthenticateUser(self):
-    #     self.fail()
-
     def test_AU_with_value(self):
         self.fail()
     def test_AU_with_value(self):
@@ -17,14 +13,10 @@ class TestAuthenticateUser(unittest.TestCase):
     def test_AU_without_value(self):
         self.fail()
     def test_AU_without_value(self):
-        self.assertEqual(AuthenticateUser(''), -1, "Should be -1")
-    
+        self.assertEqual(AuthenticateUser(''), -1, "Should be -1")   
 
 
 class TestAuthenticateImage(unittest.TestCase):
-    # def test_AuthenticateImage(self):
-    #     self.fail()
-
     def test_AI_with_value(self):
         self.fail()
     def test_AI_with_value(self):
