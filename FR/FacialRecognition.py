@@ -15,7 +15,7 @@ from dateutil import parser
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
-collection = db.testingRichard
+collection = db.richardTest
 testClient = db.testClient
 testKyle = db.richardTest
 
@@ -33,23 +33,27 @@ def AuthenticateUser(aArrImg):
     #Log(lUserId,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     return lUserId
 
-def AddImages(userID, aArrImg):
+def AddImages(userID, aArrImg):     #TODO Kyle
+    if not aArrImg:
+        return false
+    if not userID:
+        return false
     start = int(time.time())
 
     allData = testKyle.find()
     status = False
-    strr=[]
+    #strr=[]
     for key in allData:
         if key.get("userID") == userID:
-            for img in aArrImg:
-                encoded_string = base64.b64encode(img.read())
-                strr.append(encoded_string)
+            #for img in aArrImg.read():
+            encoded_string = base64.b64encode(aArrImg.read())
+            #strr.append(encoded_string)
+            #myquery = {"userID": str(userID)}
+            #newvalues = {"$push": {"photos": strr}}
+            #x = collection.update_one(myquery, newvalues)
             myquery = {"userID": str(userID)}
-            newvalues = {"$push": {"photos": strr}}
-            x = testKyle.update_one(myquery, newvalues)
-                #myquery = {"userID": str(userID)}
-                #newvalues = {"$push": {"photos": str(strr)}}
-                #x = collection.update_one(myquery, newvalues)
+            newvalues = {"$push": {"photos": encoded_string}}
+            x = collection.update_one(myquery, newvalues)
             status = True
     end = int(time.time())
     Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)

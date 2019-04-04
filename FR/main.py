@@ -34,10 +34,14 @@ def UpImage(request):
         else:
             return JsonResponse({'status':True, 'error': 'An error has occurred here'})  # TODO fix
         lUser = request.POST['userID']
-        AddImages(lUser, lImg)
         return JsonResponse({'status':True})
+        tmp = AddImages(lUser, lImg)
+        if tmp:
+            return JsonResponse({'Status':'Success: image uploaded to userID: ' + lUser})
+        else:
+            return JsonResponse({'Status': 'The userID entered does not exist. UserID: ' + lUser})
     else:
-        return JsonResponse({'status':True,'error': 'Use POST'})
+        return JsonResponse({'Error': 'POST was not used'})
 
 
 @csrf_exempt
