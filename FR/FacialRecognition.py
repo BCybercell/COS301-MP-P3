@@ -16,7 +16,7 @@ from dateutil import parser
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
 collection = db.testingRichard
-testClient = db.testClient
+testClient = db.testingTegan
 testKyle = db.richardTest
 
 def AuthenticateUser(aArrImg):
@@ -103,16 +103,19 @@ def AuthenticateImage(aImg):
             else:
                 break
     return {'Exception': "Not Authenticated"}
-def Log(aUserID, aStart, aEnd, aStatus):
+##################################
+#             LOG
+#    Logs all authenication
+#           details
+##################################
+def Log(aUserID, aStatus):
 
-    lDate = dt.datetime.now().time().replace(microsecond=0).isoformat()
+    lTimestamp = int(time.time())
 
     lLog = {
         "ID": str(aUserID),
-        "Start": str(aStart),
-        "End": str(aEnd),
-        "Date": lDate,
-        "Status": aStatus
+        "Timestamp": lTimestamp,
+        "Success": aStatus
     }
 
     with open('log.json', 'r') as f:
@@ -124,80 +127,83 @@ def Log(aUserID, aStart, aEnd, aStatus):
 
     return True
 
+##################################
+#            GET LOG
+#    Returns log to Reporting
+##################################
+def sendLog(aLogJSON):
+    return
 
-def getLog(aStart, aEnd):
-    if not aStart:
-        return {'error': 'Missing start parameter'}
-    if not aEnd:
-        return {'error': 'Missing end parameter'}
-
-    with open('log.json', 'r') as f:
-        lReturnLog = json.load(f)
-
-    aEnd = parser.parse(aEnd)
-    aStart = parser.parse(aStart)
-    lLogArray = {"logs": []}
-    lIndex = 0;
-    
-    for log in lReturnLog['logs']:
-        lTime = ((parse_date(log['Date'])).time()).replace(microsecond=0)
-        if lTime >= aStart.time() and lTime <= aEnd.time():
-            lLogArray["logs"].append(lReturnLog['logs'][lIndex])
-        lIndex = lIndex + 1
-
-    if len(lLogArray['logs']) == 0:
-        return {'error': 'No matching logs found'}
-
-    return lLogArray
-
+##################################
+#           ADD CLIENT
+#    Adds a client to our DB
+#    *This user has no images*
+##################################
 def addClient(aClientID):
 
-    if aClientID < 0:
-        return {"Message": "Invalid user ID"}
+    #Check if the user already exist
+    lFoundClient = testClient.find({ "userID": aClientID })
 
-    newClient = {
-        "userID" : str(aClientID),
-        "status" : True,
-        "photos" : []
-    }
+    if lFoundClient:
+        reactivateClient(aClientID)
+    elif not lFoundClient:
+        newClient = {
+            "userID" : str(aClientID),
+            "status" : True,
+            "photos" : []
+        }
 
-    client = testClient.insert_one(newClient)
+        testClient.insert_one(newClient)
 
-    if client:
-        return {"Message": "Successfully Added Client"}
+    return
 
-    return {"Message": "Unsuccessful Addition"}
-
+##################################
+#      DEACTIVATE CLIENT
+#    Deactivates client status
+#     *Doesn't delete client*
+##################################
 def deactivateClient(aClientID):
-
-    if aClientID < 0:
-        return {"Message": "Invalid user ID"}
 
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": False}}
 
-    updatedClient = testClient.update_one(query, newValue)
+    testClient.update_one(query, newValue)
 
-    if updatedClient:
-        return {"Message": "Successfully Deactivated Client"}
-
-    return {"Message": "Unsuccessful Deactivation"}
-
-
+##################################
+#      REACTIVATE CLIENT
+#    Reactivates client status
+##################################
 def reactivateClient(aClientID):
-
-    if aClientID < 0:
-        return {"Message": "Invalid user ID"}
 
     query = {"userID" : str(aClientID)}
     newValue = {"$set": { "status": True}}
 
-    updatedClient = testClient.update_one(query, newValue)
+    testClient.update_one(query, newValue)
 
-    if updatedClient:
-        return {"Message": "Successfully Reactivated Client"}
 
-    return {"Message": "Unsuccessful Reactivation"}
+##################################
+#        SYNCLIST CLIENT
+#    Gets initial clients from
+#            CIS
+##################################
+def syncList(aClientList):
+
+    for client in aClientList["ID"]:
+        addClient(client)
+
+##################################
+#        CHECK OPERATION
+#       Checks CIS requests
+##################################
+def checkClientOperation(aClientJSON):
+
+    if aClientJSON["Operation"] == "CREATE":
+        addClient(aClientJSON["ID"])
+    elif aClientJSON["Operation"] == "DELETE":
+        deactivateClient(aClientJSON["ID"])
+    elif aClientJSON["Operation"] == "subscribed":
+        syncList(aClientJSON)
+
 
 
 #BACKUP LOG CODE FOR DB IN CASE LOG FILE FAILS
@@ -260,3 +266,5 @@ def reactivateClient(aClientID):
 
 
 
+if __name__ == "FacialRecognition":
+    app.run(debug=True)
