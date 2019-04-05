@@ -19,11 +19,12 @@ def AuthenticateUser(aArrImg):
 
     if 'userID' in lUserId:
         status = True
+        Log(lUserId['userID'], status)
     else:
         status = False
 
     end = time.time()
-    Log(lUserId['userID'], status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    # Log(lUserId['userID'], status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     return lUserId
 
 def AddImages(userID, aArrImg):     #TODO Kyle
@@ -61,11 +62,12 @@ def AuthenticateUserTest(aArrImg):
 
     if 'userID' in lUserId:
         status = True
+
     else:
         status = False
 
     end = time.time()
-    Log(lUserId['userID'], status)
+
     return lUserId
 
 
