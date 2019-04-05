@@ -5,6 +5,7 @@ import json
 import requests
 import base64
 import numpy as np
+from django.views.decorators.csrf import csrf_exempt
 
 client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = client["heroku_6lqvmjth"]
@@ -53,6 +54,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
 
     return status
 
+@csrf_exempt
 def AuthenticateUserTest(aArrImg):
     start = time.time()
     lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
