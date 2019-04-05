@@ -18,10 +18,14 @@ from django.urls import path
 import sys
 sys.path.append('../')
 import FR.main as main
+import FR.FacialRecognition as Fr
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("/", main.index, name="index"),
     path("", main.index, name="index"),
     path("AuthUser/", main.AuthUser, name="AuthUser"),
-    path("Logs/", main.Logs, name="Logs")
+    path("upImage/", main.UpImage, name="UpImage"),
+    path("Demo/", main.Demo, name="Demo"),
+    path("AuthenticateUserTest/", main.AuthUserTest, name="AuthUserTest"),
+    path("Clients/", main.Clients, name="AuthenticateUser")
 ]

@@ -1,4 +1,13 @@
+cmake
 django
 gunicorn
 django-heroku
+dnspython
 python-dateutil
+face_recognition
+pymongo
+bson
+flask
+pybase64
+requests
+numpy
