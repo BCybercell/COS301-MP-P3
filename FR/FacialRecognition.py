@@ -23,7 +23,7 @@ def AuthenticateUser(aArrImg):
         status = False
 
     end = time.time()
-    # Log(lUserId, start, end,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    Log(lUserId, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
     return lUserId
 
 def AddImages(userID, aArrImg):     #TODO Kyle
