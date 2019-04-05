@@ -65,6 +65,7 @@ def AuthenticateUserTest(aArrImg):
         status = False
 
     end = time.time()
+    Log(lUserId['userID'], status)
     return lUserId
 
 
