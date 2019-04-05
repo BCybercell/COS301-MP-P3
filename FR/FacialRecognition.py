@@ -25,17 +25,29 @@ def AuthenticateUser(aArrImg):
     #Log(lUserId,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return lUserId
+def AuthenticateUserTest(aArrImg):
+    start = time.time()   
+    lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
 
+    if lUserId == -1:
+        status = False
+    else: status = True
+
+    end = time.time()
+    return lUserId
 
 def AuthenticateImage(aImg):
     if not aImg:
         return -1
-
-    #Read images from database and compare till match or no images left
-    #allData = collection.find() #Contains every element in the database
+    dec_img =base64.decodestring(aImg)
+    #create a name for the file. example userIDCounter.jpg thus 01.jpg
+    st = "test.jpg"
+    #save the binary as an image to use
+    with open(st, 'wb') as f:
+        f.write(dec_img)
 
     results = []
-    imagetoTest = face_recognition.load_image_file(aImg) #Image they send us encoded
+    imagetoTest = face_recognition.load_image_file("test.jpg") #Image they send us encoded
     image_encoding = face_recognition.face_encodings(imagetoTest)[0]
 
     #Have a counter for the file naming
@@ -98,7 +110,37 @@ def AuthenticateImage(aImg):
     #         else:
     #             break
     # return -1
+def AuthenticateImageTest(aImg):
+    if not aImg:
+        return -1
 
+    #Read images from database and compare till match or no images left
+    #allData = collection.find() #Contains every element in the database
+
+    results = []
+    imagetoTest = face_recognition.load_image_file(aImg) #Image they send us encoded
+    image_encoding = face_recognition.face_encodings(imagetoTest)[0]
+
+    #Have a counter for the file naming
+    counter = 0
+    print("Getting IMAGES from database:")
+    j = collection.count()
+    for i in range(j):
+        allData = collection.find({"userID":str(counter)})
+        for key in allData:
+            imageID = key.get("userID")
+            counter = counter +1
+
+            test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+            for e in results:
+                if e == True:
+                    print("The image matched and returned userID:")
+                    obj = {"userID":imageID}
+                    print(imageID)
+                    return obj
+    
+    return -1
 def Log(aUserID, aStart, aEnd, aStatus):
     #Work on the collection log 
     logCollection =db.log
