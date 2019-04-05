@@ -62,28 +62,28 @@ def AuthUser(request):
     #     else:
     #         return JsonResponse({'error': 'An error has occurred'})  # TODO fix
     if request.method == 'POST':
-        try:
-            if 'Image' in request.POST:
-                lImg = request.POST['Image']
+        # try:
+        if 'Image' in request.POST:
+            lImg = request.POST['Image']
 
-            elif 'Image' in request.FILES:
+        elif 'Image' in request.FILES:
 
-                # remove
-                lImg = request.FILES['Image']
-            elif 'file' in request.FILES:
+            # remove
+            lImg = request.FILES['Image']
+        elif 'file' in request.FILES:
 
-                lImg = request.FILES['file']
-            else:
-                return JsonResponse({'status': False, 'Error': 'An error has occurred'})  # TODO fix
-            lUserID = AuthenticateUser(lImg)
-            if 'userID' in lUserID:
-                tempDict = {'status': True}
-            else:
-                tempDict = {'status': False}
-            tempDict.update(lUserID)
-            return JsonResponse(tempDict)
-        except:
-            return JsonResponse({'status': False, 'Exception': "Not Authenticated"})  # TODO fix
+            lImg = request.FILES['file']
+        else:
+            return JsonResponse({'status': False, 'Error': 'An error has occurred'})  # TODO fix
+        lUserID = AuthenticateUser(lImg)
+        if 'userID' in lUserID:
+            tempDict = {'status': True}
+        else:
+            tempDict = {'status': False}
+        tempDict.update(lUserID)
+        return JsonResponse(tempDict)
+    # except:
+        return JsonResponse({'status': False, 'Exception': "Not Authenticated"})  # TODO fix
 
 ##################################
 #        Endpoint for CIS
