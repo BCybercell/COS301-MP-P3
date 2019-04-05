@@ -1,12 +1,8 @@
 import time as time
-import random as Rand
 import json as json
-import statistics as stat
 import datetime as dt
 import pymongo
-from gridfs import GridFS
 import face_recognition
-import os 
 import base64
 import numpy as np
 
@@ -17,14 +13,14 @@ collection = db.secondRichard
 def AuthenticateUser(aArrImg):
    # Update()  #Call Update function to get new/updated list of the database from CIS
 
-    start = int(time.time())    
+    start = time.time()   
     lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
 
     if lUserId == -1:
         status = False
     else: status = True
 
-    end = int(time.time())
+    end = time.time()
     #?Log commented out for the sake that I do not have the working code,
     #Log(lUserId,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
@@ -36,7 +32,7 @@ def AuthenticateImage(aImg):
         return -1
 
     #Read images from database and compare till match or no images left
-    allData = collection.find() #Contains every element in the database
+    #allData = collection.find() #Contains every element in the database
 
     results = []
     imagetoTest = face_recognition.load_image_file(aImg) #Image they send us encoded
@@ -45,46 +41,63 @@ def AuthenticateImage(aImg):
     #Have a counter for the file naming
     counter = 0
     print("Getting IMAGES from database:")
-    for key in allData:
-        imageCounter = 0 #!Added a counter for the sole purpose of only looking at two images. After that it will most likely not recognize if the first two failed
-        for img in key.get("photos"):
-            if imageCounter < 1:
-                #dec_img = base64.decodebytes(img)
-                # create a name for the file. example userIDCounter.jpg thus 01.jpg
-                # st = str(key.get("userID"))+str(counter)+".jpg"
-                # #save the binary as an image to use
-                # with open(st, 'wb') as f:
-                #     f.write(dec_img)
-                # st = imread(io.BytesIO(dec_img))
+    j = collection.count()
+    for i in range(j):
+        allData = collection.find({"userID":str(counter)})
+        for key in allData:
+            imageID = key.get("userID")
+            counter = counter +1
 
-                # imageID = key.get("userID")
-                # imageFromDB = face_recognition.load_image_file(st+".jpg")
-                # print("here")
-                
-                # counter = counter +1
-                # imageCounter = imageCounter + 1
-                 #now append and let the magic happen
-                imageID = key.get("userID")
-                # imageFromDB = face_recognition.load_image_file("./"+st)
-              
-                counter = counter +1
-                imageCounter = imageCounter + 1
-
-                
-                test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
-                results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-
-                # test = face_recognition.face_encodings(imageFromDB)[0]
-                # results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-                for e in results:
-                    if e == True:
-                        print("The image matched and returned userID:")
-                        print(imageID)
-                        obj = {"userID":imageID}
-                        return obj
-            else:
-                break
+            test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+            for e in results:
+                if e == True:
+                    print("The image matched and returned userID:")
+                    obj = {"userID":imageID}
+                    print(imageID)
+                    return obj
+    
     return -1
+    # for key in allData:
+    #     imageCounter = 0 #!Added a counter for the sole purpose of only looking at two images. After that it will most likely not recognize if the first two failed
+    #     for img in key.get("photos"):
+    #         if imageCounter < 1:
+    #             #dec_img = base64.decodebytes(img)
+    #             # create a name for the file. example userIDCounter.jpg thus 01.jpg
+    #             # st = str(key.get("userID"))+str(counter)+".jpg"
+    #             # #save the binary as an image to use
+    #             # with open(st, 'wb') as f:
+    #             #     f.write(dec_img)
+    #             # st = imread(io.BytesIO(dec_img))
+
+    #             # imageID = key.get("userID")
+    #             # imageFromDB = face_recognition.load_image_file(st+".jpg")
+    #             # print("here")
+                
+    #             # counter = counter +1
+    #             # imageCounter = imageCounter + 1
+    #              #now append and let the magic happen
+    #             imageID = key.get("userID")
+    #             # imageFromDB = face_recognition.load_image_file("./"+st)
+              
+    #             counter = counter +1
+    #             imageCounter = imageCounter + 1
+
+                
+    #             test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+    #             results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+
+    #             # test = face_recognition.face_encodings(imageFromDB)[0]
+    #             # results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+    #             for e in results:
+    #                 if e == True:
+    #                     print("The image matched and returned userID:")
+    #                     print(imageID)
+    #                     obj = {"userID":imageID}
+    #                     return obj
+    #         else:
+    #             break
+    # return -1
 
 def Log(aUserID, aStart, aEnd, aStatus):
     #Work on the collection log 
