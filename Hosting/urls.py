@@ -26,6 +26,6 @@ urlpatterns = [
     path("AuthUser/", main.AuthUser, name="AuthUser"),
     path("upImage/", main.UpImage, name="UpImage"),
     path("Demo/", main.Demo, name="Demo"),
-    path("AuthenticateUserTest/", Fr.AuthenticateUserTest, name="AuthenticateUser"),
+    path("AuthUserTest/", Fr.AuthenticateUserTest, name="AuthenticateUser"),
     path("Clients/", main.Clients, name="AuthenticateUser")
 ]

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from .FacialRecognition import AuthenticateUser, syncList, AddImages, checkClientOperation
+from .FacialRecognition import AuthenticateUser, syncList, AddImages, checkClientOperation, AuthenticateUserTest
 from bson import BSON #added
 from pprint import pprint
 import json
@@ -50,6 +50,39 @@ def UpImage(request):
             return JsonResponse({'Status': 'The userID entered does not exist. UserID: ' + lUser})
     else:
         return JsonResponse({'Error': 'POST was not used'})
+
+@csrf_exempt
+def AuthUserTest(request):
+    # if request.method == 'GET':
+    #     lImg = request.GET['Image']
+    #     lUserID = AuthenticateUser(lImg)
+    #     if lUserID > 0:
+    #         return JsonResponse({'UserID': lUserID})
+    #     else:
+    #         return JsonResponse({'error': 'An error has occurred'})  # TODO fix
+    if request.method == 'POST':
+        # try:
+        if 'Image' in request.POST:
+            lImg = request.POST['Image']
+
+        elif 'Image' in request.FILES:
+
+            # remove
+            lImg = request.FILES['Image']
+        elif 'file' in request.FILES:
+
+            lImg = request.FILES['file']
+        else:
+            return JsonResponse({'status': False, 'Error': 'An error has occurred'})  # TODO fix
+        lUserID = AuthenticateUserTest(lImg)
+        if 'userID' in lUserID:
+            tempDict = {'status': True}
+        else:
+            tempDict = {'status': False}
+        tempDict.update(lUserID)
+        return JsonResponse(tempDict)
+    # except:
+        return JsonResponse({'status': False, 'Exception': "Not Authenticated"})  # TODO fix
 
 
 @csrf_exempt
