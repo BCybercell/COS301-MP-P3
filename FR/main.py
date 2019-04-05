@@ -6,6 +6,7 @@ from .FacialRecognition import AuthenticateUser, syncList, AddImages, checkClien
 from bson import BSON #added
 from pprint import pprint
 import json
+from django.shortcuts import render
 
 @csrf_exempt
 def index(request):
@@ -104,3 +105,9 @@ def Clients(request):
         return JsonResponse(checkClientOperation(dictionary), safe=False)
     else:
         return JsonResponse({'error': 'use post'})
+
+
+
+@csrf_exempt
+def Demo(request):
+    return render(request, '/index.html')
