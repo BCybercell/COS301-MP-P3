@@ -30,7 +30,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
         return False
     if not userID:
         return False
-    start = int(time.time())
+    # start = int(time.time())
 
     allData = testKyle.find()
     status = False
@@ -39,7 +39,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
         if key.get("userID") == userID:
             #for img in aArrImg:
             encoded_string = base64.b64encode(aArrImg.read())
-            encoding = (np.array(face_recognition.face_encodings(face_recognition.load_image_file(aArrImg.read()))[0]).tolist()) ##remove if breaks
+            encoding = (np.array(face_recognition.face_encodings(face_recognition.load_image_file(aArrImg))[0]).tolist()) ##remove if breaks
                     #strr.append(encoded_string)
                     #myquery = {"userID": str(userID)}
                     #newvalues = {"$push": {"photos": strr}}
@@ -48,8 +48,8 @@ def AddImages(userID, aArrImg):     #TODO Kyle
             newvalues = {"$push": {"photos": encoded_string, "endoding":encoding}}       #newvalues = {"$push": {"photos": encoded_string}}
             x = testKyle.update_one(myquery, newvalues)
             status = True
-    end = int(time.time())
-    Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
+    # end = int(time.time())
+    # Log(userID, start, end, status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return status
 
