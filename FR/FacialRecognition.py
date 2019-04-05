@@ -167,7 +167,7 @@ def AuthenticateImageTest(aImg):
     print("Getting IMAGES from database:")
     j = collection.count()
     for i in range(j):
-        allData = collection.find({"userID":str(counter)})
+        allData = collection.find({"userID":str(34041)})
         for key in allData:
             imageID = key.get("userID")
             counter = counter +1
