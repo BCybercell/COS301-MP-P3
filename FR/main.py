@@ -110,4 +110,4 @@ def Clients(request):
 
 @csrf_exempt
 def Demo(request):
-    return render(request, '/index.html')
+    return render(request, './index.html')
