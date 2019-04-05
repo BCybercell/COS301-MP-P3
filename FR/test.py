@@ -5,7 +5,7 @@ import numpy as np
 
 myclient = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = myclient["heroku_6lqvmjth"]
-collection = db.richardTest
+collection = db.secondRichard
 
 allData = collection.find()
 # results = []
@@ -60,16 +60,16 @@ def checking():
         for key in allData:
             imageID = key.get("userID")
             counter = counter +1
-
-            test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
-            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-            for e in results:
-                if e == True:
-                    print("The image matched and returned userID:")
-                    obj = {"userID":imageID}
-                    print(imageID)
-                    return obj
-    
+            if key.get("endoding"):
+                test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+                results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+                for e in results:
+                    if e == True:
+                        print("The image matched and returned userID:")
+                        obj = {"userID":imageID}
+                        print(imageID)
+                        return obj
+        
     return -1
 checking()
 

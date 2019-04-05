@@ -25,6 +25,7 @@ def AuthenticateUser(aArrImg):
     #Log(lUserId,status)  # call Log() which logs the time,status of finding and the userId(-1 if not found, Most likely when status is false)
 
     return lUserId
+
 def AuthenticateUserTest(aArrImg):
     start = time.time()   
     lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
@@ -59,15 +60,15 @@ def AuthenticateImage(aImg):
         for key in allData:
             imageID = key.get("userID")
             counter = counter +1
-
-            test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
-            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-            for e in results:
-                if e == True:
-                    print("The image matched and returned userID:")
-                    obj = {"userID":imageID}
-                    print(imageID)
-                    return obj
+            if key.get("endoding"):
+                test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+                results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+                for e in results:
+                    if e == True:
+                        print("The image matched and returned userID:")
+                        obj = {"userID":imageID}
+                        print(imageID)
+                        return obj
     
     return -1
     # for key in allData:
@@ -130,15 +131,23 @@ def AuthenticateImageTest(aImg):
         for key in allData:
             imageID = key.get("userID")
             counter = counter +1
-
-            test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
-            results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
-            for e in results:
-                if e == True:
-                    print("The image matched and returned userID:")
-                    obj = {"userID":imageID}
-                    print(imageID)
-                    return obj
+            if key.get("endoding"):
+                test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+                results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+                for e in results:
+                    if e == True:
+                        print("The image matched and returned userID:")
+                        obj = {"userID":imageID}
+                        print(imageID)
+                        return obj
+            # test = np.asarray(key.get("endoding")[0]) # face_recognition.face_encodings(imageFromDB)[0]
+            # results = (face_recognition.compare_faces([test], image_encoding, tolerance=0.6))  
+            # for e in results:
+            #     if e == True:
+            #         print("The image matched and returned userID:")
+            #         obj = {"userID":imageID}
+            #         print(imageID)
+            #         return obj
     
     return -1
 def Log(aUserID, aStart, aEnd, aStatus):
