@@ -32,7 +32,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
     if not userID:
         return False
     # start = int(time.time())
-
+    encoding = []
     allData = testKyle.find()
     status = False
     #strr=[]
@@ -40,7 +40,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
         if key.get("userID") == userID:
             #for img in aArrImg:
             encoded_string = base64.b64encode(aArrImg.read())
-            encoding = (np.array(face_recognition.face_encodings(face_recognition.load_image_file(aArrImg))[0]).tolist()) ##remove if breaks
+            encoding.append(np.array(face_recognition.face_encodings(face_recognition.load_image_file(aArrImg))[0]).tolist()) ##remove if breaks
                     #strr.append(encoded_string)
                     #myquery = {"userID": str(userID)}
                     #newvalues = {"$push": {"photos": strr}}
