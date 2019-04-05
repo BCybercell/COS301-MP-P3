@@ -57,7 +57,7 @@ def AddImages(userID, aArrImg):     #TODO Kyle
 @csrf_exempt
 def AuthenticateUserTest(aArrImg):
     start = time.time()
-    lUserId = AuthenticateImage(aArrImg) #!Magic happens in the AuthenticateImage Function
+    lUserId = AuthenticateImageTest(aArrImg) #!Magic happens in the AuthenticateImage Function
 
     if 'userID' in lUserId:
         status = True
