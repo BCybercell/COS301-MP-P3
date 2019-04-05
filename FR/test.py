@@ -5,7 +5,7 @@ import numpy as np
 
 myclient = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mlab.com:17155/heroku_6lqvmjth")
 db = myclient["heroku_6lqvmjth"]
-collection = db.lastRichard
+collection = db.richardTest
 
 allData = collection.find()
 # results = []
@@ -47,7 +47,7 @@ allData = collection.find()
  #Contains every element in the database
 # imageFromDb = []
 results = []
-imagetoTest = face_recognition.load_image_file("./test5.jpg") #Image they send us encoded
+imagetoTest = face_recognition.load_image_file("./test6.jpg") #Image they send us encoded
 image_encoding = face_recognition.face_encodings(imagetoTest)[0]
 
 def checking():
