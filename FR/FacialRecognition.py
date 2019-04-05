@@ -11,7 +11,7 @@ client = pymongo.MongoClient("mongodb://fr_dbAdmin:ZGEkMGEeTYg6fmyH@ds017155.mla
 db = client["heroku_6lqvmjth"]
 collection = db.secondRichard
 testClient = db["CIS_Client"]
-testKyle = db.richardTest
+testKyle = db.secondRichard
 
 def AuthenticateUser(aArrImg):
     start = time.time()   

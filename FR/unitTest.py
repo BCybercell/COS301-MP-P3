@@ -1,5 +1,5 @@
 import unittest
-from FacialRecognition import Log, getLog, addClient, deactivateClient, reactivateClient,AuthenticateUser, AuthenticateImage
+from FacialRecognition import Log, addClient, deactivateClient, reactivateClient,AuthenticateUser, AuthenticateImage
 import datetime as dt
 import sys
 
