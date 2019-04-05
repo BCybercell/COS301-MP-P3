@@ -9,37 +9,13 @@ class TestLog(unittest.TestCase):
         self.fail()
 
     def test_Log_TrueStatus(self):
-        lStart = dt.datetime(2019, 3, 12, 18, 00, 00)
-        lEnd = dt.datetime(2019, 3, 12, 18, 39, 00)
-        self.assertTrue(Log(0, lStart, lEnd, True), "Should be True")
+        self.assertTrue(Log("0",True), "Should be True")
 
     def test_Log_FalseStatus(self):
         self.fail()
 
     def test_Log_FalseStatus(self):
-        lStart = dt.datetime(2019, 3, 12, 18, 00, 00)
-        lEnd = dt.datetime(2019, 3, 12, 18, 39, 00)
-        self.assertTrue(Log(1, lStart, lEnd, False), "Should be True")
-
-# class TestGetLog(unittest.TestCase):
-#     def test_GetLog_with_value1_no_value2(self):
-#         self.fail()
-#
-#     def test_GetLog_with_value1_no_value2(self):
-#         lDate1 = dt.datetime(2019, 3, 12, 18, 00, 00)
-#         log = getLog(lDate1)
-#
-#         self.assertEqual(log['error'], 'Missing end parameter')
-
-    # def test_AU_with_multiple_value(self):
-    #     lDate1 = dt.datetime(2019, 3, 12, 18, 00, 00)
-    #     lDate2 = dt.datetime(2019, 3, 12, 18, 39, 00)
-    #     log = getLog(lDate1, lDate2)
-    #     self.assertFalse(log['error'], "Should be False")
-    #
-    # def test_AU_without_value(self):
-    #     log = getLog()
-    #     self.assertIsInstance(log['error'], str, "Should be string")
+        self.assertTrue(Log("0",False), "Should be True")
 
 #Testing Add Client Function
 class TestAddClient(unittest.TestCase):
