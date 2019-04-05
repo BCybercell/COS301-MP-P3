@@ -70,7 +70,7 @@ def AuthenticateUserTest(aArrImg):
 
 def AuthenticateImage(aImg):
     if not aImg:
-        return -1
+        return {"Exception":"Not Authenticated"}
     dec_img =base64.decodestring(aImg)
     #create a name for the file. example userIDCounter.jpg thus 01.jpg
     st = "test.jpg"
@@ -149,7 +149,7 @@ def AuthenticateImage(aImg):
 ##################################
 def AuthenticateImageTest(aImg):
     if not aImg:
-        return -1
+        return {"Exception":"Not Authenticated"}
 
     #Read images from database and compare till match or no images left
     #allData = collection.find() #Contains every element in the database
@@ -185,7 +185,7 @@ def AuthenticateImageTest(aImg):
             #         print(imageID)
             #         return obj
 
-    return -1
+    return {"Exception":"Not Authenticated"}
 
 def sendLog(aLogJSON):
 
